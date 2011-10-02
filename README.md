@@ -1,5 +1,10 @@
 
 
+## Workflow
+
+![bpmn](https://github.com/gpupo/CamelSpiderBundle/raw/master/bpmn/robo.png)
+
+
 
 # Desenvolvimento
 
