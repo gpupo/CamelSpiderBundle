@@ -2,7 +2,7 @@
 
 ## Workflow
 
-![bpmn](https://github.com/gpupo/CamelSpiderBundle/raw/master/bpmn/robo.png)
+![bpmn](https://github.com/gpupo/CamelSpiderBundle/raw/master/Resources/doc/bpmn/robo.png)
 
 
 
