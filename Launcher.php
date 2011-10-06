@@ -12,7 +12,9 @@ class Launcher
 
     public function checkUpdates()
 	{
-		return $this->processor->checkUpdates(NULL);
+		$r = $this->processor->checkUpdates('http://www.terra.com.br/portal/');
+		
+		return $r;
 	}
 
 		
