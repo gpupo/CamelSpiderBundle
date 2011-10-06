@@ -10,7 +10,12 @@ class Launcher
         $this->processor = $processor;
     }
 
-    
+    public function checkUpdates()
+	{
+		return $this->processor->checkUpdates(NULL);
+	}
+
+		
 
 }
  

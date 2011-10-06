@@ -1,6 +1,6 @@
 parameters:
     camel_spider.laucher.class: Gpupo\CamelSpiderBundle\Launcher
-    camel_spider.processor.class: CamelSpider\Spider\Processor
+    camel_spider.processor.class: CamelSpider\Spider\SpiderProcessor
 services:
 
     camel_spider.processor:
