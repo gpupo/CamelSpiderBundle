@@ -1,7 +1,11 @@
 parameters:
-#    gpupo_camel_spider.example.class: Gpupo\CamelSpiderBundle\Example
-
+    camel_spider.laucher.class: Gpupo\CamelSpiderBundle\Launcher
+    camel_spider.processor.class: CamelSpider\Spider\Processor
 services:
-#    gpupo_camel_spider.example:
-#        class: %gpupo_camel_spider.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+
+    camel_spider.processor:
+        class: %camel_spider.processor.class%
+        arguments: [@goutte]
+    camel_spider.launcher:
+        class: %camel_spider.laucher.class%
+        arguments: [@camel_spider.processor]
