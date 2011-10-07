@@ -7,7 +7,7 @@ services:
         class: %camel_spider.goutte.class%
     camel_spider.processor:
         class: %camel_spider.processor.class%
-        arguments: [@camel_spider.goutte]
+        arguments: [@camel_spider.goutte, @logger]
     camel_spider.launcher:
         class: %camel_spider.laucher.class%
         arguments: [@camel_spider.processor]

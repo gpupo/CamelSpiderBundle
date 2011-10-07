@@ -1,6 +1,7 @@
 <?php
 namespace Gpupo\CamelSpiderBundle;
-use CamelSpider\Spider\SpiderProcessor;
+use CamelSpider\Spider\SpiderProcessor,
+CamelSpider\Entity\Link;
 class Launcher 
 {
     protected $processor; 
@@ -12,7 +13,10 @@ class Launcher
 
     public function checkUpdates()
 	{
-		$r = $this->processor->checkUpdates('http://www.terra.com.br/portal/');
+		$link = new Link;
+		$link->set('href', 'http://www.terra.com.br/');
+		$link->set('domain', 'www.terra.com.br');
+		$r = $this->processor->checkUpdates($link);
 		
 		return $r;
 	}
