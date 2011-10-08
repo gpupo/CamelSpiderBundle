@@ -16,7 +16,9 @@ class Launcher
 		$link = new Link;
 		$link->set('href', 'http://www.terra.com.br/');
 		$link->set('domain', 'www.terra.com.br');
-		$r = $this->processor->checkUpdates($link);
+		$link->set('recursive', 1);
+        
+        $r = $this->processor->checkUpdates($link);
 		
 		return $r;
 	}
