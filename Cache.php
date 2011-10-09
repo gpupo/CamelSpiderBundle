@@ -23,14 +23,14 @@ class Cache
             if (false === @mkdir($cache_dir, 0777, true)) {
                 throw new \RuntimeException(sprintf('Unable to create the %s directory', $dir));
             }
-        } elseif (!is_writable($dir)) {
+        } elseif (!is_writable($cache_dir)) {
             throw new \RuntimeException(sprintf('Unable to write in the %s directory', $dir));
         }
 
         
     $frontend= array(
         'lifetime' => 7200,
-        'automatic_seralization' => true
+        'automatic_serialization' => true
     );
 
     $backend= array(
@@ -51,7 +51,7 @@ class Cache
         return $this->cache->save($data, $id);
     }
 
-    public function get($id)
+    public function getObject($id)
     {
         return $this->cache->load($id);
     }
