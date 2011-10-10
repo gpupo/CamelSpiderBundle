@@ -13,7 +13,7 @@ class Cache
     }
 
 
-    public function __construct($cache_dir, $logger)
+    public function __construct($cache_dir, $lifetime_days, $logger)
     {
     
         $this->logger = $logger;
@@ -29,7 +29,7 @@ class Cache
 
         
     $frontend= array(
-        'lifetime' => 7200,
+        'lifetime' => ((60*60) * $lifetime_days ),
         'automatic_serialization' => true
     );
 
@@ -46,14 +46,33 @@ class Cache
     
     }
 
-    public function save($id, $data)
+    public function clean($mode = Zend_Cache::CLEANING_MODE_ALL)
     {
-        return $this->cache->save($data, $id);
+        return $this->cache->clean($mode);
+    }
+
+    public function save($id, $data, array $tags = array('undefined'))
+    {
+        if(empty($id)){
+            $this->logger('Object id Empty!', 'err');
+            return false;
+        }
+        $this->logger('Saving object ['. $id .']');
+        return $this->cache->save($data, $id, $tags);
     }
 
     public function getObject($id)
     {
+        $this->logger('Get object ['. $id .']');
         return $this->cache->load($id);
+    }
+    
+    public function isObject($id)
+    {
+        $this->logger('Check object ['. $id .']');
+        if($this->getObject($id) !== false){
+            return true;
+        }
     }
 
 }

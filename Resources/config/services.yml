@@ -2,6 +2,7 @@ parameters:
     camel_spider.goutte.class: Goutte\Client
     camel_spider.cache.class: Gpupo\CamelSpiderBundle\Cache
     camel_spider.cache.dir: %kernel.cache_dir%/CamelSpider
+    camel_spider.cache.lifetime_days: 1
     camel_spider.laucher.class: Gpupo\CamelSpiderBundle\Launcher
     camel_spider.processor.class: CamelSpider\Spider\SpiderProcessor
 services:
@@ -9,7 +10,7 @@ services:
         class: %camel_spider.goutte.class%
     camel_spider.cache:
         class: %camel_spider.cache.class%
-        arguments: [%camel_spider.cache.dir%, @logger]
+        arguments: [%camel_spider.cache.dir%, %camel_spider.cache.lifetime_days%, @logger]
     camel_spider.processor:
         class: %camel_spider.processor.class%
         arguments: [@camel_spider.goutte, @camel_spider.cache, @logger]
