@@ -1,31 +1,58 @@
 <?php
 namespace Gpupo\CamelSpiderBundle;
 use CamelSpider\Spider\SpiderProcessor,
-CamelSpider\Entity\Link;
+    CamelSpider\Entity\FactorySubscription;
 class Launcher 
 {
     protected $processor; 
+
+    protected $logger;
     
-    public function __construct(SpiderProcessor $processor)
+    public function __construct(SpiderProcessor $processor, $logger)
     {
         $this->processor = $processor;
+
+        $this->logger = $logger;
+
     }
 
-    public function checkUpdates()
+	protected function logger($string, $type = 'info')
 	{
-		$link = new Link;
-		$link->set('id', 1);
-		$link->set('href', 'http://economia.estadao.com.br');
-        $link->set('domain', 'economia.estadao.com.br');
-        $link->set('filters', array('contain' => 'tecnologia', 'notContain' => 'agrícola'));
-		$link->set('recursive', 1);
-        
-        $r = $this->processor->checkUpdates($link);
-		
-		return $r;
-	}
+		return $this->logger->$type('#CamelSpiderBundleLancher ' . $string);
+    }
 
-		
+    private function getSampleSubscriptions()
+    {
+        return FactorySubscription::buildCollectionFromDomain(
+            array(
+                'economia.estadao.com.br', 
+                'terra.com.br'
+            )
+        );
+    }
+    public function checkUpdates($collection = NULL)
+    {
+        if(!$collection)
+        {
+            //Tests only. 
+            $this->logger('Using subscriptions samples', 'err');
+            $collection = $this->getSampleSubscriptions();
+        }
 
+        foreach($collection as $subscription)
+        {
+            $this->logger(
+                'Checking updates fo the subscription [' 
+                . $subscription->getHref()
+            );
+            try{
+                $this->processor->checkUpdates($subscription);
+            }
+            catch (\Exception $e)
+            {
+                $this->logger($e->getMessage(), 'err');
+            }
+        }
+    }	
 }
  
