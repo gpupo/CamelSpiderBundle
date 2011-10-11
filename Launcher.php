@@ -26,7 +26,7 @@ class Launcher
         return FactorySubscription::buildCollectionFromDomain(
             array(
                 'economia.estadao.com.br', 
-                'terra.com.br'
+                'www.terra.com.br'
             )
         );
     }
