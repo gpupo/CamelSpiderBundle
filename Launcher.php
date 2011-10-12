@@ -27,8 +27,8 @@ class Launcher
         return FactorySubscription::buildCollectionFromDomain(
             array(
                 //'economia.estadao.com.br', 
-                'www.terra.com.br',
-                'www.uol.com.br'
+                'noticias.terra.com.br'
+                //,'www.uol.com.br'
             )
         );
     }
