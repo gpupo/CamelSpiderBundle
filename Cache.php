@@ -1,21 +1,16 @@
 <?php
 
 namespace Gpupo\CamelSpiderBundle;
-use Zend\Cache\Cache as Zend_Cache;
-class Cache
+
+use CamelSpider\Spider\AbstractCache,
+    Zend\Cache\Cache as Zend_Cache;
+
+class Cache extends AbstractCache
 {
-    protected $logger;
-    public $cache;
-    
-    protected function logger($string, $type = 'info')
-	{
-		return $this->logger->$type('#CamelSpiderCache ' . $string);
-    }
-
-
+   
     public function __construct($cache_dir, $lifetime_days, $logger)
     {
-    
+        $this->cache_dir = $cache_dir;
         $this->logger = $logger;
 
         if (!is_dir($cache_dir)) {
@@ -27,52 +22,21 @@ class Cache
             throw new \RuntimeException(sprintf('Unable to write in the %s directory', $dir));
         }
 
-        
-    $frontend= array(
-        'lifetime' => ((60*60) * $lifetime_days ),
-        'automatic_serialization' => true
-    );
+        $frontend= array(
+            'lifetime' => ((60*60) * $lifetime_days ),
+            'automatic_serialization' => true
+        );
 
-    $backend= array(
-        'cache_dir' => $cache_dir,
-    );
+        $backend= array(
+            'cache_dir' => $cache_dir,
+        );
 
-    $this->cache = Zend_Cache::factory(
-        'core',
-        'File',
-        $frontend,
-        $backend
-    );
-    
-    }
-
-    public function clean($mode = Zend_Cache::CLEANING_MODE_ALL)
-    {
-        return $this->cache->clean($mode);
-    }
-
-    public function save($id, $data, array $tags = array('undefined'))
-    {
-        if(empty($id)){
-            $this->logger('Object id Empty!', 'err');
-            return false;
-        }
-        $this->logger('Saving object ['. $id .']');
-        return $this->cache->save($data, $id, $tags);
-    }
-
-    public function getObject($id)
-    {
-        $this->logger('Get object ['. $id .']');
-        return $this->cache->load($id);
-    }
-    
-    public function isObject($id)
-    {
-        $this->logger('Check object ['. $id .']');
-        if($this->getObject($id) !== false){
-            return true;
-        }
+        $this->cache = Zend_Cache::factory(
+            'core',
+            'File',
+            $frontend,
+            $backend
+        );
     }
 
 }
