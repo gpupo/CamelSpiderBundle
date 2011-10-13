@@ -1,4 +1,10 @@
 
+## CLI
+
+`./app/console camelSpider:cron` Faz a indexação das assinaturas
+
+`./app/console camelSpider:cache:clean` Limpa o Cache do ambiente
+informado
 
 ## Workflow
 
