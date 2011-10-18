@@ -1,0 +1,30 @@
+newstag:
+    pattern:  /
+    defaults: { _controller: "GpupoCamelSpiderBundle:NewsTag:index" }
+
+newstag_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "GpupoCamelSpiderBundle:NewsTag:show" }
+
+newstag_new:
+    pattern:  /new
+    defaults: { _controller: "GpupoCamelSpiderBundle:NewsTag:new" }
+
+newstag_create:
+    pattern:  /create
+    defaults: { _controller: "GpupoCamelSpiderBundle:NewsTag:create" }
+    requirements: { _method: post }
+
+newstag_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "GpupoCamelSpiderBundle:NewsTag:edit" }
+
+newstag_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "GpupoCamelSpiderBundle:NewsTag:update" }
+    requirements: { _method: post }
+
+newstag_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "GpupoCamelSpiderBundle:NewsTag:delete" }
+    requirements: { _method: post }

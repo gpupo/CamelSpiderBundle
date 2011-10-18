@@ -1,3 +1,23 @@
 GpupoCamelSpiderBundle_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: GpupoCamelSpiderBundle:Default:index }
+
+GpupoCamelSpiderBundle_newssource:
+    resource: "@GpupoCamelSpiderBundle/Resources/config/routing/newssource.yml"
+    prefix:   /newssource
+
+GpupoCamelSpiderBundle_subscription:
+    resource: "@GpupoCamelSpiderBundle/Resources/config/routing/subscription.yml"
+    prefix:   /subscription
+
+GpupoCamelSpiderBundle_news:
+    resource: "@GpupoCamelSpiderBundle/Resources/config/routing/news.yml"
+    prefix:   /news
+
+GpupoCamelSpiderBundle_rawnews:
+    resource: "@GpupoCamelSpiderBundle/Resources/config/routing/rawnews.yml"
+    prefix:   /rawnews
+
+GpupoCamelSpiderBundle_newstag:
+    resource: "@GpupoCamelSpiderBundle/Resources/config/routing/newstag.yml"
+    prefix:   /newstag

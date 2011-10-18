@@ -1,0 +1,30 @@
+subscription:
+    pattern:  /
+    defaults: { _controller: "GpupoCamelSpiderBundle:Subscription:index" }
+
+subscription_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "GpupoCamelSpiderBundle:Subscription:show" }
+
+subscription_new:
+    pattern:  /new
+    defaults: { _controller: "GpupoCamelSpiderBundle:Subscription:new" }
+
+subscription_create:
+    pattern:  /create
+    defaults: { _controller: "GpupoCamelSpiderBundle:Subscription:create" }
+    requirements: { _method: post }
+
+subscription_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "GpupoCamelSpiderBundle:Subscription:edit" }
+
+subscription_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "GpupoCamelSpiderBundle:Subscription:update" }
+    requirements: { _method: post }
+
+subscription_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "GpupoCamelSpiderBundle:Subscription:delete" }
+    requirements: { _method: post }

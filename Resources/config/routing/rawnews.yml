@@ -1,0 +1,30 @@
+rawnews:
+    pattern:  /
+    defaults: { _controller: "GpupoCamelSpiderBundle:RawNews:index" }
+
+rawnews_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "GpupoCamelSpiderBundle:RawNews:show" }
+
+rawnews_new:
+    pattern:  /new
+    defaults: { _controller: "GpupoCamelSpiderBundle:RawNews:new" }
+
+rawnews_create:
+    pattern:  /create
+    defaults: { _controller: "GpupoCamelSpiderBundle:RawNews:create" }
+    requirements: { _method: post }
+
+rawnews_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "GpupoCamelSpiderBundle:RawNews:edit" }
+
+rawnews_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "GpupoCamelSpiderBundle:RawNews:update" }
+    requirements: { _method: post }
+
+rawnews_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "GpupoCamelSpiderBundle:RawNews:delete" }
+    requirements: { _method: post }

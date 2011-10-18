@@ -1,0 +1,30 @@
+news:
+    pattern:  /
+    defaults: { _controller: "GpupoCamelSpiderBundle:News:index" }
+
+news_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "GpupoCamelSpiderBundle:News:show" }
+
+news_new:
+    pattern:  /new
+    defaults: { _controller: "GpupoCamelSpiderBundle:News:new" }
+
+news_create:
+    pattern:  /create
+    defaults: { _controller: "GpupoCamelSpiderBundle:News:create" }
+    requirements: { _method: post }
+
+news_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "GpupoCamelSpiderBundle:News:edit" }
+
+news_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "GpupoCamelSpiderBundle:News:update" }
+    requirements: { _method: post }
+
+news_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "GpupoCamelSpiderBundle:News:delete" }
+    requirements: { _method: post }
