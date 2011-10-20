@@ -2,7 +2,7 @@
 namespace Gpupo\CamelSpiderBundle;
 use CamelSpider\Spider\Indexer,
     CamelSpider\Entity\FactorySubscription,
-    CamelSpider\Spider\SpiderElements;
+    CamelSpider\Spider\Pool;
 class Launcher 
 {
     protected $indexer; 
@@ -33,7 +33,7 @@ class Launcher
         );
     }
 
-    protected function processUpdates(SpiderElements $elements)
+    protected function processUpdates(Pool $elements)
     {
     }
 
@@ -54,7 +54,7 @@ class Launcher
                 . $subscription->getHref()
             );
             try{
-                $this->processUpdates($this->indexer->checkUpdate($subscription));
+                $this->processUpdates($this->indexer->run($subscription));
             }
             catch (\Exception $e)
             {
