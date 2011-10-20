@@ -4,16 +4,16 @@ parameters:
     camel_spider.cache.dir: %kernel.cache_dir%/CamelSpider
     camel_spider.cache.lifetime_days: 1
     camel_spider.laucher.class: Gpupo\CamelSpiderBundle\Launcher
-    camel_spider.processor.class: CamelSpider\Spider\SpiderProcessor
+    camel_spider.indexer.class: CamelSpider\Spider\Indexer
 services:
     camel_spider.goutte:
         class: %camel_spider.goutte.class%
     camel_spider.cache:
         class: %camel_spider.cache.class%
         arguments: [%camel_spider.cache.dir%, %camel_spider.cache.lifetime_days%, @logger]
-    camel_spider.processor:
-        class: %camel_spider.processor.class%
+    camel_spider.indexer:
+        class: %camel_spider.indexer.class%
         arguments: [@camel_spider.goutte, @camel_spider.cache, @logger]
     camel_spider.launcher:
         class: %camel_spider.laucher.class%
-        arguments: [@camel_spider.processor, @logger]
+        arguments: [@camel_spider.indexer, @logger]

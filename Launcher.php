@@ -1,17 +1,17 @@
 <?php
 namespace Gpupo\CamelSpiderBundle;
-use CamelSpider\Spider\SpiderProcessor,
+use CamelSpider\Spider\Indexer,
     CamelSpider\Entity\FactorySubscription,
     CamelSpider\Spider\SpiderElements;
 class Launcher 
 {
-    protected $processor; 
+    protected $indexer; 
 
     protected $logger;
     
-    public function __construct(SpiderProcessor $processor, $logger)
+    public function __construct(Indexer $indexer, $logger)
     {
-        $this->processor = $processor;
+        $this->indexer = $indexer;
 
         $this->logger = $logger;
 
@@ -54,8 +54,7 @@ class Launcher
                 . $subscription->getHref()
             );
             try{
-                
-                $this->processUpdates($this->processor->checkUpdate($subscription));
+                $this->processUpdates($this->indexer->checkUpdate($subscription));
             }
             catch (\Exception $e)
             {
