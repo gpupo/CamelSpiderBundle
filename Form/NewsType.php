@@ -13,7 +13,7 @@ class NewsType extends AbstractType
             ->add('title')
             ->add('uri')
             ->add('slug')
-            ->add('date')
+            ->add('date', 'date', array('widget'=>'single_text'))
             ->add('annotation')
             ->add('content')
             ->add('created_by')

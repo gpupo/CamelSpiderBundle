@@ -6,27 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
-Raw (arrumar um nome melhor)
-Relaciona com Fonte
-tudo o que vem da spidere é relevante
-
-Noticia
-
-titulo
-anotaçao
-conteudo
-data
-uri
-slug
-Relaciona com Raw
-Relaciona com Fonte
-Tag
-
-Tagnoticia
-
- */
-
-/**
  * Gpupo\CamelSpiderBundle\Entity\NewsSource
  *
  * @ORM\Table(name="raw_news")
@@ -59,17 +38,18 @@ class RawNews
     private $uri;
 
     /**
+     * @var string $relevation
+     *
+     * @ORM\Column(name="relevation", type="integer")
+     */
+    private $relevation;
+
+    /**
      * @var datetime $date
      *
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
-
-    /**
-     * @ORM\OneToOne(targetEntity="Subscription")
-     * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id")
-     */
-    private $subscription;
 
     /**
      * @var text $rawdata
@@ -78,6 +58,25 @@ class RawNews
      */
     private $rawdata;
 
+    /**
+     * @var text $html
+     *
+     * @ORM\Column(name="html", type="text")
+     */
+    private $html;
+
+    /**
+     * @var text $txt
+     *
+     * @ORM\Column(name="txt", type="text")
+     */
+    private $txt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Subscription")
+     * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id")
+     */
+    private $subscription;
 
     /**
      * @var datetime $created_by
@@ -107,7 +106,6 @@ class RawNews
      */
     private $updated_at;
 
-
     /**
      * @ORM\PrePersist
      */
@@ -134,9 +132,8 @@ class RawNews
      */
     public function __toString()
     {
-        return $this->getName();
+        return $this->getTitle();
     }
-
 
 
     /**
@@ -190,6 +187,26 @@ class RawNews
     }
 
     /**
+     * Set relevation
+     *
+     * @param integer $relevation
+     */
+    public function setRelevation($relevation)
+    {
+        $this->relevation = $relevation;
+    }
+
+    /**
+     * Get relevation
+     *
+     * @return integer 
+     */
+    public function getRelevation()
+    {
+        return $this->relevation;
+    }
+
+    /**
      * Set date
      *
      * @param datetime $date
@@ -227,6 +244,46 @@ class RawNews
     public function getRawdata()
     {
         return $this->rawdata;
+    }
+
+    /**
+     * Set html
+     *
+     * @param text $html
+     */
+    public function setHtml($html)
+    {
+        $this->html = $html;
+    }
+
+    /**
+     * Get html
+     *
+     * @return text 
+     */
+    public function getHtml()
+    {
+        return $this->html;
+    }
+
+    /**
+     * Set txt
+     *
+     * @param text $txt
+     */
+    public function setTxt($txt)
+    {
+        $this->txt = $txt;
+    }
+
+    /**
+     * Get txt
+     *
+     * @return text 
+     */
+    public function getTxt()
+    {
+        return $this->txt;
     }
 
     /**

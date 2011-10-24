@@ -11,16 +11,20 @@ class Subscription extends Generator
         $actions = array();
 
         $fields  = array(
-            'id'           => array('label' => 'ID'),
-            'name'         => array('label' => 'Nome', 'size' => 'xlarge'),
-            'uri'          => array('label' => 'URI', 'size' => 'xxlarge', 'help' => 'Full path to the subscription source'),
-            'uri_login'    => array('label' => 'URI Login'),
-            'uri_password' => array('label' => 'URI Password', 'class' => 'date'),
-            'filters'      => array('label' => 'Filtros'),
-            'created_by'   => array('label' => 'Criado Por'),
-            'created_at'   => array('label' => 'Criado Em', 'date_format' => 'd/m/Y H:i:s'),
-            'updated_by'   => array('label' => 'Atualizado Por'),
-            'updated_at'   => array('label' => 'Atualizado Em', 'date_format' => 'd/m/Y H:i:s'),
+            'id'                  => array('label' => 'ID'),
+            'name'                => array('label' => 'Name', 'size' => 'xlarge', 'help' => 'The name of subscription'),
+            'source_type'         => array('label' => 'Type', 'help' => 'The type of subscription - HTML, RSS or ATOM'),
+            'source_domain'       => array('label' => 'Domain', 'size' => 'xxlarge', 'help' => 'Domains to search for, comma separated'),
+            'auth_info'           => array('label' => 'Auth Info', 'size' => 'xxlarge', 'help' => 'Auth string to the subscription'),
+            'uri_target'          => array('label' => 'URI Target', 'size' => 'xxlarge', 'help' => 'Full path to the subscription source'),
+            'max_depth'           => array('label' => 'Max Depth', 'help' => 'Levels of links to follow'),
+            'filters_contain'     => array('label' => 'Filters CONTAIN', 'help' => 'Words the news must contain - one per line'),
+            'filters_not_contain' => array('label' => 'Filters NOT CONTAIN', 'help' => 'Words the news must NOT contain - one per line'),
+            'created_by'   => array('label' => 'Created By'),
+            'created_at'   => array('label' => 'Created At', 'date_format' => 'd/m/Y H:i:s'),
+            'updated_by'   => array('label' => 'Updated By'),
+            'updated_at'   => array('label' => 'Updated At', 'date_format' => 'd/m/Y H:i:s'),
+            'schedules'    => array('label' => 'Schedules', 'class' => 'schedule_list', 'help' => 'Schedules to check for updates'),
         );
 
         $list = array(
@@ -30,12 +34,13 @@ class Subscription extends Generator
             'display'         => array(
                                 'id',
                                 'name',
-                                'uri',
+                                //'source_type',
+                                //'source_domain',
                                 //'uri_login',
                                 //'uri_password',
                                 //'filters',
                                 //'created_by',
-                                'created_at',
+                                //'created_at',
                                 //'updated_by',
                                 //'updated_at',
                                 ),
@@ -58,10 +63,13 @@ class Subscription extends Generator
             'display'         => array(
                                 //'id',
                                 'name',
-                                'uri',
-                                'uri_login',
-                                'uri_password',
-                                'filters',
+                                'source_type',
+                                'source_domain',
+                                'auth_info',
+                                'uri_target',
+                                'filters_contain',
+                                'filters_not_contain',
+                                'schedules',
                                 ),
             'actions' => array(),
         );
@@ -71,16 +79,34 @@ class Subscription extends Generator
             'display'         => array(
                                 //'id',
                                 'name',
-                                'uri',
-                                'uri_login',
-                                'uri_password',
-                                'filters',
+                                'source_type',
+                                'source_domain',
+                                'auth_info',
+                                'uri_target',
+                                'filters_contain',
+                                'filters_not_contain',
+                                'schedules',
                                 ),
             'actions' => array(),
         );
 
         $show = array(
             'title'   => "Viewing Subscription",
+            'display'         => array(
+                                //'id',
+                                'name',
+                                'source_type',
+                                'source_domain',
+                                'auth_info',
+                                'uri_target',
+                                'filters_contain',
+                                'filters_not_contain',
+                                'schedules',
+                                'created_by',
+                                'created_at',
+                                'updated_by',
+                                'updated_at',
+                                ),
         );
 
         $filter = array(

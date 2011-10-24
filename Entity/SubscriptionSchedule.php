@@ -22,73 +22,78 @@ class SubscriptionSchedule
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Subscription")
+     * @var Subscription $subscription
+     *
+     * @ORM\ManyToOne(targetEntity="Subscription", inversedBy="schedules")
      * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id")
+     *
      */
     private $subscription;
 
     /**
-     * @var time $schedule
+     * @var time $time_schedule
      *
-     * @ORM\Column(name="schedule", type="time")
+     * @ORM\Column(name="schedule", type="time", nullable="true")
      */
-    private $schedule;
+    private $time_schedule;
 
     /**
      * @var boolean $sun
      *
-     * @ORM\Column(name="sun", type="boolean")
+     * @ORM\Column(name="sun", type="boolean", nullable="true")
      */
     private $sun;
 
     /**
      * @var boolean $mon
      *
-     * @ORM\Column(name="mon", type="boolean")
+     * @ORM\Column(name="mon", type="boolean", nullable="true")
      */
     private $mon;
 
     /**
      * @var boolean $tue
      *
-     * @ORM\Column(name="tue", type="boolean")
+     * @ORM\Column(name="tue", type="boolean", nullable="true")
      */
     private $tue;
 
     /**
      * @var boolean $wed
      *
-     * @ORM\Column(name="wed", type="boolean")
+     * @ORM\Column(name="wed", type="boolean", nullable="true")
      */
     private $wed;
 
     /**
      * @var boolean $thu
      *
-     * @ORM\Column(name="thu", type="boolean")
+     * @ORM\Column(name="thu", type="boolean", nullable="true")
      */
     private $thu;
 
     /**
      * @var boolean $fri
      *
-     * @ORM\Column(name="fri", type="boolean")
+     * @ORM\Column(name="fri", type="boolean", nullable="true")
      */
     private $fri;
 
     /**
      * @var boolean $sat
      *
-     * @ORM\Column(name="sat", type="boolean")
+     * @ORM\Column(name="sat", type="boolean", nullable="true")
      */
     private $sat;
 
     /**
      * @var boolean $is_active
      *
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(name="is_active", type="boolean", nullable="true")
      */
     private $is_active;
+
+
 
     /**
      * Get id
@@ -101,43 +106,23 @@ class SubscriptionSchedule
     }
 
     /**
-     * Set subscription_id
+     * Set time_schedule
      *
-     * @param bigint $subscriptionId
+     * @param time $timeSchedule
      */
-    public function setSubscriptionId($subscriptionId)
+    public function setTimeSchedule($timeSchedule)
     {
-        $this->subscription_id = $subscriptionId;
+        $this->time_schedule = $timeSchedule;
     }
 
     /**
-     * Get subscription_id
-     *
-     * @return bigint
-     */
-    public function getSubscriptionId()
-    {
-        return $this->subscription_id;
-    }
-
-    /**
-     * Set schedule
-     *
-     * @param time $schedule
-     */
-    public function setSchedule($schedule)
-    {
-        $this->schedule = $schedule;
-    }
-
-    /**
-     * Get schedule
+     * Get time_schedule
      *
      * @return time
      */
-    public function getSchedule()
+    public function getTimeSchedule()
     {
-        return $this->schedule;
+        return $this->time_schedule;
     }
 
     /**
@@ -313,7 +298,7 @@ class SubscriptionSchedule
     /**
      * Get subscription
      *
-     * @return Gpupo\CamelSpiderBundle\Entity\Subscription 
+     * @return Gpupo\CamelSpiderBundle\Entity\Subscription
      */
     public function getSubscription()
     {

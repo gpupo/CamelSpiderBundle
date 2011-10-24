@@ -1,0 +1,81 @@
+{% extends generator.layoutTheme |default('ThemeBootstrapBundle')  ~ '::layout.html.twig' %}
+{% block title %}{{ generator.show.title | trans }} {% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ generator.show.title | trans }}
+            <small>
+                {% trans %}you can{% endtrans %}
+                <a href="{{ path(generator.route) }}">{% trans %}go back to list{% endtrans %}</a>
+                {% trans %}or{% endtrans %}
+                <a href="{{ path(generator.route ~ '_edit', { 'id': generator.renderField('id', record)}) }}">{% trans %}edit{% endtrans %}</a>
+            </small>
+        </h1>
+    </div>
+
+    <div class="span16 columns">
+
+                {% for fieldName, field in generator.showDisplayFields %}
+                <div class="clearfix">
+                    <label for="xlInput">{{ field.label | trans  }}</label>
+                    <div class="input">
+                        <h4>
+                    {% if fieldName == 'schedules' %}
+                        <table>
+                            <tr>
+                                <th>{% trans %}Time{% endtrans %}</th>
+                                <th>{% trans %}Sun{% endtrans %}</th>
+                                <th>{% trans %}Mon{% endtrans %}</th>
+                                <th>{% trans %}Tue{% endtrans %}</th>
+                                <th>{% trans %}Wed{% endtrans %}</th>
+                                <th>{% trans %}Thu{% endtrans %}</th>
+                                <th>{% trans %}Fri{% endtrans %}</th>
+                                <th>{% trans %}Sat{% endtrans %}</th>
+                                <th>{% trans %}Is active{% endtrans %}</th>
+                            </tr>
+                      {% for schedule in record.schedules %}
+                            <tr>
+                                <td>{{ schedule.timeSchedule | date('H:i') }}</td>
+                                <td>{% if schedule.sun == 1 %}{% trans %}yes{% endtrans %}{% endif%}</td>
+                                <td>{% if schedule.mon == 1 %}{% trans %}yes{% endtrans %}{% endif%}</td>
+                                <td>{% if schedule.tue == 1 %}{% trans %}yes{% endtrans %}{% endif%}</td>
+                                <td>{% if schedule.wed == 1 %}{% trans %}yes{% endtrans %}{% endif%}</td>
+                                <td>{% if schedule.thu == 1 %}{% trans %}yes{% endtrans %}{% endif%}</td>
+                                <td>{% if schedule.fri == 1 %}{% trans %}yes{% endtrans %}{% endif%}</td>
+                                <td>{% if schedule.sat == 1 %}{% trans %}yes{% endtrans %}{% endif%}</td>
+                                <td>{% if schedule.isActive == 1 %}{% trans %}yes{% endtrans %}{% endif%}</td>
+                            </tr>
+                      {% endfor %}
+                        </table>
+                    {% else %}
+                        {% if field.date_format is defined %}
+                           {{ generator.renderField(fieldName, record) | date(field.date_format) }}
+                        {% else %}
+                            {{ generator.renderField(fieldName, record) }}
+                        {% endif %}
+                    {% endif %}
+
+                        </h4>
+                    </div>
+                </div><!-- /clearfix -->
+                {% endfor %}
+
+                <div class="actions">
+                    <a href="{{ path(generator.route) }}" class="btn">
+                        {% trans %}Back to List{% endtrans %}
+                    </a>
+                    <a href="{{ path(generator.route ~ '_edit', { 'id': generator.renderField('id', record)}) }}" class="btn">
+                        {% trans %}Edit{% endtrans %}
+                    </a>
+                    <a href="{{ path(generator.route ~ '_delete', { 'id': generator.renderField('id', record)}) }}" class="btn"
+                       onclick="javascript:deleteConfirm('{% trans %}Are you sure you want to delete:<br/>{% endtrans %}{{ record }} ', this, 'form[_token]', $('#form__token').val());return false;">
+                        {% trans %}Delete{% endtrans %}
+                    </a>
+                </div>
+
+                <!-- Hidden form to submit Deletion -->
+                {{ form_widget(delete_form) }}
+
+    </div>
+
+{% endblock %}
