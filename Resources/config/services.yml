@@ -16,4 +16,4 @@ services:
         arguments: [@camel_spider.goutte, @camel_spider.cache, @logger]
     camel_spider.launcher:
         class: %camel_spider.laucher.class%
-        arguments: [@camel_spider.indexer, @logger]
+        arguments: [@camel_spider.indexer, @camel_spider.cache, @logger]

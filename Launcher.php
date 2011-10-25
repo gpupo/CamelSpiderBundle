@@ -1,25 +1,27 @@
 <?php
 namespace Gpupo\CamelSpiderBundle;
 use CamelSpider\Spider\Indexer,
+    CamelSpider\Spider\InterfaceCache,
     CamelSpider\Entity\FactorySubscription,
     CamelSpider\Spider\Pool;
-class Launcher 
+class Launcher
 {
-    protected $indexer; 
+    protected $indexer;
 
     protected $logger;
-    
-    public function __construct(Indexer $indexer, $logger)
+
+    protected $cache;
+
+    public function __construct(Indexer $indexer, InterfaceCache $cache, $logger)
     {
         $this->indexer = $indexer;
-
+        $this->cache = $cache;
         $this->logger = $logger;
-
     }
 
-	protected function logger($string, $type = 'info')
-	{
-		return $this->logger->$type('#CamelSpiderBundleLancher ' . $string);
+    protected function logger($string, $type = 'info')
+    {
+        return $this->logger->$type('#CamelSpiderBundleLancher ' . $string);
     }
 
     private function getSampleSubscriptions()
@@ -35,6 +37,16 @@ class Launcher
 
     protected function processUpdates(Pool $elements)
     {
+        foreach ($elements as $l) {
+            //pegando o objeto Link que foi serializado:
+            $link = $this->cache->getObject($l->getId()); //id do link ( sha1 da url )
+            //salvar raw...
+            //
+            //verificar relevancia ...
+            //
+            //
+            //salvar noticia
+        }
     }
 
 
@@ -61,6 +73,6 @@ class Launcher
                 $this->logger($e->getMessage(), 'err');
             }
         }
-    }	
+    }   
 }
  
