@@ -1,0 +1,30 @@
+{% block form %}
+                <div class="clearfix">
+                    {{ form_label(form[fieldName], field.label) }}
+                    <div class="input">
+                        {% if fieldName == 'schedules' %}
+                        <p><a href="#" class="embeded_form_add">{% trans %}Add new{% endtrans %}</a></p>
+<script type="text/javascript">
+function EmbededFormAdd(formName) {
+    var collectionHolder = $('#'+formName);
+    var prototype = collectionHolder.attr('data-prototype');
+    form = prototype.replace(/\$\$name\$\$/g, collectionHolder.children().length);
+    collectionHolder.append(form);
+}
+
+$('a.embeded_form_add').live('click', function(event){
+    event.preventDefault();
+    EmbededFormAdd('subscriptiontype_schedules');
+});
+</script>
+                        {% endif %}
+                        {{ form_errors(form[fieldName]) }}
+                        {{ form_widget(form[fieldName], { 'attr': {'class': field.class ~ ' ' ~ field.size} }) }}
+                        {% if field.help %}
+                        <span class="help-block">
+                            {{ field.help }}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+{% endblock %}

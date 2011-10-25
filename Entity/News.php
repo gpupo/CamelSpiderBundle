@@ -144,7 +144,6 @@ class News
     }
 
 
-
     /**
      * Get id
      *

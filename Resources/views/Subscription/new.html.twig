@@ -1,0 +1,32 @@
+{% extends generator.layoutTheme |default('ThemeBootstrapBundle')  ~ '::layout.html.twig' %}
+{% block title %}{{ generator.new.title | trans }} {% endblock %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>{{ generator.new.title | trans }}
+            <small>
+                {% trans %}or{% endtrans %} <a href="{{ path(generator.route) }}">{% trans %}go back to list{% endtrans %}</a>
+            </small>
+        </h1>
+    </div>
+
+    <form action="{{ path(generator.route ~ '_create') }}" method="post" {{ form_enctype(form) }}>
+
+        {% for fieldName, field in generator.newDisplayFields %}
+            {% block form %}{% endblock %}
+            {% include 'GpupoCamelSpiderBundle:Subscription:_form.html.twig' %}
+        {% endfor %}
+        {{ form_row(form._token) }}
+
+        <div class="actions">
+            <button type="submit" class="btn primary">{% trans %}Save{% endtrans %}</button>&nbsp;
+            <button type="submit" class="btn primary">{% trans %}Save and Add{% endtrans %}</button>&nbsp;
+            <a href="{{ path(generator.route) }}" class="btn">
+                {% trans %}Back to List{% endtrans %}
+            </a>
+        </div>
+
+    </form>
+
+{% endblock %}
