@@ -17,3 +17,4 @@ GpupoCamelSpiderBundle_rawnews:
 GpupoCamelSpiderBundle_newstag:
     resource: "@GpupoCamelSpiderBundle/Resources/config/routing/newstag.yml"
     prefix:   /newstag
+
