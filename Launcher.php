@@ -3,7 +3,9 @@ namespace Gpupo\CamelSpiderBundle;
 use CamelSpider\Spider\Indexer,
     CamelSpider\Spider\InterfaceCache,
     CamelSpider\Entity\FactorySubscription,
-    CamelSpider\Spider\Pool;
+    CamelSpider\Spider\Pool,
+    Symfony\Bundle\DoctrineBundle\Registry;
+
 class Launcher
 {
     protected $indexer;
@@ -12,11 +14,12 @@ class Launcher
 
     protected $cache;
 
-    public function __construct(Indexer $indexer, InterfaceCache $cache, $logger)
+    public function __construct(Indexer $indexer, InterfaceCache $cache, $logger, Registry $doctrineRegistry)
     {
         $this->indexer = $indexer;
         $this->cache = $cache;
         $this->logger = $logger;
+        $this->doctrineRegistry = $doctrineRegistry;
     }
 
     protected function logger($string, $type = 'info')
@@ -58,7 +61,7 @@ class Launcher
                             ->getRepository('GpupoCamelSpiderBundle:Subscription')
                             ->findBy();
             //Tests only.
-            $this->logger('Gets subscription data', 'err');
+            //$this->logger('Gets subscription data', 'err');
             //$collection = $this->getSampleSubscriptions();
         }
 
@@ -76,6 +79,6 @@ class Launcher
                 $this->logger($e->getMessage(), 'err');
             }
         }
-    }   
+    }
 }
 
