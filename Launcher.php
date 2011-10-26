@@ -52,24 +52,22 @@ class Launcher
         }
     }
 
-
     public function checkUpdates($collection = NULL)
     {
         if(!$collection)
         {
             $collection = $this->doctrineRegistry
                             ->getRepository('GpupoCamelSpiderBundle:Subscription')
-                            ->findBy();
+                            ->findBy(array('isActive'=> true));
             //Tests only.
-            //$this->logger('Gets subscription data', 'err');
+            $this->logger('Gets subscription data from database', 'info');
             //$collection = $this->getSampleSubscriptions();
         }
 
         foreach($collection as $subscription)
         {
             $this->logger(
-                'Checking updates fo the subscription ['
-                . $subscription->getHref()
+                'Checking updates fo the subscription [' . $subscription->getHref() . ']'
             );
             try{
                 $this->processUpdates($this->indexer->run($subscription));

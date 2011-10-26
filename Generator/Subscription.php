@@ -24,6 +24,7 @@ class Subscription extends Generator
             'created_at'          => array('label' => 'Created At', 'date_format' => 'd/m/Y H:i:s'),
             'updated_by'          => array('label' => 'Updated By'),
             'updated_at'          => array('label' => 'Updated At', 'date_format' => 'd/m/Y H:i:s'),
+            'is_active'           => array('label' => 'Is Active', 'size' => 'small'),
             'schedules'           => array('label' => 'Schedules', 'class' => 'schedule_list', 'help' => 'Schedules to check for updates'),
         );
 
@@ -34,7 +35,9 @@ class Subscription extends Generator
             'display'         => array(
                                 'id',
                                 'name',
-                                //'source_type',
+                                'source_type',
+                                'is_active',
+                                //'is_active',
                                 //'source_domain',
                                 //'uri_login',
                                 //'uri_password',
@@ -70,6 +73,7 @@ class Subscription extends Generator
                                 'max_depth',
                                 'filters_contain',
                                 'filters_not_contain',
+                                'is_active',
                                 'schedules',
                                 ),
             'actions' => array(),
@@ -87,6 +91,7 @@ class Subscription extends Generator
                                 'max_depth',
                                 'filters_contain',
                                 'filters_not_contain',
+                                'is_active',
                                 'schedules',
                                 ),
             'actions' => array(),
@@ -103,6 +108,7 @@ class Subscription extends Generator
                                 'uri_target',
                                 'filters_contain',
                                 'filters_not_contain',
+                                'is_active',
                                 'schedules',
                                 'created_by',
                                 'created_at',

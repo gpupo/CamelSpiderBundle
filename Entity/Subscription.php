@@ -111,6 +111,13 @@ class Subscription implements InterfaceSubscription
     private $updatedAt;
 
     /**
+     * @var datetime $isActive
+     *
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
+
+    /**
      * @var Doctrine\Common\Collections\ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="SubscriptionSchedule", mappedBy="subscription", cascade={"all"})
@@ -472,6 +479,40 @@ class Subscription implements InterfaceSubscription
         return $this->updatedAt;
     }
 
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive Boolean true or false
+     *
+     * @return void
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+        /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActiveFormated()
+    {
+        return $this->isActive ? 'Yes' : 'No';
+    }
+
+
+
     /* Implementing interface */
 
     /**
@@ -659,6 +700,29 @@ class Subscription implements InterfaceSubscription
         }
 
         return true;
+    }
+
+
+    public function get($name)
+    {
+        switch ($name) {
+            case 'href':
+                return $this->getHref();
+                break;
+
+            case 'domain':
+                return $this->getDomain();
+                break;
+
+            default:
+                return null;
+                break;
+        }
+    }
+
+    public function set($name, $value)
+    {
+        $this->$name = $value;
     }
 
 }

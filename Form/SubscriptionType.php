@@ -22,6 +22,7 @@ class SubscriptionType extends AbstractType
             ->add('created_at')
             ->add('updated_by')
             ->add('updated_at')
+            ->add('is_active', 'choice', array('choices'=>array(0=>'No', 1=>'Yes')))
             ->add('schedules', 'collection', array(
                 'type' =>  new SubscriptionScheduleType(),
                 'allow_add' => true,
