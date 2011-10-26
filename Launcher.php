@@ -1,33 +1,27 @@
 <?php
 namespace Gpupo\CamelSpiderBundle;
 use CamelSpider\Spider\Indexer,
+    CamelSpider\Spider\InterfaceCache,
     CamelSpider\Entity\FactorySubscription,
-    CamelSpider\Spider\SpiderElements,
-    Symfony\Bundle\DoctrineBundle\Registry;
-
+    CamelSpider\Spider\Pool;
 class Launcher
 {
     protected $indexer;
 
     protected $logger;
 
-    /**
-     * @var Symfony\Bundle\DoctrineBundle\Registry
-     */
-    protected $doctrineRegistry;
+    protected $cache;
 
-    public function __construct(Indexer $indexer, $logger, Registry $doctrineRegistry)
+    public function __construct(Indexer $indexer, InterfaceCache $cache, $logger)
     {
         $this->indexer = $indexer;
-
+        $this->cache = $cache;
         $this->logger = $logger;
-
-        $this->doctrineRegistry = $doctrineRegistry;
     }
 
-	protected function logger($string, $type = 'info')
-	{
-		return $this->logger->$type('#CamelSpiderBundleLancher ' . $string);
+    protected function logger($string, $type = 'info')
+    {
+        return $this->logger->$type('#CamelSpiderBundleLancher ' . $string);
     }
 
     private function getSampleSubscriptions()
@@ -41,8 +35,18 @@ class Launcher
         );
     }
 
-    protected function processUpdates(SpiderElements $elements)
+    protected function processUpdates(Pool $elements)
     {
+        foreach ($elements as $l) {
+            //pegando o objeto Link que foi serializado:
+            $link = $this->cache->getObject($l->getId()); //id do link ( sha1 da url )
+            //salvar raw...
+            //
+            //verificar relevancia ...
+            //
+            //
+            //salvar noticia
+        }
     }
 
 
@@ -65,13 +69,13 @@ class Launcher
                 . $subscription->getHref()
             );
             try{
-                $this->processUpdates($this->indexer->checkUpdate($subscription));
+                $this->processUpdates($this->indexer->run($subscription));
             }
             catch (\Exception $e)
             {
                 $this->logger($e->getMessage(), 'err');
             }
         }
-    }
+    }   
 }
 
