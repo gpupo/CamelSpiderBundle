@@ -40,6 +40,8 @@ class Launcher
 
     protected function processUpdates(Pool $elements)
     {
+        //var_dump($elements);
+        //$this->logger('Process update' . print_r($elements, true), 'info');
         foreach ($elements as $l) {
             //pegando o objeto Link que foi serializado:
             $link = $this->cache->getObject($l->getId()); //id do link ( sha1 da url )
@@ -66,11 +68,10 @@ class Launcher
 
         foreach($collection as $subscription)
         {
-            $this->logger(
-                'Checking updates fo the subscription [' . $subscription->getHref() . ']'
-            );
+            $this->logger('Checking updates for the subscription [' . $subscription->getHref() . ']');
             try{
-                $this->processUpdates($this->indexer->run($subscription));
+                $this->indexer->run($subscription);
+                //$this->processUpdates($this->indexer->run($subscription));
             }
             catch (\Exception $e)
             {

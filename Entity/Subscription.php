@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gpupo\CamelSpiderBundle\Entity\SubscriptionSchedule;
 use CamelSpider\Entity\InterfaceSubscription;
+use CamelSpider\Entity\Link;
 
 
 /**
@@ -48,6 +49,13 @@ class Subscription implements InterfaceSubscription
     private $sourceDomain;
 
     /**
+     * @var string $href
+     *
+     * @ORM\Column(name="href", type="string", length=255)
+     */
+    private $href;
+
+    /**
      * @var string $auth_info
      *
      * @ORM\Column(name="auth_info", type="string", length=255, nullable=true)
@@ -57,7 +65,7 @@ class Subscription implements InterfaceSubscription
     /**
      * @var string $uri_target
      *
-     * @ORM\Column(name="uri_target", type="string", length=255)
+     * @ORM\Column(name="uri_target", type="string", length=255, nullable=true)
      */
     private $uriTarget;
 
@@ -501,7 +509,29 @@ class Subscription implements InterfaceSubscription
         return $this->isActive;
     }
 
-        /**
+    /**
+     * Set href
+     *
+     * @param string $href
+     *
+     * @return void
+     */
+    public function setHref($href)
+    {
+        $this->href = $href;
+    }
+
+    /**
+     * Get Href
+     *
+     * @return string
+     */
+    public function getHref()
+    {
+        return $this->href;
+    }
+
+    /**
      * Get isActive
      *
      * @return boolean
@@ -562,16 +592,6 @@ class Subscription implements InterfaceSubscription
     public function getDomain()
     {
         return $this->_explode($this->getSourceDomain());
-    }
-
-    /**
-     * Get Href
-     *
-     * @return string
-     */
-    public function getHref()
-    {
-        return $this->getUriTarget();
     }
 
     /**
@@ -675,7 +695,7 @@ class Subscription implements InterfaceSubscription
      */
     protected function inDomain($str)
     {
-        foreach ($this->getSourceDomain() as $domain) {
+        foreach ($this->getDomain() as $domain) {
             if (stripos($str, $domain)) {
                 return true;
             }
