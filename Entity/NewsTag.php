@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Gpupo\CamelSpiderBundle\Entity\NewsSource
+ * Gpupo\CamelSpiderBundle\Entity\NewsTag
  *
  * @ORM\Table(name="news_tag")
  * @ORM\Entity(repositoryClass="Gpupo\CamelSpiderBundle\Entity\NewsTagRepository")
@@ -54,7 +54,7 @@ class NewsTag
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -74,7 +74,7 @@ class NewsTag
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -94,7 +94,7 @@ class NewsTag
     /**
      * Get newss
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getNewss()
     {
