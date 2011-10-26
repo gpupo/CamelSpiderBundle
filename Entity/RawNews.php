@@ -38,11 +38,11 @@ class RawNews
     private $uri;
 
     /**
-     * @var string $relevation
+     * @var string $relevancy
      *
-     * @ORM\Column(name="relevation", type="integer")
+     * @ORM\Column(name="relevancy", type="integer")
      */
-    private $relevation;
+    private $relevancy;
 
     /**
      * @var datetime $date
@@ -79,50 +79,58 @@ class RawNews
     private $subscription;
 
     /**
-     * @var datetime $created_by
+     * @var datetime $createdBy
      *
      * @ORM\Column(name="created_by", type="integer", nullable=true)
      */
-    private $created_by;
+    private $createdBy;
 
     /**
-     * @var datetime $created_at
+     * @var datetime $createdAt
      *
      * @ORM\Column(name="created_at", type="datetime")
      */
-    private $created_at;
+    private $createdAt;
 
     /**
      * @var integer $updated_by
      *
      * @ORM\Column(name="updated_by", type="integer", nullable=true)
      */
-    private $updated_by;
+    private $updatedBy;
 
     /**
-     * @var datetime $updated_at
+     * @var datetime $updatedAt
      *
      * @ORM\Column(name="updated_at", type="datetime")
      */
-    private $updated_at;
+    private $updatedAt;
 
     /**
+     * Pre persist hook
+     *
      * @ORM\PrePersist
+     *
+     * @return void
      */
     public function prePersist()
     {
         if (!$this->getId()) {
-            $this->created_at = new \DateTime(date('Y-m-d H:m:s'));
+            $this->createdAt = new \DateTime(date('Y-m-d H:m:s'));
         }
-        $this->updated_at = new \DateTime(date('Y-m-d H:m:s'));
+        $this->updatedAt = new \DateTime(date('Y-m-d H:m:s'));
     }
 
     /**
+     * Pre update hook
+     *
      * @ORM\PreUpdate
+     *
+     * @return void
      */
     public function preUpdate()
     {
-        $this->updated_at = new \DateTime(date('Y-m-d H:m:s'));
+        $this->updatedAt = new \DateTime(date('Y-m-d H:m:s'));
     }
 
     /**
@@ -139,7 +147,7 @@ class RawNews
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -159,7 +167,7 @@ class RawNews
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -179,7 +187,7 @@ class RawNews
     /**
      * Get uri
      *
-     * @return string 
+     * @return string
      */
     public function getUri()
     {
@@ -187,23 +195,23 @@ class RawNews
     }
 
     /**
-     * Set relevation
+     * Set relevancy
      *
-     * @param integer $relevation
+     * @param integer $relevancy
      */
-    public function setRelevation($relevation)
+    public function setRelevancy($relevancy)
     {
-        $this->relevation = $relevation;
+        $this->relevancy = $relevancy;
     }
 
     /**
-     * Get relevation
+     * Get relevancy
      *
-     * @return integer 
+     * @return integer
      */
-    public function getRelevation()
+    public function getRelevancy()
     {
-        return $this->relevation;
+        return $this->relevancy;
     }
 
     /**
@@ -219,7 +227,7 @@ class RawNews
     /**
      * Get date
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getDate()
     {
@@ -239,7 +247,7 @@ class RawNews
     /**
      * Get rawdata
      *
-     * @return text 
+     * @return text
      */
     public function getRawdata()
     {
@@ -259,7 +267,7 @@ class RawNews
     /**
      * Get html
      *
-     * @return text 
+     * @return text
      */
     public function getHtml()
     {
@@ -279,7 +287,7 @@ class RawNews
     /**
      * Get txt
      *
-     * @return text 
+     * @return text
      */
     public function getTxt()
     {
@@ -287,83 +295,91 @@ class RawNews
     }
 
     /**
-     * Set created_by
+     * Set createdBy
      *
-     * @param integer $createdBy
+     * @param integer $createdBy Created By
+     *
+     * @return void
      */
     public function setCreatedBy($createdBy)
     {
-        $this->created_by = $createdBy;
+        $this->createdBy = $createdBy;
     }
 
     /**
-     * Get created_by
+     * Get createdBy
      *
-     * @return integer 
+     * @return integer
      */
     public function getCreatedBy()
     {
-        return $this->created_by;
+        return $this->createdBy;
     }
 
     /**
-     * Set created_at
+     * Set createdAt
      *
-     * @param datetime $createdAt
+     * @param datetime $createdAt Created At
+     *
+     * @return void
      */
     public function setCreatedAt($createdAt)
     {
-        $this->created_at = $createdAt;
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * Get created_at
+     * Get createdAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**
-     * Set updated_by
+     * Set updatedBy
      *
-     * @param integer $updatedBy
+     * @param integer $updatedBy Updated By
+     *
+     * @return void
      */
     public function setUpdatedBy($updatedBy)
     {
-        $this->updated_by = $updatedBy;
+        $this->updatedBy = $updatedBy;
     }
 
     /**
-     * Get updated_by
+     * Get updatedBy
      *
-     * @return integer 
+     * @return integer
      */
     public function getUpdatedBy()
     {
-        return $this->updated_by;
+        return $this->updatedBy;
     }
 
     /**
-     * Set updated_at
+     * Set updatedAt
      *
-     * @param datetime $updatedAt
+     * @param datetime $updatedAt Updated At
+     *
+     * @return void
      */
     public function setUpdatedAt($updatedAt)
     {
-        $this->updated_at = $updatedAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
-     * Get updated_at
+     * Get updatedAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getUpdatedAt()
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
     /**
@@ -379,7 +395,7 @@ class RawNews
     /**
      * Get subscription
      *
-     * @return Gpupo\CamelSpiderBundle\Entity\Subscription 
+     * @return Gpupo\CamelSpiderBundle\Entity\Subscription
      */
     public function getSubscription()
     {

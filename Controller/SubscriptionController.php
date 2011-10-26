@@ -6,8 +6,17 @@ use Coregen\AdminGeneratorBundle\ORM\GeneratorController;
 use Gpupo\CamelSpiderBundle\Generator\Subscription as Generator;
 use Gpupo\CamelSpiderBundle\Entity\SubscriptionSchedule;
 
+/**
+ * Subscription Controller
+ */
 class SubscriptionController extends GeneratorController
 {
+
+    /**
+     * Configure the generator
+     *
+     * @return void
+     */
     public function configure()
     {
         //$generator = $this->get('coregen.generator');
@@ -15,6 +24,12 @@ class SubscriptionController extends GeneratorController
         $this->loadGenerator($generator);
     }
 
+
+    /**
+     * new Action
+     *
+     * @return Response
+     */
     public function newAction()
     {
         // Configuring the Generator Controller

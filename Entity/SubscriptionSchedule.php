@@ -35,7 +35,7 @@ class SubscriptionSchedule
      *
      * @ORM\Column(name="schedule", type="time", nullable="true")
      */
-    private $time_schedule;
+    private $timeSchedule;
 
     /**
      * @var boolean $sun
@@ -91,7 +91,7 @@ class SubscriptionSchedule
      *
      * @ORM\Column(name="is_active", type="boolean", nullable="true")
      */
-    private $is_active;
+    private $isActive;
 
 
 
@@ -108,27 +108,31 @@ class SubscriptionSchedule
     /**
      * Set time_schedule
      *
-     * @param time $timeSchedule
+     * @param time $timeSchedule Time schedule
+     *
+     * @return void
      */
     public function setTimeSchedule($timeSchedule)
     {
-        $this->time_schedule = $timeSchedule;
+        $this->timeSchedule = $timeSchedule;
     }
 
     /**
-     * Get time_schedule
+     * Get timeSchedule
      *
      * @return time
      */
     public function getTimeSchedule()
     {
-        return $this->time_schedule;
+        return $this->timeSchedule;
     }
 
     /**
      * Set sun
      *
-     * @param boolean $sun
+     * @param boolean $sun Sunday value
+     *
+     * @return void
      */
     public function setSun($sun)
     {
@@ -148,7 +152,9 @@ class SubscriptionSchedule
     /**
      * Set mon
      *
-     * @param boolean $mon
+     * @param boolean $mon Monday value
+     *
+     * @return void
      */
     public function setMon($mon)
     {
@@ -168,7 +174,9 @@ class SubscriptionSchedule
     /**
      * Set tue
      *
-     * @param boolean $tue
+     * @param boolean $tue Tuesday value
+     *
+     * @return void
      */
     public function setTue($tue)
     {
@@ -188,7 +196,9 @@ class SubscriptionSchedule
     /**
      * Set wed
      *
-     * @param boolean $wed
+     * @param boolean $wed Wednesday value
+     *
+     * @return void
      */
     public function setWed($wed)
     {
@@ -208,7 +218,9 @@ class SubscriptionSchedule
     /**
      * Set thu
      *
-     * @param boolean $thu
+     * @param boolean $thu Thusday value
+     *
+     * @return void
      */
     public function setThu($thu)
     {
@@ -228,7 +240,9 @@ class SubscriptionSchedule
     /**
      * Set fri
      *
-     * @param boolean $fri
+     * @param boolean $fri Friday value
+     *
+     * @return void
      */
     public function setFri($fri)
     {
@@ -248,7 +262,9 @@ class SubscriptionSchedule
     /**
      * Set sat
      *
-     * @param boolean $sat
+     * @param boolean $sat Saturday value
+     *
+     * @return void
      */
     public function setSat($sat)
     {
@@ -258,7 +274,9 @@ class SubscriptionSchedule
     /**
      * Get sat
      *
-     * @return boolean
+     * @return boolean Saturday value
+     *
+     * @return void
      */
     public function getSat()
     {
@@ -266,29 +284,33 @@ class SubscriptionSchedule
     }
 
     /**
-     * Set is_active
+     * Set isActive
      *
-     * @param boolean $isActive
+     * @param boolean $isActive Is Active value
+     *
+     * @return void
      */
     public function setIsActive($isActive)
     {
-        $this->is_active = $isActive;
+        $this->isActive = $isActive;
     }
 
     /**
-     * Get is_active
+     * Get isActive
      *
      * @return boolean
      */
     public function getIsActive()
     {
-        return $this->is_active;
+        return $this->isActive;
     }
 
     /**
      * Set subscription
      *
-     * @param Gpupo\CamelSpiderBundle\Entity\Subscription $subscription
+     * @param Gpupo\CamelSpiderBundle\Entity\Subscription $subscription The subscription object
+     *
+     * @return void
      */
     public function setSubscription(\Gpupo\CamelSpiderBundle\Entity\Subscription $subscription)
     {

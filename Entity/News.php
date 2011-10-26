@@ -40,7 +40,7 @@ class News
     /**
      * @var string $slug
      *
-     * @ORM\Column(name="slug", type="string", length=255)
+     * @ORM\Column(name="slug", type="string", length=255, nullable=true)
      */
     private $slug;
 
@@ -78,32 +78,32 @@ class News
     private $rawnews;
 
     /**
-     * @var datetime $created_by
+     * @var datetime $createdBy
      *
      * @ORM\Column(name="created_by", type="integer", nullable=true)
      */
-    private $created_by;
+    private $createdBy;
 
     /**
-     * @var datetime $created_at
+     * @var datetime $createdAt
      *
      * @ORM\Column(name="created_at", type="datetime")
      */
-    private $created_at;
+    private $createdAt;
 
     /**
      * @var integer $updated_by
      *
      * @ORM\Column(name="updated_by", type="integer", nullable=true)
      */
-    private $updated_by;
+    private $updatedBy;
 
     /**
-     * @var datetime $updated_at
+     * @var datetime $updatedAt
      *
      * @ORM\Column(name="updated_at", type="datetime")
      */
-    private $updated_at;
+    private $updatedAt;
 
     /**
      * @ORM\ManyToMany(targetEntity="NewsTag", inversedBy="newss")
@@ -111,26 +111,42 @@ class News
      */
     private $tags;
 
-    public function __construct() {
+
+    /**
+     * The class constructor
+     *
+     * @return void
+     */
+    public function __construct()
+    {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
     /**
+     * Pre persist hook
+     *
      * @ORM\PrePersist
+     *
+     * @return void
      */
     public function prePersist()
     {
         if (!$this->getId()) {
-            $this->created_at = new \DateTime(date('Y-m-d H:m:s'));
+            $this->createdAt = new \DateTime(date('Y-m-d H:m:s'));
         }
-        $this->updated_at = new \DateTime(date('Y-m-d H:m:s'));
+        $this->updatedAt = new \DateTime(date('Y-m-d H:m:s'));
     }
 
     /**
+     * Pre update hook
+     *
      * @ORM\PreUpdate
+     *
+     * @return void
      */
     public function preUpdate()
     {
-        $this->updated_at = new \DateTime(date('Y-m-d H:m:s'));
+        $this->updatedAt = new \DateTime(date('Y-m-d H:m:s'));
     }
 
     /**
@@ -147,7 +163,7 @@ class News
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -157,7 +173,9 @@ class News
     /**
      * Set title
      *
-     * @param string $title
+     * @param string $title Title
+     *
+     * @return void
      */
     public function setTitle($title)
     {
@@ -167,7 +185,7 @@ class News
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -177,7 +195,9 @@ class News
     /**
      * Set uri
      *
-     * @param string $uri
+     * @param string $uri URI
+     *
+     * @return void
      */
     public function setUri($uri)
     {
@@ -187,7 +207,7 @@ class News
     /**
      * Get uri
      *
-     * @return string 
+     * @return string
      */
     public function getUri()
     {
@@ -197,7 +217,9 @@ class News
     /**
      * Set slug
      *
-     * @param string $slug
+     * @param string $slug Slug
+     *
+     * @return void
      */
     public function setSlug($slug)
     {
@@ -207,7 +229,7 @@ class News
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -217,7 +239,9 @@ class News
     /**
      * Set date
      *
-     * @param datetime $date
+     * @param datetime $date Date
+     *
+     * @return void
      */
     public function setDate($date)
     {
@@ -227,7 +251,7 @@ class News
     /**
      * Get date
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getDate()
     {
@@ -237,7 +261,9 @@ class News
     /**
      * Set annotation
      *
-     * @param text $annotation
+     * @param text $annotation Annotation
+     *
+     * @return void
      */
     public function setAnnotation($annotation)
     {
@@ -247,7 +273,7 @@ class News
     /**
      * Get annotation
      *
-     * @return text 
+     * @return text
      */
     public function getAnnotation()
     {
@@ -257,7 +283,9 @@ class News
     /**
      * Set content
      *
-     * @param text $content
+     * @param text $content Content
+     *
+     * @return void
      */
     public function setContent($content)
     {
@@ -267,7 +295,7 @@ class News
     /**
      * Get content
      *
-     * @return text 
+     * @return text
      */
     public function getContent()
     {
@@ -275,89 +303,99 @@ class News
     }
 
     /**
-     * Set created_by
+     * Set createdBy
      *
-     * @param integer $createdBy
+     * @param integer $createdBy Created By
+     *
+     * @return void
      */
     public function setCreatedBy($createdBy)
     {
-        $this->created_by = $createdBy;
+        $this->createdBy = $createdBy;
     }
 
     /**
-     * Get created_by
+     * Get createdBy
      *
-     * @return integer 
+     * @return integer
      */
     public function getCreatedBy()
     {
-        return $this->created_by;
+        return $this->createdBy;
     }
 
     /**
-     * Set created_at
+     * Set createdAt
      *
-     * @param datetime $createdAt
+     * @param datetime $createdAt Created At
+     *
+     * @return void
      */
     public function setCreatedAt($createdAt)
     {
-        $this->created_at = $createdAt;
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * Get created_at
+     * Get createdAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**
-     * Set updated_by
+     * Set updatedBy
      *
-     * @param integer $updatedBy
+     * @param integer $updatedBy Updated By
+     *
+     * @return void
      */
     public function setUpdatedBy($updatedBy)
     {
-        $this->updated_by = $updatedBy;
+        $this->updatedBy = $updatedBy;
     }
 
     /**
-     * Get updated_by
+     * Get updatedBy
      *
-     * @return integer 
+     * @return integer
      */
     public function getUpdatedBy()
     {
-        return $this->updated_by;
+        return $this->updatedBy;
     }
 
     /**
-     * Set updated_at
+     * Set updatedAt
      *
-     * @param datetime $updatedAt
+     * @param datetime $updatedAt Updated At
+     *
+     * @return void
      */
     public function setUpdatedAt($updatedAt)
     {
-        $this->updated_at = $updatedAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
-     * Get updated_at
+     * Get updatedAt
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getUpdatedAt()
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
     /**
      * Set subscription
      *
-     * @param Gpupo\CamelSpiderBundle\Entity\Subscription $subscription
+     * @param Gpupo\CamelSpiderBundle\Entity\Subscription $subscription Subscription object
+     *
+     * @return void
      */
     public function setSubscription(\Gpupo\CamelSpiderBundle\Entity\Subscription $subscription)
     {
@@ -367,7 +405,7 @@ class News
     /**
      * Get subscription
      *
-     * @return Gpupo\CamelSpiderBundle\Entity\Subscription 
+     * @return Gpupo\CamelSpiderBundle\Entity\Subscription
      */
     public function getSubscription()
     {
@@ -377,7 +415,9 @@ class News
     /**
      * Set rawnews
      *
-     * @param Gpupo\CamelSpiderBundle\Entity\RawNews $rawnews
+     * @param Gpupo\CamelSpiderBundle\Entity\RawNews $rawnews Raw news
+     *
+     * @return void
      */
     public function setRawnews(\Gpupo\CamelSpiderBundle\Entity\RawNews $rawnews)
     {
@@ -387,7 +427,7 @@ class News
     /**
      * Get rawnews
      *
-     * @return Gpupo\CamelSpiderBundle\Entity\RawNews 
+     * @return Gpupo\CamelSpiderBundle\Entity\RawNews
      */
     public function getRawnews()
     {
@@ -397,7 +437,9 @@ class News
     /**
      * Add tags
      *
-     * @param Gpupo\CamelSpiderBundle\Entity\NewsTag $tags
+     * @param Gpupo\CamelSpiderBundle\Entity\NewsTag $tags Tags array
+     *
+     * @return void
      */
     public function addNewsTag(\Gpupo\CamelSpiderBundle\Entity\NewsTag $tags)
     {
@@ -407,7 +449,7 @@ class News
     /**
      * Get tags
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getTags()
     {

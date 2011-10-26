@@ -12,7 +12,7 @@ class NewsType extends AbstractType
         $builder
             ->add('title')
             ->add('uri')
-            ->add('slug')
+            ->add('slug', 'text', array('required'=>false))
             ->add('date', 'date', array('widget'=>'single_text'))
             ->add('annotation')
             ->add('content')

@@ -38,77 +38,77 @@ class Subscription implements InterfaceSubscription
      *
      * @ORM\Column(name="source_type", type="string", length=10)
      */
-    private $source_type;
+    private $sourceType;
 
     /**
      * @var string $source_domain
      *
      * @ORM\Column(name="source_domain", type="string", length=255)
      */
-    private $source_domain;
+    private $sourceDomain;
 
     /**
      * @var string $auth_info
      *
      * @ORM\Column(name="auth_info", type="string", length=255, nullable=true)
      */
-    private $auth_info;
+    private $authInfo;
 
     /**
      * @var string $uri_target
      *
      * @ORM\Column(name="uri_target", type="string", length=255)
      */
-    private $uri_target;
+    private $uriTarget;
 
     /**
      * @var string $max_depth
      *
      * @ORM\Column(name="max_depth", type="integer")
      */
-    private $max_depth;
+    private $maxDepth;
 
     /**
      * @var text $filters_contain
      *
      * @ORM\Column(name="filters_contain", type="text", nullable=true)
      */
-    private $filters_contain;
+    private $filtersContain;
 
     /**
      * @var text $filters_not_contain
      *
      * @ORM\Column(name="filters_not_contain", type="text", nullable=true)
      */
-    private $filters_not_contain;
+    private $filtersNotContain;
 
     /**
-     * @var datetime $created_by
+     * @var datetime $createdBy
      *
      * @ORM\Column(name="created_by", type="integer", nullable=true)
      */
-    private $created_by;
+    private $createdBy;
 
     /**
-     * @var datetime $created_at
+     * @var datetime $createdAt
      *
      * @ORM\Column(name="created_at", type="datetime")
      */
-    private $created_at;
+    private $createdAt;
 
     /**
-     * @var integer $updated_by
+     * @var integer $updatedBy
      *
      * @ORM\Column(name="updated_by", type="integer", nullable=true)
      */
-    private $updated_by;
+    private $updatedBy;
 
     /**
-     * @var datetime $updated_at
+     * @var datetime $updatedAt
      *
      * @ORM\Column(name="updated_at", type="datetime")
      */
-    private $updated_at;
+    private $updatedAt;
 
     /**
      * @var Doctrine\Common\Collections\ArrayCollection
@@ -117,41 +117,45 @@ class Subscription implements InterfaceSubscription
      */
     private $schedules;
 
+    /**
+     * Not stored status
+     * @var string
+     */
     private $status;
 
     /**
+     * Pre persist hook
+     *
      * @ORM\PrePersist
+     *
+     * @return void
      */
     public function prePersist()
     {
         if (!$this->getId()) {
-            $this->created_at = new \DateTime(date('Y-m-d H:m:s'));
+            $this->createdAt = new \DateTime(date('Y-m-d H:m:s'));
         }
-        $this->updated_at = new \DateTime(date('Y-m-d H:m:s'));
+        $this->updatedAt = new \DateTime(date('Y-m-d H:m:s'));
     }
 
     /**
+     * Pre update hook
+     *
      * @ORM\PreUpdate
+     *
+     * @return void
      */
     public function preUpdate()
     {
-        $this->updated_at = new \DateTime(date('Y-m-d H:m:s'));
+        $this->updatedAt = new \DateTime(date('Y-m-d H:m:s'));
     }
-
-    /**
-     * Magic method to conver the object to string
-     *
-     * @return string
-     */
-//    public function __toString()
-//    {
-//        return (string) $this->getName();
-//    }
 
     /**
      * Add schedules
      *
-     * @param Gpupo\CamelSpiderBundle\Entity\SubscriptionSchedule $schedule
+     * @param Gpupo\CamelSpiderBundle\Entity\SubscriptionSchedule $schedules The SubscriptionSchedule Object
+     *
+     * @return void
      */
     public function addSubscriptionSchedule(\Gpupo\CamelSpiderBundle\Entity\SubscriptionSchedule $schedules)
     {
@@ -172,15 +176,24 @@ class Subscription implements InterfaceSubscription
     /**
      * Set schedules
      *
+     * @param array $schedules Array of schedules
+     *
+     * @return void
      */
     public function setSchedules($schedules)
     {
         $this->schedules = $schedules;
-        foreach ($schedules as $schedule){
+        foreach ($schedules as $schedule) {
             $schedule->setSubscription($this);
         }
 
     }
+
+    /**
+     * The class constructor
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->schedules = new \Doctrine\Common\Collections\ArrayCollection();
@@ -199,7 +212,9 @@ class Subscription implements InterfaceSubscription
     /**
      * Set name
      *
-     * @param string $name
+     * @param string $name Name of subscription
+     *
+     * @return void
      */
     public function setName($name)
     {
@@ -219,264 +234,326 @@ class Subscription implements InterfaceSubscription
     /**
      * Set source_type
      *
-     * @param string $sourceType
+     * @param string $sourceType The Source Type
+     *
+     * @return void
      */
     public function setSourceType($sourceType)
     {
-        $this->source_type = $sourceType;
+        $this->sourceType = $sourceType;
     }
 
     /**
-     * Get source_type
+     * Get sourceType
      *
      * @return string
      */
     public function getSourceType()
     {
-        return $this->source_type;
+        return $this->sourceType;
     }
 
     /**
-     * Set source_domain
+     * Set sourceDomain
      *
-     * @param string $sourceDomain
+     * @param string $sourceDomain The Source Domain
+     *
+     * @return void
      */
     public function setSourceDomain($sourceDomain)
     {
-        $this->source_domain = $sourceDomain;
+        $this->sourceDomain = $sourceDomain;
     }
 
     /**
-     * Get source_domain
+     * Get sourceDomain
      *
      * @return string
      */
     public function getSourceDomain()
     {
-        return $this->source_domain;
+        return $this->sourceDomain;
     }
     /**
      * Set auth_info
      *
-     * @param string $authInfo
+     * @param string $authInfo The auth info
+     *
+     * @return void
      */
     public function setAuthInfo($authInfo)
     {
-        $this->auth_info = $authInfo;
+        $this->authInfo = $authInfo;
     }
 
     /**
-     * Get auth_info
+     * Get authInfo
      *
      * @return string
      */
     public function getAuthInfo()
     {
-        return $this->auth_info;
+        return $this->authInfo;
     }
 
     /**
-     * Set uri_target
+     * Set uriTarget
      *
-     * @param string $uriTarget
+     * @param string $uriTarget The uri target
+     *
+     * @return void
      */
     public function setUriTarget($uriTarget)
     {
-        $this->uri_target = $uriTarget;
+        $this->uriTarget = $uriTarget;
     }
 
     /**
-     * Get uri_target
+     * Get uriTarget
      *
      * @return string
      */
     public function getUriTarget()
     {
-        return $this->uri_target;
+        return $this->uriTarget;
     }
 
     /**
-     * Set max_depth
+     * Set maxDepth
      *
-     * @param integer $maxDepth
+     * @param integer $maxDepth The max depth
+     *
+     * @return void
      */
     public function setMaxDepth($maxDepth)
     {
-        $this->max_depth = $maxDepth;
+        $this->maxDepth = $maxDepth;
     }
 
     /**
-     * Get max_depth
+     * Get maxDepth
      *
      * @return integer
      */
     public function getMaxDepth()
     {
-        return $this->max_depth;
+        return $this->maxDepth;
     }
 
     /**
-     * Set filters_contain
+     * Set filtersDontain
      *
-     * @param text $filtersContain
+     * @param text $filtersContain The filters contain
+     *
+     * @return void
      */
     public function setFiltersContain($filtersContain)
     {
-        $this->filters_contain = $filtersContain;
+        $this->filtersContain = $filtersContain;
     }
 
     /**
-     * Get filters_contain
+     * Get filtersContain
      *
      * @return text
      */
     public function getFiltersContain()
     {
-        return $this->filters_contain;
+        return $this->filtersContain;
     }
 
     /**
-     * Set filters_not_contain
+     * Set filtersNotNontain
      *
-     * @param text $filtersNotContain
+     * @param text $filtersNotContain The filters NOT contain
+     *
+     * @return void
      */
     public function setFiltersNotContain($filtersNotContain)
     {
-        $this->filters_not_contain = $filtersNotContain;
+        $this->filtersNotContain = $filtersNotContain;
     }
 
     /**
-     * Get filters_not_contain
+     * Get filtersNotContain
      *
      * @return text
      */
     public function getFiltersNotContain()
     {
-        return $this->filters_not_contain;
+        return $this->filtersNotContain;
     }
 
     /**
-     * Set created_by
+     * Set createdBy
      *
-     * @param integer $createdBy
+     * @param integer $createdBy Created By
+     *
+     * @return void
      */
     public function setCreatedBy($createdBy)
     {
-        $this->created_by = $createdBy;
+        $this->createdBy = $createdBy;
     }
 
     /**
-     * Get created_by
+     * Get createdBy
      *
      * @return integer
      */
     public function getCreatedBy()
     {
-        return $this->created_by;
+        return $this->createdBy;
     }
 
     /**
-     * Set created_at
+     * Set createdAt
      *
-     * @param datetime $createdAt
+     * @param datetime $createdAt Created At
+     *
+     * @return void
      */
     public function setCreatedAt($createdAt)
     {
-        $this->created_at = $createdAt;
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * Get created_at
+     * Get createdAt
      *
      * @return datetime
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**
-     * Set updated_by
+     * Set updatedBy
      *
-     * @param integer $updatedBy
+     * @param integer $updatedBy Updated By
+     *
+     * @return void
      */
     public function setUpdatedBy($updatedBy)
     {
-        $this->updated_by = $updatedBy;
+        $this->updatedBy = $updatedBy;
     }
 
     /**
-     * Get updated_by
+     * Get updatedBy
      *
      * @return integer
      */
     public function getUpdatedBy()
     {
-        return $this->updated_by;
+        return $this->updatedBy;
     }
 
     /**
-     * Set updated_at
+     * Set updatedAt
      *
-     * @param datetime $updatedAt
+     * @param datetime $updatedAt Updated At
+     *
+     * @return void
      */
     public function setUpdatedAt($updatedAt)
     {
-        $this->updated_at = $updatedAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
-     * Get updated_at
+     * Get updatedAt
      *
      * @return datetime
      */
     public function getUpdatedAt()
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
-
 
     /* Implementing interface */
 
+    /**
+     * Default return to the object
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->getName();
     }
 
-
+    /**
+     * Set the status
+     *
+     * @param string $x The status of the subscription
+     *
+     * @return void
+     */
     public function setStatus($x)
     {
         return $this->status = $x;
     }
 
+    /**
+     * Returns an array from a value by exploding
+     *
+     * @param string $x   String to explode
+     * @param string $sep The separator (default to comma)
+     *
+     * @return array
+     */
     private function _explode($x, $sep=',')
     {
-        if(strpos($sep, $x) === true) {
+        if (strpos($sep, $x) === true) {
             return explode($sep, $x);
-        }
-        else
-        {
+        } else {
             return array($x);
         }
     }
 
+    /**
+     * Get the domain in array
+     *
+     * @return array
+     */
     public function getDomain()
     {
         return $this->_explode($this->getSourceDomain());
     }
 
+    /**
+     * Get Href
+     *
+     * @return string
+     */
     public function getHref()
     {
         return $this->getUriTarget();
     }
 
+    /**
+     * Get the filters array
+     *
+     * @return array
+     */
     public function getFilters()
     {
-        return $this->get('filters');
+        return array(
+            'contain'     => $this->getFilter('contain'),
+            'notCcontain' => $this->getFilter('notCcontain'),
+        );
+
+
     }
 
     /**
+     * Returns the filter by type
+     *
      * @param string $type contain|notContain
+     *
+     * @return array
      */
     public function getFilter($type)
     {
@@ -484,6 +561,7 @@ class Subscription implements InterfaceSubscription
             case 'not_contain':
             case 'not contain':
             case 'notcontain':
+            case 'notContain':
                 return $this->_explode($this->getFiltersNotContain(), PHP_EOL);
                 break;
 
@@ -494,43 +572,83 @@ class Subscription implements InterfaceSubscription
         }
     }
 
+    /**
+     * Get Domain string
+     *
+     * @return string
+     */
     public function getDomainString()
     {
-        return implode(',', $this->getDomain());
+        return $this->getSourceDomain();
     }
 
+    /**
+     * Get the link by Hash
+     *
+     * @param string $sha1 Link Hash
+     *
+     * @return string
+     */
     public function getLink($sha1)
     {
         //make somethin cool with your DB!
         return false;
     }
 
+    /**
+     * Check if work is done
+     *
+     * @return boolean
+     */
     public function isDone()
     {
         return true;
     }
 
+    /**
+     * Check if work is waiting
+     *
+     * @return boolean
+     */
     public function isWaiting()
     {
         return false;
     }
 
+    /**
+     * Return toMinimal
+     *
+     * @return Gpupo\CamelSpiderBundle\Entity\Subscription
+     */
     public function toMinimal()
     {
         return $this;
     }
 
+    /**
+     * Check if the domain exists in Source Domain
+     *
+     * @param strings $str Domain to check
+     *
+     * @return boolean
+     */
     protected function inDomain($str)
     {
-        foreach($this->getSourceDomain() as $domain)
-        {
-            if(stripos($str, $domain))
-            {
-                    return true;
+        foreach ($this->getSourceDomain() as $domain) {
+            if (stripos($str, $domain)) {
+                return true;
             }
         }
+        return false;
     }
 
+    /**
+     * Inside Scope
+     *
+     * @param Link $link The link object
+     *
+     * @return CamelSpider\Entity\Link
+     */
     public function insideScope(Link $link)
     {
         if (
@@ -542,6 +660,5 @@ class Subscription implements InterfaceSubscription
 
         return true;
     }
-
 
 }

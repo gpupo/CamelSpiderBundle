@@ -2,19 +2,27 @@
 namespace Gpupo\CamelSpiderBundle;
 use CamelSpider\Spider\Indexer,
     CamelSpider\Entity\FactorySubscription,
-    CamelSpider\Spider\SpiderElements;
-class Launcher 
+    CamelSpider\Spider\SpiderElements,
+    Symfony\Bundle\DoctrineBundle\Registry;
+
+class Launcher
 {
-    protected $indexer; 
+    protected $indexer;
 
     protected $logger;
-    
-    public function __construct(Indexer $indexer, $logger)
+
+    /**
+     * @var Symfony\Bundle\DoctrineBundle\Registry
+     */
+    protected $doctrineRegistry;
+
+    public function __construct(Indexer $indexer, $logger, Registry $doctrineRegistry)
     {
         $this->indexer = $indexer;
 
         $this->logger = $logger;
 
+        $this->doctrineRegistry = $doctrineRegistry;
     }
 
 	protected function logger($string, $type = 'info')
@@ -26,7 +34,7 @@ class Launcher
     {
         return FactorySubscription::buildCollectionFromDomain(
             array(
-                //'economia.estadao.com.br', 
+                //'economia.estadao.com.br',
                 'noticias.terra.com.br'
                 //,'www.uol.com.br'
             )
@@ -42,15 +50,18 @@ class Launcher
     {
         if(!$collection)
         {
-            //Tests only. 
-            $this->logger('Using subscriptions samples', 'err');
-            $collection = $this->getSampleSubscriptions();
+            $collection = $this->doctrineRegistry
+                            ->getRepository('GpupoCamelSpiderBundle:Subscription')
+                            ->findBy();
+            //Tests only.
+            $this->logger('Gets subscription data', 'err');
+            //$collection = $this->getSampleSubscriptions();
         }
 
         foreach($collection as $subscription)
         {
             $this->logger(
-                'Checking updates fo the subscription [' 
+                'Checking updates fo the subscription ['
                 . $subscription->getHref()
             );
             try{
@@ -61,6 +72,6 @@ class Launcher
                 $this->logger($e->getMessage(), 'err');
             }
         }
-    }	
+    }
 }
- 
+
