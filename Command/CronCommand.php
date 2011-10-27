@@ -19,10 +19,8 @@ class CronCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-	
-	    $launcher = $this->getContainer()->get('camel_spider.launcher');
-	    $r = $launcher->checkUpdates();
-		
+        $launcher = $this->getContainer()->get('camel_spider.launcher');
+        $r = $launcher->checkUpdates();
         $output->writeln($r);
     }
 }

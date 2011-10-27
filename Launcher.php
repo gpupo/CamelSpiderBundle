@@ -43,8 +43,10 @@ class Launcher
         //var_dump($elements);
         //$this->logger('Process update' . print_r($elements, true), 'info');
         foreach ($elements as $l) {
+
+            var_dump($l);
             //pegando o objeto Link que foi serializado:
-            $link = $this->cache->getObject($l->getId()); //id do link ( sha1 da url )
+            //$link = $this->cache->getObject($l->getId()); //id do link ( sha1 da url )
             //salvar raw...
             //
             //verificar relevancia ...
@@ -75,7 +77,7 @@ class Launcher
             }
             catch (\Exception $e)
             {
-                $this->logger($e->getMessage(), 'err');
+                $this->logger('Indexer Exception:' . $e->getMessage(), 'err');
             }
         }
     }

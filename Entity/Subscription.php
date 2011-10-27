@@ -217,12 +217,28 @@ class Subscription implements InterfaceSubscription
     /**
      * Get id
      *
-     * @return integer
+     * @param string $mode interger or string
+     * @return integer default but can return string for Pool colllection
      */
-    public function getId()
+    public function getId($mode='integer')
     {
-        return $this->id;
+        if ($mode == 'string') {
+            return $this->getHash();
+        } else {
+            return $this->id;
+        }
     }
+
+    /**
+     * Get sha1 for Zend_Cache key
+     *
+     * @return string
+     */
+    public function getHash()
+    {
+        return sha1($this->getHref());
+    }
+
 
     /**
      * Set name
