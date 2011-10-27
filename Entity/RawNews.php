@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Gpupo\CamelSpiderBundle\Entity\NewsSource
+ * Gpupo\CamelSpiderBundle\Entity\RawNews
  *
  * @ORM\Table(name="raw_news")
  * @ORM\Entity(repositoryClass="Gpupo\CamelSpiderBundle\Entity\RawNewsRepository")
