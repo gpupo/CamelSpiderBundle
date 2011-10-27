@@ -6,6 +6,7 @@ use CamelSpider\Spider\Indexer,
     CamelSpider\Entity\Pool,
     CamelSpider\Entity\Link,
     CamelSpider\Entity\Document,
+    CamelSpider\Entity\InterfaceSubscription,
     Symfony\Bundle\DoctrineBundle\Registry;
 
 class Launcher
@@ -40,7 +41,7 @@ class Launcher
         );
     }
 
-    protected function processUpdates(array $links)
+    protected function processUpdates(array $links, InterfaceSubscription $subscription)
     {
         //var_dump($links);
         $this->logger('Process update Links count:' . count($links), 'info');
@@ -58,7 +59,11 @@ class Launcher
                         echo "#" . $document['title'];
                         echo "\n";
                         echo $document['text'];
+                        echo "\n\n\t-Relevancy:" . $document['relevancy'];
+                        echo "\n\t-Href:" . $link->getHref();
                         echo "\n\n\n\n-----\n\n\n";
+
+
                     }
 
                 } else {
@@ -84,9 +89,13 @@ class Launcher
 
         foreach($collection as $subscription)
         {
+            if (!$subscription instanceof InterfaceSubscription) {
+                throw new \Exception ("Subscription need implement InterfaceSubscription");
+            }
+
             $this->logger('Checking updates for the subscription [' . $subscription->getHref() . ']');
             try{
-                $this->processUpdates($this->indexer->run($subscription));
+                $this->processUpdates($this->indexer->run($subscription), $subscription);
             }
             catch (\Exception $e)
             {

@@ -584,6 +584,18 @@ class Subscription implements InterfaceSubscription
     }
 
     /**
+     * normalize espaces after commas
+     *
+     * @param string $x   String to explode
+     *
+     * @return string
+     */
+    public function normalize($x)
+    {
+        return str_replace(array(' ,', ', '), array(',',','), $x);
+    }
+
+    /**
      * Returns an array from a value by exploding
      *
      * @param string $x   String to explode
@@ -591,10 +603,10 @@ class Subscription implements InterfaceSubscription
      *
      * @return array
      */
-    private function _explode($x, $sep=',')
+    public function _explode($x, $sep=',')
     {
-        if (strpos($sep, $x) === true) {
-            return explode($sep, $x);
+        if (strpos($x, $sep) !== false) {
+            return explode($sep, $this->normalize($x));
         } else {
             return array($x);
         }
@@ -639,12 +651,12 @@ class Subscription implements InterfaceSubscription
             case 'not contain':
             case 'notcontain':
             case 'notContain':
-                return $this->_explode($this->getFiltersNotContain(), PHP_EOL);
+                return $this->_explode($this->getFiltersNotContain());
                 break;
 
             case 'contain':
             default:
-                return $this->_explode($this->getFiltersContain(), PHP_EOL);
+                return $this->_explode($this->getFiltersContain());
                 break;
         }
     }
