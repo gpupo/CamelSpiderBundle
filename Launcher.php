@@ -54,15 +54,14 @@ class Launcher
                     //salvar raw...
                     //verificar relevancia ...
                     if ($document['relevancy'] > 2) {
-                        //salvar noticia
+                     /* salvar noticia, com valores:
 
-                        echo "#" . $document['title'];
-                        echo "\n";
-                        echo $document['text'];
-                        echo "\n\n\t-Relevancy:" . $document['relevancy'];
-                        echo "\n\t-Href:" . $link->getHref();
-                        echo "\n\n\n\n-----\n\n\n";
+                        $document['title'];
+                        $document['text'];
+                        $document['relevancy'];
+                        $link->getHref();
 
+                     */
 
                     }
 
