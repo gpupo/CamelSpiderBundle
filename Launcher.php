@@ -3,7 +3,9 @@ namespace Gpupo\CamelSpiderBundle;
 use CamelSpider\Spider\Indexer,
     CamelSpider\Spider\InterfaceCache,
     CamelSpider\Entity\FactorySubscription,
-    CamelSpider\Spider\Pool,
+    CamelSpider\Entity\Pool,
+    CamelSpider\Entity\Link,
+    CamelSpider\Entity\Document,
     Symfony\Bundle\DoctrineBundle\Registry;
 
 class Launcher
@@ -14,7 +16,9 @@ class Launcher
 
     protected $cache;
 
-    public function __construct(Indexer $indexer, InterfaceCache $cache, $logger, Registry $doctrineRegistry)
+    protected $doctrineRegistry;
+
+    public function __construct(Indexer $indexer, InterfaceCache $cache, $logger, Registry $doctrineRegistry = null)
     {
         $this->indexer = $indexer;
         $this->cache = $cache;
@@ -31,49 +35,58 @@ class Launcher
     {
         return FactorySubscription::buildCollectionFromDomain(
             array(
-                //'economia.estadao.com.br',
                 'noticias.terra.com.br'
-                //,'www.uol.com.br'
             )
         );
     }
 
-    protected function processUpdates(Pool $elements)
+    protected function processUpdates(array $links)
     {
-        //var_dump($elements);
-        //$this->logger('Process update' . print_r($elements, true), 'info');
-        foreach ($elements as $l) {
+        //var_dump($links);
+        $this->logger('Process update Links count:' . count($links), 'info');
+        foreach ($links as $l) {
+            if ($l instanceof Link) {
+                //pegando o objeto Link que foi serializado:
+                $link = $this->cache->getObject($l->getId('string')); //id do link ( sha1 da url )
+                $document =  $link->getDocument();
+                if (is_array($document)) {
+                    //salvar raw...
+                    //verificar relevancia ...
+                    if ($document['relevancy'] > 2) {
+                        //salvar noticia
 
-            var_dump($l);
-            //pegando o objeto Link que foi serializado:
-            //$link = $this->cache->getObject($l->getId()); //id do link ( sha1 da url )
-            //salvar raw...
-            //
-            //verificar relevancia ...
-            //
-            //
-            //salvar noticia
+                        echo "#" . $document['title'];
+                        echo "\n";
+                        echo $document['text'];
+                        echo "\n\n\n\n-----\n\n\n";
+                    }
+
+                } else {
+                    $this->logger('Object wrong, on processUpdates. Array Expected!', 'err');
+                }
+            } else {
+                $this->logger('Object wrong, on processUpdates. Link expected!', 'err');
+            }
         }
     }
 
     public function checkUpdates($collection = NULL)
     {
-        if(!$collection)
-        {
-            $collection = $this->doctrineRegistry
-                            ->getRepository('GpupoCamelSpiderBundle:Subscription')
-                            ->findBy(array('isActive'=> true));
-            //Tests only.
+        if (!$this->doctrineRegistry) {
+             //Tests only.
             $this->logger('Gets subscription data from database', 'info');
-            //$collection = $this->getSampleSubscriptions();
+            $collection = $this->getSampleSubscriptions();
+        } else {
+            $collection = $this->doctrineRegistry
+                ->getRepository('GpupoCamelSpiderBundle:Subscription')
+                ->findBy(array('isActive'=> true));
         }
 
         foreach($collection as $subscription)
         {
             $this->logger('Checking updates for the subscription [' . $subscription->getHref() . ']');
             try{
-                $this->indexer->run($subscription);
-                //$this->processUpdates($this->indexer->run($subscription));
+                $this->processUpdates($this->indexer->run($subscription));
             }
             catch (\Exception $e)
             {
