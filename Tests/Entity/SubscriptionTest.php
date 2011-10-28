@@ -34,8 +34,19 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase {
             array('type, fire, mass,detected', 'type,fire,mass,detected', 4),
             array('type, fire ,mass, detected', 'type,fire,mass,detected', 4),
             array('type,fire,mass,detected', 'type,fire,mass,detected', 4),
+            array($this->getText(), 'Seasonality,according,history,is about,Phrase Aplha', 5),
 
         );
     }
 
+    public function getText()
+    {
+        return <<<EOF
+            Seasonality
+            according
+            history
+            is about
+            Phrase Aplha
+EOF;
+    }
 }

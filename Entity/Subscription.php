@@ -592,7 +592,17 @@ class Subscription implements InterfaceSubscription
      */
     public function normalize($x)
     {
-        return str_replace(array(' ,', ', '), array(',',','), $x);
+        $i = 0;
+
+        $x = str_replace(PHP_EOL, ',', $x);
+        $x = str_replace(array("\r", "\r\n", "\n"), '', $x);
+        while ($i < 10) {
+            $x = str_replace('  ', ' ',  $x);
+            $i++;
+        }
+        $x = trim(str_replace(array(' ,', ', '), ',',  $x));
+
+        return $x;
     }
 
     /**
@@ -605,10 +615,11 @@ class Subscription implements InterfaceSubscription
      */
     public function _explode($x, $sep=',')
     {
-        if (strpos($x, $sep) !== false) {
-            return explode($sep, $this->normalize($x));
+        $x = trim($x);
+        if (strpos($x, $sep) === false && strpos($x, PHP_EOL) === false) {
+            return array($x); //only one string;
         } else {
-            return array($x);
+            return explode($sep, $this->normalize($x));
         }
     }
 

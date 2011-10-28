@@ -54,6 +54,7 @@ class Launcher
                     //salvar raw...
                     //verificar relevancia ...
                     if ($document['relevancy'] > 2) {
+                        echo "\n*" . $document['title'] . "\n";
                      /* salvar noticia, com valores:
 
                         $document['title'];
