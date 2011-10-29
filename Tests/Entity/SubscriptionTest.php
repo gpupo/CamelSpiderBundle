@@ -30,6 +30,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase {
     public function providerKeywords()
     {
         return array(
+            array('apple', 'apple', 1),
+            array($x = 'linux is not unix', $x, 1),
             array('type, fire, mass', 'type,fire,mass', 3),
             array('type, fire, mass,detected', 'type,fire,mass,detected', 4),
             array('type, fire ,mass, detected', 'type,fire,mass,detected', 4),
