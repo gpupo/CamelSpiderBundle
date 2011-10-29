@@ -1,7 +1,7 @@
 parameters:
     camel_spider.goutte.class: Goutte\Client
     camel_spider.cache.class: Gpupo\CamelSpiderBundle\Cache
-    camel_spider.feed_reader.class: Gpupo\CamelSpiderBundle\FeedReader
+    camel_spider.feed_reader.class: CamelSpider\Spider\FeedReader
     camel_spider.cache.dir: %kernel.cache_dir%/CamelSpider
     camel_spider.cache.lifetime_days: 1
     camel_spider.laucher.class: Gpupo\CamelSpiderBundle\Launcher
@@ -17,7 +17,7 @@ services:
         arguments: [@camel_spider.cache, @logger]
     camel_spider.indexer:
         class: %camel_spider.indexer.class%
-        arguments: [@camel_spider.goutte, @camel_spider.cache, @logger]
+        arguments: [@camel_spider.goutte, @camel_spider.cache, @camel_spider.feed_reader, @logger]
     camel_spider.launcher:
         class: %camel_spider.laucher.class%
-        arguments: [@camel_spider.indexer, @camel_spider.cache, @camel_spider.feed_reader, @logger, @doctrine]
+        arguments: [@camel_spider.indexer, @camel_spider.cache, @logger, @doctrine]

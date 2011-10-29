@@ -615,6 +615,10 @@ class Subscription implements InterfaceSubscription
      */
     public function _explode($x, $sep=',')
     {
+        if (is_null($x)) {
+            return null;
+        }
+
         $x = trim($x);
         if (strpos($x, $sep) === false && strpos($x, PHP_EOL) === false) {
             return array($x); //only one string;
