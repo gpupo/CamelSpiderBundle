@@ -1,0 +1,7 @@
+
+star_submit:
+    pattern:  /{id}/submit
+    defaults: { _controller: "GpupoCamelSpiderBundle:Stars:submit" }
+    requirements: { _method: post }
+
+
