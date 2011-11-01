@@ -73,7 +73,7 @@ class RawNews
     private $txt;
 
     /**
-     * @ORM\OneToOne(targetEntity="Subscription")
+     * @ORM\ManyToOne(targetEntity="Subscription")
      * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id")
      */
     private $subscription;

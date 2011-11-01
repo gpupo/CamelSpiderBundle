@@ -7,7 +7,10 @@ use CamelSpider\Spider\Indexer,
     CamelSpider\Entity\Link,
     CamelSpider\Entity\Document,
     CamelSpider\Entity\InterfaceSubscription,
-    Symfony\Bundle\DoctrineBundle\Registry;
+    Symfony\Bundle\DoctrineBundle\Registry,
+    Gpupo\CamelSpiderBundle\Entity\RawNews,
+    Gpupo\CamelSpiderBundle\Entity\News
+    ;
 
 class Launcher
 {
@@ -51,19 +54,52 @@ class Launcher
                 $link = $this->cache->getObject($l->getId('string')); //id do link ( sha1 da url )
                 $document =  $link->getDocument();
                 if (is_array($document)) {
+
+                    $manager = $this->doctrineRegistry->getEntityManager();
+
+                    $this->logger('Process update saving Raw: ' . $document['title'], 'info');
                     //salvar raw...
+                    try {
+                        $rawNews = new RawNews();
+                        $rawNews->setTitle($document['title']);
+                        $rawNews->setUri($link->getHref());
+                        $rawNews->setRelevancy($document['relevancy']);
+                        $rawNews->setDate(new \DateTime(date('Y-m-d'))); // Falta DATA
+                        $rawNews->setRawdata($document['raw']);
+                        $rawNews->setHtml($document['html'] . '');
+                        $rawNews->setTxt($document['text'] . '');
+                        $rawNews->setSubscription($subscription);
+                        $manager->persist($rawNews);
+                        $manager->flush();
+                    } catch (Exception $exc) {
+                        $this->logger('Process update saving Raw: ' . $exc->getTraceAsString());
+                    }
+
                     //verificar relevancia ...
                     if ($document['relevancy'] > 2) {
-                        echo "\n*" . $document['title'] . "\n";
+                        //echo "\n*" . $document['title'] . "\n";
                      /* salvar noticia, com valores:
-
                         $document['title'];
                         $document['text'];
                         $document['relevancy'];
                         $link->getHref();
-
                      */
-
+                        $this->logger('Process update saving News: ' . $document['title'], 'info');
+                        try {
+                            $news = new News();
+                            $news->setTitle($document['title']);
+                            $news->setUri($link->getHref());
+                            $news->setSlug('');
+                            $news->setDate(new \DateTime(date('Y-m-d'))); // Falta DATA
+                            $news->setAnnotation('');
+                            $news->setContent($document['text']);
+                            $news->setSubscription($subscription);
+                            $news->setRawnews($rawNews);
+                            $manager->persist($news);
+                            $manager->flush();
+                        } catch (Exception $exc) {
+                            $this->logger('Process update saving News: ' . $exc->getTraceAsString());
+                        }
                     }
 
                 } else {

@@ -66,7 +66,7 @@ class News
     private $content;
 
     /**
-     * @ORM\OneToOne(targetEntity="Subscription")
+     * @ORM\ManyToOne(targetEntity="Subscription")
      * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id")
      */
     private $subscription;
@@ -110,7 +110,6 @@ class News
      * @ORM\JoinTable(name="ref_news_tag")
      */
     private $tags;
-
 
     /**
      * The class constructor
@@ -455,4 +454,5 @@ class News
     {
         return $this->tags;
     }
+
 }
