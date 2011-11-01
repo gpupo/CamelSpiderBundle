@@ -4,4 +4,7 @@ stars_submit:
     defaults: { _controller: "GpupoCamelSpiderBundle:Stars:submit", _format: html}
     requirements: { _method: post}
 
+stars_test:
+    pattern:  /{news_id}/{rate}/test
+    defaults: { _controller: "GpupoCamelSpiderBundle:Stars:submitTest" }
 
