@@ -89,7 +89,7 @@ class Launcher
                             $news = new News();
                             $news->setTitle($document['title']);
                             $news->setUri($link->getHref());
-                            $news->setSlug('');
+                            $news->setSlug($document['slug']);
                             $news->setDate(new \DateTime(date('Y-m-d'))); // Falta DATA
                             $news->setAnnotation('');
                             $news->setContent($document['text']);
