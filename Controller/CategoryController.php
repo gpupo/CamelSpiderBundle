@@ -14,4 +14,24 @@ class CategoryController extends GeneratorController
         $this->loadGenerator($generator);
     }
 
+    protected function getRepository()
+    {
+        $this->configure();
+        $manager = $this->getDoctrine()->getEntityManager();
+        $repository = $manager->getRepository($this->generator->model);
+
+        return $repository;
+    }
+
+    /**
+     * make a sidebar menu component
+     */
+    public function getListAction($max = null)
+    {
+        $categories =  $this->getRepository()->findBy(array(), array('name' => 'ASC'));
+
+        return $this->render('GpupoCamelSpiderBundle:Category:menu.html.twig', array('categories' => $categories));
+    }
+
+
 }
