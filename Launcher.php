@@ -120,7 +120,7 @@ class Launcher
         } else {
             $collection = $this->doctrineRegistry
                 ->getRepository('GpupoCamelSpiderBundle:Subscription')
-                ->findBy(array('isActive'=> true));
+                ->findByActiveSubscriptions();
         }
 
         foreach($collection as $subscription)

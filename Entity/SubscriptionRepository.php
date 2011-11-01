@@ -12,4 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class SubscriptionRepository extends EntityRepository
 {
+    public function findByActiveSubscriptions()
+    {
+        return $this->findBy(array('isActive'=> true));
+    }
 }
