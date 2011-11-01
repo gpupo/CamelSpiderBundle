@@ -1,0 +1,30 @@
+category:
+    pattern:  /
+    defaults: { _controller: "GpupoCamelSpiderBundle:Category:index" }
+
+category_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "GpupoCamelSpiderBundle:Category:show" }
+
+category_new:
+    pattern:  /new
+    defaults: { _controller: "GpupoCamelSpiderBundle:Category:new" }
+
+category_create:
+    pattern:  /create
+    defaults: { _controller: "GpupoCamelSpiderBundle:Category:create" }
+    requirements: { _method: post }
+
+category_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "GpupoCamelSpiderBundle:Category:edit" }
+
+category_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "GpupoCamelSpiderBundle:Category:update" }
+    requirements: { _method: post }
+
+category_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "GpupoCamelSpiderBundle:Category:delete" }
+    requirements: { _method: post }

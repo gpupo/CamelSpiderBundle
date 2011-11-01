@@ -4,6 +4,7 @@ namespace Gpupo\CamelSpiderBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Gpupo\CamelSpiderBundle\Entity\CategoryRepository;
 
 class NewsType extends AbstractType
 {
@@ -11,6 +12,12 @@ class NewsType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('category', 'entity', array(
+                                'class' => 'Gpupo\\CamelSpiderBundle\\Entity\\Category',
+                                'query_builder' => function(CategoryRepository $er) {
+                                    return $er->createQueryBuilder('c')
+                                        ->orderBy('c.name', 'ASC');
+                                },))
             ->add('uri')
             ->add('slug', 'text', array('required'=>false))
             ->add('date', 'date', array('widget'=>'single_text'))
@@ -23,6 +30,7 @@ class NewsType extends AbstractType
             ->add('subscription')
             ->add('rawnews')
             ->add('tags')
+            ->add('moderation', 'choice', array('choices'=>array('PENDING'=>'PENDING','CONFIRMED'=>'CONFIRMED','CANCELED'=>'CANCELED')))
         ;
     }
 

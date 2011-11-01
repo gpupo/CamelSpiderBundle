@@ -14,6 +14,10 @@ GpupoCamelSpiderBundle_newstag:
     resource: "@GpupoCamelSpiderBundle/Resources/config/routing/newstag.yml"
     prefix:   /newstag
 
+GpupoCamelSpiderBundle_category:
+    resource: "@GpupoCamelSpiderBundle/Resources/config/routing/category.yml"
+    prefix:   /category
+
 GpupoCamelSpiderBundle_stars:
     resource: "@GpupoCamelSpiderBundle/Resources/config/routing/stars.yml"
     prefix:   /stars

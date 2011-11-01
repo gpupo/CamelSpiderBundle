@@ -12,12 +12,14 @@ class News extends Generator
 
         $fields  = array(
             'id'           => array('label' => 'ID'),
-            'title'        => array('label' => 'Title', 'size' => 'xlarge', 'help' => 'Título da notícia'),
+            'title'        => array('label' => 'Title', 'size' => 'xlarge', 'help' => 'News Title'),
+            'category'     => array('label' => 'Category', 'size' => 'medium', 'help' => 'News Category'),
             'uri'          => array('label' => 'URI', 'size' => 'xxlarge', 'help' => 'Full path to the subscription source'),
             'slug'         => array('label' => 'Slug', 'help' => 'URL short name'),
             'date'         => array('label' => 'Date', 'help' => 'News Date', 'class' => 'date'),
             'annotation'   => array('label' => 'Annotation', 'help' => 'Extra info about the news'),
             'content'      => array('label' => 'Content', 'help' => 'The content of the news'),
+            'moderation'   => array('label' => 'Moderation', 'size' => 'small', 'help' => 'Status of moderation'),
             'subscription' => array('label' => 'Subscription', 'help' => ''),
             'rawnews'      => array('label' => 'Raw News', 'help' => ''),
             'created_by'   => array('label' => 'Created By'),
@@ -33,10 +35,11 @@ class News extends Generator
             'display'         => array(
                                 'id',
                                 'title',
-                                'uri',
+                                //'uri',
                                 //'slug',
-                                'date',
+                                //'date',
                                 //'annotation',
+                                'moderation',
                                 //'subscription',
                                 //'rawnews',
                                 //'created_by',
@@ -49,7 +52,7 @@ class News extends Generator
             'stackedTemplate' => '<h3>{{ record.name  }}</h3>' .
                                  '<p class="details_fixed">URI: <strong>{{ record.uri }}</strong></p>',
             'sort'            => array(),
-            'max_per_page'    => 10,
+            'max_per_page'    => 20,
             'object_actions'  => array(),
             'batch_actions'   => array(),
         );
@@ -63,6 +66,7 @@ class News extends Generator
             'display'         => array(
                                 //'id',
                                 'title',
+                                'category',
                                 'uri',
                                 'slug',
                                 'date',
@@ -83,6 +87,7 @@ class News extends Generator
             'display'         => array(
                                 //'id',
                                 'title',
+                                'category',
                                 'uri',
                                 'slug',
                                 'date',
