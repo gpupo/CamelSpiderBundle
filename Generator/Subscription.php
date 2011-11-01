@@ -30,7 +30,7 @@ class Subscription extends Generator
         );
 
         $list = array(
-            'title'           => 'Listing Subscription',
+            'title'           => 'Listing Subscriptions',
             'method'          => 'findAll',
             'count_method'    => 'count',
             'display'         => array(

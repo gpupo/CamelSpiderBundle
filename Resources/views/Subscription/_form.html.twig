@@ -22,7 +22,7 @@ $('a.embeded_form_add').live('click', function(event){
                         {{ form_widget(form[fieldName], { 'attr': {'class': field.class ~ ' ' ~ field.size} }) }}
                         {% if field.help %}
                         <span class="help-block">
-                            {{ field.help }}
+                            {{ field.help | trans }}
                         </span>
                         {% endif %}
                     </div>
