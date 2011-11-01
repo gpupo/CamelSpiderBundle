@@ -220,7 +220,7 @@ class SubscriptionController extends GeneratorController
      */
     public function getListAction($max = null)
     {
-        $subscriptions =  $this->getRepository()->findBy(array('isActive'=> true));
+        $subscriptions =  $this->getRepository()->findBy(array('isActive'=> true), array('name' => 'ASC'));
 
         return $this->render('GpupoCamelSpiderBundle:Subscription:menu.html.twig', array('subscriptions' => $subscriptions));
     }
