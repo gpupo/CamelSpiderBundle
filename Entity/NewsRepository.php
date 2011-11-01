@@ -12,4 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class NewsRepository extends EntityRepository
 {
+    public function findByType($type, $id)
+    {
+        $method = 'findBy'. $type;
+
+        return $this->$method($id);
+    }
+
 }
