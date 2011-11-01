@@ -1,0 +1,7 @@
+<ul class="subscriptions menu">
+{% for s in subscriptions %}
+<li>
+    <div class="selector"><a href="/subscription/{{ s.id }}"><div class="selector-icon"></div><span class="text">{{ s.name }}</span></a></div>
+{% endfor %}
+</li>
+</ul>

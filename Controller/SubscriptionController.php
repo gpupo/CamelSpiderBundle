@@ -205,4 +205,14 @@ class SubscriptionController extends GeneratorController
         ));
     }
 
+
+    protected function getRepository()
+    {
+        $this->configure();
+        $manager = $this->getDoctrine()->getEntityManager();
+        $repository = $manager->getRepository($this->generator->model);
+
+        return $repository;
+    }
+
 }
