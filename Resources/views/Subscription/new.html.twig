@@ -20,8 +20,8 @@
         {{ form_row(form._token) }}
 
         <div class="actions">
-            <button type="submit" class="btn primary" name="form_save">{% trans %}Save{% endtrans %}</button>&nbsp;
-            <button type="submit" class="btn primary" name="form_save_and_add">{% trans %}Save and Add{% endtrans %}</button>&nbsp;
+            <button type="submit" class="btn primary" name="form_save" value="true">{% trans %}Save{% endtrans %}</button>&nbsp;
+            <button type="submit" class="btn primary" name="form_save_and_add" value="true">{% trans %}Save and Add{% endtrans %}</button>&nbsp;
             <a href="{{ path(generator.route) }}" class="btn">
                 {% trans %}Back to List{% endtrans %}
             </a>

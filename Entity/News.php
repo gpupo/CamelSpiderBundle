@@ -66,6 +66,13 @@ class News
     private $content;
 
     /**
+     * @var string $moderation
+     *
+     * @ORM\Column(name="moderation", type="string", length=255)
+     */
+    private $moderation;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Subscription")
      * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id")
      */
@@ -104,6 +111,11 @@ class News
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="newss")
+     */
+    private $category;
 
     /**
      * @ORM\ManyToMany(targetEntity="NewsTag", inversedBy="newss")
@@ -455,4 +467,44 @@ class News
         return $this->tags;
     }
 
+    /**
+     * Set moderation
+     *
+     * @param string $moderation
+     */
+    public function setModeration($moderation)
+    {
+        $this->moderation = $moderation;
+    }
+
+    /**
+     * Get moderation
+     *
+     * @return string
+     */
+    public function getModeration()
+    {
+        return $this->moderation;
+    }
+
+
+    /**
+     * Set category
+     *
+     * @param Gpupo\CamelSpiderBundle\Entity\Category $category
+     */
+    public function setCategory(\Gpupo\CamelSpiderBundle\Entity\Category $category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * Get category
+     *
+     * @return Gpupo\CamelSpiderBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
 }
