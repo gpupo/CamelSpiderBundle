@@ -88,6 +88,7 @@ class Launcher
                         try {
                             $news = new News();
                             $news->setTitle($document['title']);
+                            $news->setModeration('PENDING');
                             $news->setUri($link->getHref());
                             $news->setSlug($document['slug']);
                             $news->setDate(new \DateTime(date('Y-m-d'))); // Falta DATA

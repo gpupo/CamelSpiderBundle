@@ -118,7 +118,7 @@ class News
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="NewsTag", inversedBy="newss")
+     * @ORM\ManyToMany(targetEntity="NewsTag", inversedBy="newss", cascade={"all"})
      * @ORM\JoinTable(name="ref_news_tag")
      */
     private $tags;

@@ -47,7 +47,7 @@ class Category extends Generator
         );
 
         $new = array(
-            'title'   => "New News",
+            'title'   => "New Category",
             'display'         => array(
                                 //'id',
                                 'name',

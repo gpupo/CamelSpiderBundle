@@ -1,0 +1,69 @@
+## YAML Template.
+---
+no records: nenhum registro
+Subscriptions: Assinaturas
+News: Noticía
+Categories: Categorias
+Log: Registro
+
+Subscription: Assinatura
+Subscriptions: Assinaturas
+Listing Subscriptions: Lista de Assinaturas
+New Subscription: Nova Assinatura
+Editing Subscription: Editando Assinatura
+Viewing Subscription: Visualizando Assinatura
+Name: Nome
+The name of subscription: O nome da assinatura
+Type: Tipo
+The type of subscription - HTML, RSS or ATOM: O tipo da assinatura - HTML, RSS ou ATOM
+Domain: Domínio
+Domains to search for, comma separated: Domínios para pesquisar, separados por vírgula
+Href: Href
+Full path to the subscription source: Caminho completo até a fonte da assinatura
+Auth Info: Info de Autenticação
+Auth string to the subscription: String de autenticação da assinatura
+URI Target: URL Alvo
+Full path to the subscription auth target: Caminho completo até a URL da autenticação da assinatura
+Max Depth: Profundidade Máxima
+Levels of links to follow: Nível de links para seguir
+Filters CONTAIN: Filtros CONTÉM
+Words the news must contain - one per line: Palavras que a notícia deve conter - uma por linha
+Filters NOT CONTAIN: Filtros NÃO CONTÉM
+Words the news must NOT contain - one per line: Palavras que a notícia NÃO deve conter - uma por linha
+Is Active: É ativo
+Schedules: Horários
+Schedules to check for updates: Horários para checar por atualizações
+
+Category: Categoria
+Categories: Categorias
+Listing Categories: Lista de Categorias
+New Category: Nova Categoria
+Editing Category: Editando Categoria
+Viewing Category: Visualizando Categoria
+Category name: Nome da Categoria
+
+News: Noticía
+Newss: Notícias
+Listing News: Lista de Notícias
+New News: Nova Noticía
+Editing News: Editando Noticía
+Viewing News: Visualizando Noticía
+Title: Título
+News Title: Titulo da Notícia
+News Category: Categoria da Notícia
+Moderation: Moderação
+Status of moderation: Status da Moderação
+CANCELED: CANCELADO
+PENDING: PENDENTE
+CONFIRMED: CONFIRMADO
+URI: URI
+Full path to the news source: Caminho completo até a fonte da notícia
+Slug: Slug
+URL short name: Nome curto de URL
+Date: Data
+News Date: Data da notícia
+Content: Conteúdo
+The content of the news: Conteúdo da notícia
+Annotation: Anotação
+Extra info about the news: Informação extra sobre a notícia
+Raw News: Conteúdo Original
