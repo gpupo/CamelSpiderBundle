@@ -93,7 +93,7 @@ class Launcher
                             $news->setSlug($document['slug']);
                             $news->setDate(new \DateTime(date('Y-m-d'))); // Falta DATA
                             $news->setAnnotation('');
-                            $news->setContent($document['text']);
+                            $news->setContent($document['html']);
                             $news->setSubscription($subscription);
                             $news->setRawnews($rawNews);
                             $manager->persist($news);
