@@ -16,7 +16,7 @@ class NewsRepository extends EntityRepository
     {
         $method = 'findBy'. $type;
 
-        return $this->$method($id);
+        return $this->$method($id, array('created_at' => 'DESC'));
     }
 
 }
