@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gpupo\CamelSpiderBundle\Entity\SubscriptionSchedule;
 use CamelSpider\Entity\InterfaceSubscription;
 use CamelSpider\Entity\Link;
+use Funpar\AdminBundle\Entity\Log;
 
 
 /**
@@ -128,9 +129,16 @@ class Subscription implements InterfaceSubscription
     /**
      * @var Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="SubscriptionSchedule", mappedBy="subscription", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Funpar\AdminBundle\Entity\Log", mappedBy="subscription", cascade={"all"})
      */
     private $schedules;
+
+    /**
+     * @var Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="SubscriptionSchedule", mappedBy="subscription", cascade={"all"})
+     */
+    private $logs;
 
     /**
      * Not stored status
@@ -788,4 +796,25 @@ class Subscription implements InterfaceSubscription
         $this->$name = $value;
     }
 
+
+
+    /**
+     * Add schedules
+     *
+     * @param Funpar\AdminBundle\Entity\Log $schedules
+     */
+    public function addLog(\Funpar\AdminBundle\Entity\Log $schedules)
+    {
+        $this->schedules[] = $schedules;
+    }
+
+    /**
+     * Get logs
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getLogs()
+    {
+        return $this->logs;
+    }
 }
