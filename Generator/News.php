@@ -19,7 +19,7 @@ class News extends Generator
             'slug'         => array('label' => 'Slug', 'help' => 'URL short name'),
             'date'         => array('label' => 'Date', 'help' => 'News Date', 'class' => 'date', 'date_format' => 'd/m/Y H:i:s'),
             'annotation'   => array('label' => 'Annotation', 'help' => 'Extra info about the news'),
-            'content'      => array('label' => 'Content', 'help' => 'The content of the news'),
+            'content'      => array('label' => 'Content', 'help' => 'The content of the news', 'class' => 'richtext'),
             'subscription' => array('label' => 'Subscription', 'help' => ''),
             'rawnews'      => array('label' => 'Raw News', 'help' => ''),
             'created_by'   => array('label' => 'Created By'),
