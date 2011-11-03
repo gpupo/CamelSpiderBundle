@@ -9,7 +9,6 @@ use CamelSpider\Entity\InterfaceSubscription;
 use CamelSpider\Entity\Link;
 use Funpar\AdminBundle\Entity\Log;
 
-
 /**
  * Gpupo\CamelSpiderBundle\Entity\Subscription
  *
@@ -92,6 +91,20 @@ class Subscription implements InterfaceSubscription
     private $filtersNotContain;
 
     /**
+     * @var string $format
+     *
+     * @ORM\Column(name="format", type="string", length=255, nullable=true)
+     */
+    private $format;
+
+    /**
+     * @var string $encoding
+     *
+     * @ORM\Column(name="encoding", type="string", length=255, nullable=true)
+     */
+    private $encoding;
+
+    /**
      * @var datetime $createdBy
      *
      * @ORM\Column(name="created_by", type="integer", nullable=true)
@@ -145,6 +158,11 @@ class Subscription implements InterfaceSubscription
      * @var string
      */
     private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="subscriptions")
+     */
+    private $category;
 
     /**
      * Pre persist hook
@@ -811,10 +829,70 @@ class Subscription implements InterfaceSubscription
     /**
      * Get logs
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getLogs()
     {
         return $this->logs;
+    }
+
+    /**
+     * Set format
+     *
+     * @param string $format
+     */
+    public function setFormat($format)
+    {
+        $this->format = $format;
+    }
+
+    /**
+     * Get format
+     *
+     * @return string
+     */
+    public function getFormat()
+    {
+        return $this->format;
+    }
+
+    /**
+     * Set encoding
+     *
+     * @param string $encoding
+     */
+    public function setEncoding($encoding)
+    {
+        $this->encoding = $encoding;
+    }
+
+    /**
+     * Get encoding
+     *
+     * @return string
+     */
+    public function getEncoding()
+    {
+        return $this->encoding;
+    }
+
+    /**
+     * Set category
+     *
+     * @param Gpupo\CamelSpiderBundle\Entity\Category $category
+     */
+    public function setCategory(\Gpupo\CamelSpiderBundle\Entity\Category $category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * Get category
+     *
+     * @return Gpupo\CamelSpiderBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

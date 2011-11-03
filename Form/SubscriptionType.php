@@ -4,6 +4,7 @@ namespace Gpupo\CamelSpiderBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Gpupo\CamelSpiderBundle\Entity\CategoryRepository;
 
 class SubscriptionType extends AbstractType
 {
@@ -13,6 +14,14 @@ class SubscriptionType extends AbstractType
             ->add('name')
             ->add('source_type', 'choice', array('choices'=>array('html'=>'HTML','rss'=>'RSS','atom'=>'ATOM')))
             ->add('href')
+            ->add('category', 'entity', array(
+                                'class' => 'Gpupo\\CamelSpiderBundle\\Entity\\Category',
+                                'query_builder' => function(CategoryRepository $er) {
+                                    return $er->createQueryBuilder('c')
+                                        ->orderBy('c.name', 'ASC');
+                                },))
+            ->add('encoding', 'choice', array('choices'=>array('utf8'=>'UTF8','iso'=>'ISO')))
+            ->add('format', 'choice', array('choices'=>array('html'=>'HTML','txt'=>'TXT')))
             ->add('source_domain')
             ->add('auth_info', 'text', array('required'=>false))
             ->add('uri_target', 'text', array('required'=>false))

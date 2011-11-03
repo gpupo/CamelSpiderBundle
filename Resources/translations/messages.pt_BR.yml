@@ -33,6 +33,11 @@ Words the news must NOT contain - one per line: Palavras que a notícia NÃO dev
 Is Active: É ativo
 Schedules: Horários
 Schedules to check for updates: Horários para checar por atualizações
+Format: Formato
+Storing format (HTML or TXT): Formato de armazenamento (HTML ou TXT)
+Encoding:  Codificação
+Encoding format (UTF8 or ISO): Formato de codificação (UTF8 ou ISO)
+
 
 Category: Categoria
 Categories: Categorias
