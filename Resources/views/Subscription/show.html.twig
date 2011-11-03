@@ -30,7 +30,7 @@
                         <th>{% trans %}Thu{% endtrans %}</th>
                         <th>{% trans %}Fri{% endtrans %}</th>
                         <th>{% trans %}Sat{% endtrans %}</th>
-                        <th>{% trans %}Is active{% endtrans %}</th>
+                        <th>{% trans %}Is Active{% endtrans %}</th>
                     </tr>
               {% for schedule in record.schedules %}
                     <tr>
@@ -50,7 +50,14 @@
                 {% if field.date_format is defined %}
                     <p>{{ generator.renderField(fieldName, record) | date(field.date_format) }}</p>
                 {% else %}
-                    <p>{{ generator.renderField(fieldName, record) }}</p>
+                    {% set data = generator.renderField(fieldName, record) %}
+                    {% if field.raw is defined and  field.raw %}
+                        {% set data = data | raw %}
+                    {% endif %}
+                    {% if field.trans is defined and field.trans%}
+                        {% set data = data | trans %}
+                    {% endif %}
+                    <p>{{ data }}</p>
                 {% endif %}
             {% endif %}
             </div>

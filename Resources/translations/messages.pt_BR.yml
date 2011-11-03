@@ -37,7 +37,14 @@ Format: Formato
 Storing format (HTML or TXT): Formato de armazenamento (HTML ou TXT)
 Encoding:  Codificação
 Encoding format (UTF8 or ISO): Formato de codificação (UTF8 ou ISO)
-
+Time: Hora
+Sun: Dom
+Mon: Seg
+Tue: Ter
+Wed: Qua
+Thu: Qui
+Fri: Sex
+Sat: Sáb
 
 Category: Categoria
 Categories: Categorias
@@ -61,6 +68,8 @@ Status of moderation: Status da Moderação
 CANCELED: CANCELADO
 PENDING: PENDENTE
 CONFIRMED: CONFIRMADO
+APROVED: APROVADO
+REJECTED: REJEITADO
 URI: URI
 Full path to the news source: Caminho completo até a fonte da notícia
 Slug: Slug
