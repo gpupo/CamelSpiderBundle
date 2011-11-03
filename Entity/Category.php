@@ -36,11 +36,6 @@ class Category
     private $newss;
 
     /**
-     * @ORM\OneToMany(targetEntity="Subscription", mappedBy="category")
-     */
-    private $subscriptions;
-
-    /**
      * Magic method to conver the object to string
      *
      * @return string
@@ -102,25 +97,5 @@ class Category
     public function getNewss()
     {
         return $this->newss;
-    }
-
-    /**
-     * Add subscriptions
-     *
-     * @param Gpupo\CamelSpiderBundle\Entity\Subscription $subscriptions
-     */
-    public function addSubscription(\Gpupo\CamelSpiderBundle\Entity\Subscription $subscriptions)
-    {
-        $this->subscriptions[] = $subscriptions;
-    }
-
-    /**
-     * Get subscriptions
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getSubscriptions()
-    {
-        return $this->subscriptions;
     }
 }

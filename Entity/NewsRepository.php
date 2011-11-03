@@ -12,11 +12,29 @@ use Doctrine\ORM\EntityRepository;
  */
 class NewsRepository extends EntityRepository
 {
-    public function findByType($type, $id)
-    {
-        $method = 'findBy'. $type;
 
-        return $this->$method($id, array('created_at' => 'DESC'));
+    public function queryBuilder($limits = array('offset' => 0,'limit' => 50))
+    {
+        $qb = $this->createQueryBuilder('a');
+        $qb->where('a.moderation = :moderation')
+            ->add('orderBy', 'a.createdAt DESC')
+            ->setFirstResult($limits['offset'])
+            ->setMaxResults($limits['limit'])
+            ->setParameters(array('moderation' => 'APROVED'));
+        return $qb;
     }
 
+    public function findLatest()
+    {
+
+        return $this->queryBuilder()->getQuery();
+    }
+
+    public function findByType($type, $id)
+    {
+        $q = $this->queryBuilder();
+        $q->andWhere('a.'.strtolower($type) . ' = :tid')
+            ->setParameter('tid', $id);
+        return $q->getQuery();
+    }
 }
