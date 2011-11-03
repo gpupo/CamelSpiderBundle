@@ -13,7 +13,7 @@
 
     <form action="{{ path(generator.route ~ '_update', { 'id': record.id }) }}" method="post" {{ form_enctype(form) }}>
 
-        {% for fieldName, field in generator.newDisplayFields %}
+        {% for fieldName, field in generator.editDisplayFields %}
             {% block form %}{% endblock %}
             {% include 'GpupoCamelSpiderBundle:Subscription:_form.html.twig' %}
         {% endfor %}

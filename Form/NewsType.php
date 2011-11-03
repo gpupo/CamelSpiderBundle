@@ -30,7 +30,7 @@ class NewsType extends AbstractType
             ->add('subscription')
             ->add('rawnews')
             ->add('tags')
-            ->add('moderation', 'choice', array('choices'=>array('PENDING'=>'PENDING','CONFIRMED'=>'CONFIRMED','CANCELED'=>'CANCELED')))
+            ->add('moderation', 'choice', array('choices'=>array('PENDING'=>'PENDING','APROVED'=>'APROVED','REJECTED'=>'REJECTED')))
         ;
     }
 

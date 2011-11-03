@@ -64,7 +64,7 @@ class Launcher
                         $rawNews->setTitle($document['title']);
                         $rawNews->setUri($link->getHref());
                         $rawNews->setRelevancy($document['relevancy']);
-                        $rawNews->setDate(new \DateTime(date('Y-m-d'))); // Falta DATA
+                        $rawNews->setDate(new \DateTime(date("now"))); // Falta DATA
                         $rawNews->setRawdata($document['raw']);
                         $rawNews->setHtml($document['html'] . '');
                         $rawNews->setTxt($document['text'] . '');
@@ -88,12 +88,16 @@ class Launcher
                         try {
                             $news = new News();
                             $news->setTitle($document['title']);
+                            $news->setCategory($subscription->getCategory());
                             $news->setModeration('PENDING');
                             $news->setUri($link->getHref());
                             $news->setSlug($document['slug']);
                             $news->setDate(new \DateTime(date('Y-m-d'))); // Falta DATA
                             $news->setAnnotation('');
+<<<<<<< HEAD
                             //pegar preferencia da assinatura, se txt ou html
+=======
+>>>>>>> 6df5caa54a8f6874f773e569033d73e643668b1f
                             $news->setContent($document['html']);
                             $news->setSubscription($subscription);
                             $news->setRawnews($rawNews);

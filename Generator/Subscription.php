@@ -13,6 +13,9 @@ class Subscription extends Generator
         $fields  = array(
             'id'                  => array('label' => 'ID'),
             'name'                => array('label' => 'Name', 'size' => 'xlarge', 'help' => 'The name of subscription'),
+            'format'              => array('label' => 'Format', 'size' => 'medium', 'help' => 'Storing format (HTML or TXT)'),
+            'encoding'            => array('label' => 'Encoding', 'size' => 'medium', 'help' => 'Encoding format (UTF8 or ISO)'),
+            'category'            => array('label' => 'Category', 'size' => 'medium', 'help' => 'Default category to register on news'),
             'source_type'         => array('label' => 'Type', 'size' => 'small', 'help' => 'The type of subscription - HTML, RSS or ATOM'),
             'source_domain'       => array('label' => 'Domain', 'size' => 'xxlarge', 'help' => 'Domains to search for, comma separated'),
             'href'                => array('label' => 'Href', 'size' => 'xxlarge', 'help' => 'Full path to the subscription source'),
@@ -68,6 +71,9 @@ class Subscription extends Generator
             'display'         => array(
                                 //'id',
                                 'name',
+                                'format',
+                                'encoding',
+                                'category',
                                 'source_type',
                                 'source_domain',
                                 'href',
@@ -87,6 +93,10 @@ class Subscription extends Generator
             'display'         => array(
                                 //'id',
                                 'name',
+                                'format',
+                                'encoding',
+                                'category',
+                                'category',
                                 'source_type',
                                 'source_domain',
                                 'href',
@@ -106,6 +116,9 @@ class Subscription extends Generator
             'display'         => array(
                                 //'id',
                                 'name',
+                                'format',
+                                'encoding',
+                                'category',
                                 'source_type',
                                 'source_domain',
                                 'href',
