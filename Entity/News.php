@@ -2,8 +2,9 @@
 
 namespace Gpupo\CamelSpiderBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM,
+    Symfony\Component\Validator\Constraints as Assert,
+    CamelSpider\Spider\SpiderDom;
 
 /**
  * Gpupo\CamelSpiderBundle\Entity\News
@@ -315,15 +316,7 @@ class News
 
     public function getContentToPdf()
     {
-        $allow = '<p><a><img><span><em>';
-        $content = strip_tags($this->getContent(), $allow);
-        $content = str_replace('&nbsp;', '', $content);
-
-        preg_match_all("/<([^>]+)>/i",$allow,$tags,PREG_PATTERN_ORDER);
-
-        foreach ($tags[1] as $tag){
-            $content = preg_replace("/<".$tag."[^>]*>/i","<".$tag.">",$content);
-        }
+        $content = SpiderDom::strip_tags($this->getContent(), '<p><a><img><span><em><b>');
 
         return $content;
     }
