@@ -314,6 +314,13 @@ class News
         return $this->content;
     }
 
+    public function getContentIntro()
+    {
+        $content = SpiderDom::htmlToIntro($this->getContent(), 200);
+
+        return $content;
+    }
+
     public function getContentToPdf()
     {
         $content = SpiderDom::strip_tags($this->getContent(), '<p><a><img><span><em><b>');
