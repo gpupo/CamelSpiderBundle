@@ -313,6 +313,21 @@ class News
         return $this->content;
     }
 
+    public function getContentToPdf()
+    {
+        $allow = '<p><a><img><span><em>';
+        $content = strip_tags($this->getContent(), $allow);
+        $content = str_replace('&nbsp;', '', $content);
+
+        preg_match_all("/<([^>]+)>/i",$allow,$tags,PREG_PATTERN_ORDER);
+
+        foreach ($tags[1] as $tag){
+            $content = preg_replace("/<".$tag."[^>]*>/i","<".$tag.">",$content);
+        }
+
+        return $content;
+    }
+
     /**
      * Set createdBy
      *
