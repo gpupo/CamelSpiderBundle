@@ -6,14 +6,14 @@ News: Noticía
 Categories: Categorias
 Log: Registro
 
-Subscription: Assinatura
-Subscriptions: Assinaturas
-Listing Subscriptions: Lista de Assinaturas
-New Subscription: Nova Assinatura
-Editing Subscription: Editando Assinatura
-Viewing Subscription: Visualizando Assinatura
+Subscription: Fonte
+Subscriptions: Fontes
+Listing Subscriptions: Lista de Fontes de conteúdo
+New Subscription: Nova Fonte de conteúdo
+Editing Subscription: Editando fonte
+Viewing Subscription: Visualizando fonte
 Name: Nome
-The name of subscription: O nome da assinatura
+The name of subscription: O nome da fonte
 Type: Tipo
 The type of subscription - HTML, RSS or ATOM: O tipo da assinatura - HTML, RSS ou ATOM
 Domain: Domínio
