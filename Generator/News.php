@@ -18,7 +18,7 @@ class News extends Generator
             'uri'          => array('label' => 'URI', 'size' => 'xxlarge', 'help' => 'Full path to the news source'),
             'slug'         => array('label' => 'Slug', 'help' => 'URL short name'),
             'date'         => array('label' => 'Date', 'help' => 'News Date', 'class' => 'date', 'date_format' => 'd/m/Y'),
-            'annotation'   => array('label' => 'Annotation', 'help' => 'Extra info about the news'),
+            'annotation'   => array('label' => 'Annotation', 'help' => 'Extra info about the news', 'class' => 'span12'),
             'content'      => array('label' => 'Content', 'help' => 'The content of the news', 'class' => 'richtext', 'raw' => true),
             'subscription' => array('label' => 'Subscription', 'help' => ''),
             'rawnews'      => array('label' => 'Raw News', 'help' => ''),

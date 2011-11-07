@@ -21,7 +21,10 @@ class NewsType extends AbstractType
             ->add('uri')
             ->add('slug', 'text', array('required'=>false))
             ->add('date', 'date', array('widget'=>'single_text'))
-            ->add('annotation')
+            ->add('annotation', 'textarea', array(
+                'required'=>false,
+                'attr' => array('style' => 'height:200px;')
+                ))
             ->add('content')
             ->add('created_by')
             ->add('created_at')
