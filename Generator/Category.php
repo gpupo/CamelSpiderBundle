@@ -17,7 +17,7 @@ class Category extends Generator
 
         $list = array(
             'title'           => 'Listing Categories',
-            'method'          => 'findAll',
+            'method'          => 'findBy',
             'count_method'    => 'count',
             'display'         => array(
                                 'id',
