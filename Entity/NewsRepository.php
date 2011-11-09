@@ -26,7 +26,6 @@ class NewsRepository extends EntityRepository
 
     public function findLatest()
     {
-
         return $this->queryBuilder()->getQuery();
     }
 
@@ -37,4 +36,5 @@ class NewsRepository extends EntityRepository
             ->setParameter('tid', $id);
         return $q->getQuery();
     }
+
 }
