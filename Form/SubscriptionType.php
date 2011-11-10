@@ -18,7 +18,8 @@ class SubscriptionType extends AbstractType
                                 'class' => 'Gpupo\\CamelSpiderBundle\\Entity\\Category',
                                 'query_builder' => function(CategoryRepository $er) {
                                     return $er->createQueryBuilder('c')
-                                        ->orderBy('c.name', 'ASC');
+                                            ->where('c.parent IS NOT NULL')
+                                            ->add('orderBy', 'c.lft ASC');
                                 },))
             ->add('encoding', 'choice', array('choices'=>array('utf8'=>'UTF8','iso'=>'ISO')))
             ->add('format', 'choice', array('choices'=>array('html'=>'HTML','txt'=>'TXT')))

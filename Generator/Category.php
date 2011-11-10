@@ -13,22 +13,24 @@ class Category extends Generator
         $fields  = array(
             'id'           => array('label' => 'ID'),
             'name'         => array('label' => 'Name', 'size' => 'medium', 'help' => 'Category name'),
+            'parent'       => array('label' => 'Parent'),
+            'nameIndented' => array('label' => 'Name'),
         );
 
         $list = array(
             'title'           => 'Listing Categories',
-            'method'          => 'findBy',
+            'method'          => 'findForList',
             'count_method'    => 'count',
             'display'         => array(
-                                'id',
-                                'name',
+                                //'id',
+                                'nameIndented',
                                 ),
             # grid or stacked, default grid
             'layout'          => 'grid',
             'stackedTemplate' => '<h3>{{ record.name  }}</h3>' .
                                  '<p class="details_fixed">URI: <strong>{{ record.uri }}</strong></p>',
-            'sort'            => array(),
-            'max_per_page'    => 20,
+            'sort'            => array('lft'=> 'ASC'),
+            'max_per_page'    => 200,
             'object_actions'  => array(),
             'batch_actions'   => array(),
         );
@@ -39,19 +41,21 @@ class Category extends Generator
 
         $edit = array(
             'title'   => "Editing Category",
-            'display'         => array(
-                                //'id',
-                                'name',
-                                ),
+            'display' => array(
+                //'id',
+                'name',
+                'parent',
+                ),
             'actions' => array(),
         );
 
         $new = array(
             'title'   => "New Category",
-            'display'         => array(
-                                //'id',
-                                'name',
-                                ),
+            'display' => array(
+                //'id',
+                'name',
+                'parent',
+                ),
             'actions' => array(
                 'save'         => true,
                 'save_and_add' => false,

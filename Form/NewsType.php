@@ -16,7 +16,8 @@ class NewsType extends AbstractType
                                 'class' => 'Gpupo\\CamelSpiderBundle\\Entity\\Category',
                                 'query_builder' => function(CategoryRepository $er) {
                                     return $er->createQueryBuilder('c')
-                                        ->orderBy('c.name', 'ASC');
+                                            ->where('c.parent IS NOT NULL')
+                                            ->add('orderBy', 'c.lft ASC');
                                 },))
             ->add('uri')
             ->add('slug', 'text', array('required'=>false))
