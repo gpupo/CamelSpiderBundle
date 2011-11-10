@@ -142,14 +142,14 @@ class Subscription implements InterfaceSubscription
     /**
      * @var Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Funpar\AdminBundle\Entity\Log", mappedBy="subscription", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="SubscriptionSchedule", mappedBy="subscription", cascade={"all"})
      */
     private $schedules;
 
     /**
      * @var Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="SubscriptionSchedule", mappedBy="subscription", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Funpar\AdminBundle\Entity\Log", mappedBy="subscription", cascade={"all"})
      */
     private $logs;
 
@@ -189,29 +189,6 @@ class Subscription implements InterfaceSubscription
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime(date('Y-m-d H:m:s'));
-    }
-
-    /**
-     * Add schedules
-     *
-     * @param Gpupo\CamelSpiderBundle\Entity\SubscriptionSchedule $schedules The SubscriptionSchedule Object
-     *
-     * @return void
-     */
-    public function addSubscriptionSchedule(\Gpupo\CamelSpiderBundle\Entity\SubscriptionSchedule $schedules)
-    {
-        $this->schedules[] = $schedules;
-        $schedules->setSubscription($this);
-    }
-
-    /**
-     * Get schedules
-     *
-     * @return Doctrine\Common\Collections\Collection
-     */
-    public function getSchedules()
-    {
-        return $this->schedules;
     }
 
     /**
@@ -817,26 +794,6 @@ class Subscription implements InterfaceSubscription
 
 
     /**
-     * Add schedules
-     *
-     * @param Funpar\AdminBundle\Entity\Log $schedules
-     */
-    public function addLog(\Funpar\AdminBundle\Entity\Log $schedules)
-    {
-        $this->schedules[] = $schedules;
-    }
-
-    /**
-     * Get logs
-     *
-     * @return Doctrine\Common\Collections\Collection
-     */
-    public function getLogs()
-    {
-        return $this->logs;
-    }
-
-    /**
      * Set format
      *
      * @param string $format
@@ -894,5 +851,45 @@ class Subscription implements InterfaceSubscription
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Add schedules
+     *
+     * @param Gpupo\CamelSpiderBundle\Entity\SubscriptionSchedule $schedules
+     */
+    public function addSubscriptionSchedule(\Gpupo\CamelSpiderBundle\Entity\SubscriptionSchedule $schedules)
+    {
+        $this->schedules[] = $schedules;
+    }
+
+    /**
+     * Get schedules
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getSchedules()
+    {
+        return $this->schedules;
+    }
+
+    /**
+     * Add logs
+     *
+     * @param Funpar\AdminBundle\Entity\Log $logs
+     */
+    public function addLog(\Funpar\AdminBundle\Entity\Log $logs)
+    {
+        $this->logs[] = $logs;
+    }
+
+    /**
+     * Get logs
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getLogs()
+    {
+        return $this->logs;
     }
 }
