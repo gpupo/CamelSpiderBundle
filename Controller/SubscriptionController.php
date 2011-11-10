@@ -81,11 +81,11 @@ class SubscriptionController extends GeneratorController
             $manager->persist($entity);
             $manager->flush();
 
-            $this->get('session')->setFlash('success', 'The item was created successfully');
-            return $this->redirect($this->generateUrl($this->generator->route . '_show', array('id' => $entity->getId())));
+            $this->get('session')->setFlash('success', 'The item was created successfully.');
+            return $this->redirect($this->generateUrl($this->generator->route));
         }
 
-        $this->get('session')->setFlash('error', 'An error ocurred while saving the item. Checked data.');
+        $this->get('session')->setFlash('error', 'An error ocurred while saving the item. Check the informed data.');
 
         return $this->render('GpupoCamelSpiderBundle:Subscription:new.html.twig', array(
             'generator' => $this->generator,
@@ -164,8 +164,8 @@ class SubscriptionController extends GeneratorController
             $manager->persist($entity);
             $manager->flush();
 
-            $this->get('session')->setFlash('success', 'The item was updated successfully');
-            return $this->redirect($this->generateUrl($this->generator->route . '_show', array('id' => $id)));
+            $this->get('session')->setFlash('success', 'The item was updated successfully.');
+            return $this->redirect($this->generateUrl($this->generator->route));
         } else {
             $this->get('session')->setFlash('error', 'An error ocurred while saving the item. Check the informed data.');
             return $this->render('GpupoCamelSpiderBundle:Subscription:edit.html.twig', array(
