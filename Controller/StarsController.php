@@ -14,8 +14,8 @@ class StarsController extends Controller
     public function submitAction(Request $request)
     {
         $form    = $request->request->get('vote');
-        $news_id = $form['news_id'];
-        $rate    = $form['rate'];
+        $news_id = (int) $form['news_id'];
+        $rate    = (int) $form['rate'];
 
         $manager = $this->getDoctrine()->getEntityManager();
 
@@ -31,7 +31,7 @@ class StarsController extends Controller
             try {
                 $vote = new NewsVote();
                 $vote->setNews($news);
-                $vote->getValue((int)$form['rate']);
+                $vote->setValue($rate);
                 $manager->persist($vote);
                 $manager->flush();
                 $responseCode = 200;
@@ -40,11 +40,9 @@ class StarsController extends Controller
                 return new Response(json_encode($return),400);
             }
 
-            $query = $manager->createQuery('SELECT v, AVG(v.value) as average FROM NewsVote WHERE v.news_id = ' . $form['news_id'] . ' GROUP BY v.news_id');
-            $result = $query->getResult();
-            $result->
-
-            $return = array("responseCode"=>$responseCode, 'news_id'=> $form['news_id'],  "average"=>$average);
+            $query = $manager->getRepository('GpupoCamelSpiderBundle:NewsVote')->getAverageById($news_id);
+            $average = round(floatval(current($query->getSingleResult())));
+            $return = array("responseCode"=>$responseCode, 'news_id'=> $form['news_id'],  "average"=> $average);
             return new Response(json_encode($return),200);
         }
 

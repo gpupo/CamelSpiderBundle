@@ -42,8 +42,6 @@ class SubscriptionController extends GeneratorController
 
         // Add three schedules by default
 //        $entity->addSubscriptionSchedule(new SubscriptionSchedule());
-//        $entity->addSubscriptionSchedule(new SubscriptionSchedule());
-//        $entity->addSubscriptionSchedule(new SubscriptionSchedule());
 
         $form   = $this->createForm(new $formType(), $entity);
 
@@ -71,7 +69,6 @@ class SubscriptionController extends GeneratorController
 
         $request = $this->getRequest();
 
-        //echo '<pre>'; print_r($request); exit;
         $form   = $this->createForm(new $formType(), $entity);
 
         $form->bindRequest($request);
@@ -145,8 +142,6 @@ class SubscriptionController extends GeneratorController
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find entity.');
         }
-
-//        echo '<pre>'; print_r($entity); echo '</pre>';
 
         $formType = $this->generator->form->type;
 

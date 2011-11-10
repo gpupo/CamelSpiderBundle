@@ -9,7 +9,6 @@ class CategoryController extends GeneratorController
 {
     public function configure()
     {
-        //$generator = $this->get('coregen.generator');
         $generator = new Generator();
         $this->loadGenerator($generator);
     }
