@@ -78,6 +78,13 @@ class SubscriptionController extends GeneratorController
             $manager->persist($entity);
             $manager->flush();
 
+            $this->get('funpar.logger')->doLog(
+                    'SUBSCRIPTION_CREATE',
+                    'Subscription created: ' . $entity->getName(),
+                    $this->get('security.context')->getToken()->getUser(),
+                    $entity
+                    );
+
             $this->get('session')->setFlash('success', 'The item was created successfully.');
             return $this->redirect($this->generateUrl($this->generator->route));
         }
