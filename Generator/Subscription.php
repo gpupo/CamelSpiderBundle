@@ -108,7 +108,11 @@ class Subscription extends Generator
                                 'is_active',
                                 'schedules',
                                 ),
-            'actions' => array(),
+            'actions' => array(
+                'save'         => true,
+                'save_and_add' => false,
+                'back_to_list' => true,
+            ),
         );
 
         $show = array(

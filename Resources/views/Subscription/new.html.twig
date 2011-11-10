@@ -20,11 +20,17 @@
         {{ form_row(form._token) }}
 
         <div class="actions">
+            {% if generator.new.actions.save %}
             <button type="submit" class="btn primary" name="form_save" value="true">{% trans %}Save{% endtrans %}</button>&nbsp;
+            {% endif %}
+            {% if generator.new.actions.save_and_add %}
             <button type="submit" class="btn primary" name="form_save_and_add" value="true">{% trans %}Save and Add{% endtrans %}</button>&nbsp;
+            {% endif %}
+            {% if generator.new.actions.back_to_list %}
             <a href="{{ path(generator.route) }}" class="btn">
                 {% trans %}Back to List{% endtrans %}
             </a>
+            {% endif %}
         </div>
 
     </form>

@@ -102,7 +102,11 @@ class News extends Generator
                                 //'updated_by',
                                 //'updated_at',
                                 ),
-            'actions' => array(),
+            'actions' => array(
+                'save'         => true,
+                'save_and_add' => false,
+                'back_to_list' => true,
+            ),
         );
 
         $show = array(
