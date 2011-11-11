@@ -88,63 +88,7 @@
                 </table>
             </div>
 
-            <!-- Hidden form to submit Deletion -->
-            <div id="delete_modal_window" style="display:none">
-                <p>{% trans %}Are you sure you want to delete{% endtrans %} {% trans %}Category{% endtrans %}</p>
-                <p id="delete_message" class="alert-message warning"></p>
-                <form id="delete_form" action="" method="post" class="form-stacked">
-                    <div class="clearfix">
-                        {{ form_label(delete_form.category) }}
-                        <div class="input">
-                            {{ form_widget(delete_form.category) }}
-                        </div>
-                    </div>
-                    {{ form_rest(delete_form) }}
-                </form>
-            </div>
-
-
-
-<script type="text/javascript">
-// <![CDATA[
-
-/**
- * Confirme delete - used to confirm delete in symfony forms
- * overrides default Javascript confirm delete dialog with jQuery UI
- * @param string message
- * @param object atag The <a> tag element itself
- * @author Rafael Goulart <rafaelgou@gmail.com>
- */
-function deleteCategory(message, atag, record_id)
-{
-    $('#delete_message').html(message.replace(/\n/, "<br />") + '?');
-    $("#form_category option").removeAttr('disabled');//show();
-    $("#form_category option[value='"+record_id+"']").attr('disabled','disabled');//.hide();
-    $('#delete_form').method = 'post';
-    $('#delete_form').attr('action',atag.href);
-    $('#delete_modal_window').dialog(
-    {
-        title: window.document.title,
-//        autoOpen:false,
-        bgiframe: true,
-        modal: true,
-        open: true,
-        buttons: {
-        //      Cancel: function() {
-        Cancelar: function() {
-            $(this).dialog('close');return false;
-            },
-        //      Confirm: function() {
-        Confirmar: function() {
-            $(this).dialog('close');
-            $('#delete_form').submit();
-            return false;
-            }
-        }
-    });
-}
-// ]]>
-</script>
+{% include 'GpupoCamelSpiderBundle:Category:_delete_form.html.twig' %}
 
             <div class="row">
 

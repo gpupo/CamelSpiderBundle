@@ -65,6 +65,11 @@ class Category extends Generator
 
         $show = array(
             'title'   => "Viewing Category",
+            'display' => array(
+                //'id',
+                'name',
+                'parent',
+                ),
         );
 
         $filter = array(

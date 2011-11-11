@@ -1,0 +1,55 @@
+{% extends generator.layoutTheme |default('ThemeBootstrapBundle')  ~ '::layout.html.twig' %}
+{% block title %}{{ generator.show.title | trans }} {% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ generator.show.title | trans }}
+            <small>
+                {% trans %}you can{% endtrans %}
+                <a href="{{ path(generator.route) }}">{% trans %}go back to list{% endtrans %}</a>
+                {% trans %}or{% endtrans %}
+                <a href="{{ path(generator.route ~ '_edit', { 'id': generator.renderField('id', record)}) }}">{% trans %}edit{% endtrans %}</a>
+            </small>
+        </h1>
+    </div>
+
+    <form>
+
+        {% for fieldName, field in generator.showDisplayFields %}
+        <div class="clearfix">
+            <label for="xlInput">{{ field.label | trans  }}</label>
+            <div class="input">
+            {% set data = generator.renderField(fieldName, record) %}
+            {% if field.date_format is defined %}
+                <p>{{ data | date(field.date_format) }}</p>
+            {% else %}
+                {% if field.raw is defined and  field.raw %}
+                    {% set data = data | raw %}
+                {% endif %}
+                {% if field.trans is defined and field.trans%}
+                    {% set data = data | trans %}
+                {% endif %}
+                <p>{{ data }}</p>
+            {% endif %}
+            </div>
+        </div><!-- /clearfix -->
+        {% endfor %}
+
+    </form>
+
+    <div class="actions">
+        <a href="{{ path(generator.route) }}" class="btn">
+            {% trans %}Back to List{% endtrans %}
+        </a>
+        <a href="{{ path(generator.route ~ '_edit', { 'id': generator.renderField('id', record)}) }}" class="btn">
+            {% trans %}Edit{% endtrans %}
+        </a>
+        <a href="{{ path(generator.route ~ '_delete', { 'id': generator.renderField('id', record)}) }}" class="btn"
+           onclick="javascript:deleteCategory('{{ record }}', this, {{ record.id }});return false;">
+            {% trans %}Delete{% endtrans %}
+        </a>
+    </div>
+
+{% include 'GpupoCamelSpiderBundle:Category:_delete_form.html.twig' %}
+
+{% endblock %}

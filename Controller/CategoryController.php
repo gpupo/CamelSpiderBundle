@@ -169,6 +169,28 @@ class CategoryController extends GeneratorController
 
     }
 
+    public function showAction($id)
+    {
+        // Configuring the Generator Controller
+        $this->configure();
+
+        $manager = $this->getDoctrine()->getEntityManager();
+
+        $entity = $manager->getRepository($this->generator->model)->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return $this->render('GpupoCamelSpiderBundle:Category:show.html.twig', array(
+            'generator'   => $this->generator,
+            'record'      => $entity,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
     protected function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
