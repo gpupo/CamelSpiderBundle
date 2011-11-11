@@ -4,6 +4,7 @@ namespace Gpupo\CamelSpiderBundle\Controller;
 
 use Coregen\AdminGeneratorBundle\ORM\GeneratorController;
 use Gpupo\CamelSpiderBundle\Generator\Category as Generator;
+use Gpupo\CamelSpiderBundle\Entity\CategoryRepository;
 
 class CategoryController extends GeneratorController
 {
@@ -11,6 +12,29 @@ class CategoryController extends GeneratorController
     {
         $generator = new Generator();
         $this->loadGenerator($generator);
+    }
+
+    public function indexAction()
+    {
+        // Configuring the Generator Controller
+        $this->configure();
+
+        // Defining filters
+        $this->configureFilter();
+
+        // Defining actual page
+        $this->setPage($this->getRequest()->get('page', $this->getPage()));
+
+        $pager = $this->getPager();
+
+        $deleteForm = $this->createDeleteForm('fake');
+
+        return $this->render('GpupoCamelSpiderBundle:Category:list' . ucfirst($this->generator->list->layout . '.html.twig'), array(
+            'pager'      => $pager,
+            'delete_form' => $deleteForm->createView(),
+            'generator'   => $this->generator,
+        ));
+
     }
 
     protected function getRepository()
@@ -52,10 +76,6 @@ class CategoryController extends GeneratorController
 
         if ($form->isValid()) {
             $manager = $this->getDoctrine()->getEntityManager();
-
-            
-
-
             $manager->persist($entity);
             $manager->flush();
 
@@ -75,6 +95,96 @@ class CategoryController extends GeneratorController
             'record' => $entity,
             'form'   => $form->createView()
         ));
+    }
+
+    public function editAction($id)
+    {
+        // Configuring the Generator Controller
+        $this->configure();
+
+        $manager = $this->getDoctrine()->getEntityManager();
+
+        $entity = $manager->getRepository($this->generator->model)->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Entity.');
+        }
+
+        $formType = $this->generator->form->type;
+
+        $editForm = $this->createForm(new $formType(), $entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        foreach ($this->generator->getHiddenFields('edit') as $fieldName) {
+            $editForm->remove($fieldName);
+        }
+
+        return $this->render('GpupoCamelSpiderBundle:Category:edit.html.twig', array(
+            'generator'   => $this->generator,
+            'record'      => $entity,
+            'form'        => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    public function deleteAction($id)
+    {
+        // Configuring the Generator Controller
+        $this->configure();
+
+        $form = $this->createDeleteForm($id);
+        $request = $this->getRequest();
+
+        $form->bindRequest($request);
+
+        $formData = $request->get('form');
+
+        if (!isset($formData['category'])) {
+            $this->get('session')->setFlash(
+                    'error',
+                    'To delete a category another category must be selected to move related data.'
+                    );
+            return $this->redirect($this->generateUrl($this->generator->route));
+        } else if ($form->isValid()) {
+
+            $manager = $this->getDoctrine()->getEntityManager();
+            $entity = $manager->getRepository($this->generator->class)->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find entity.');
+            }
+
+            $manager->getRepository($this->generator->class)
+                    ->removeAndMoveRelated($entity, $formData['category']);
+
+            $this->get('session')->setFlash('success', 'The item was deleted successfully.');
+            return $this->redirect($this->generateUrl($this->generator->route));
+        } else {
+            $this->get('session')->setFlash(
+                    'error',
+                    'An error ocurred while deleting the item.'
+                    );
+            return $this->redirect($this->generateUrl($this->generator->route));
+        }
+
+    }
+
+    protected function createDeleteForm($id)
+    {
+        return $this->createFormBuilder(array('id' => $id))
+            ->add('id', 'hidden')
+            ->add('category', 'entity', array(
+                                'class' => 'Gpupo\\CamelSpiderBundle\\Entity\\Category',
+                                'query_builder' => function(CategoryRepository $er) {
+                                    return $er->createQueryBuilder('c')
+                                            ->where('c.parent IS NOT NULL')
+                                            ->add('orderBy', 'c.lft ASC');
+                                },
+                                'label' => 'Move related data to Category',
+                                ))
+            ->setAttribute('name', 'delete_form')
+            ->getForm()
+        ;
     }
 
 }

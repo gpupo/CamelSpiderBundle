@@ -28,4 +28,26 @@ class CategoryRepository extends NestedTreeRepository implements InterfaceNode
         return $qb->getQuery()->getResult();
     }
 
+    public function removeAndMoveRelated(Category $removedCategory, $movedCategory)
+    {
+        // Moving related Subscritions
+        $qb1 = $this->getEntityManager()->createQueryBuilder();
+        $qb1->update('Gpupo\CamelSpiderBundle\Entity\Subscription s')
+            ->set('s.category', '?1')
+            ->add('where', $qb1->expr()->eq('s.category', '?2'))
+            ->setParameter(1, $movedCategory)
+            ->setParameter(2, $removedCategory->getId())
+            ->getQuery()->getResult();
+
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
+        $qb2->update('Gpupo\CamelSpiderBundle\Entity\News n')
+            ->set('n.category', '?1')
+            ->add('where', $qb2->expr()->eq('n.category', '?2'))
+            ->setParameter(1, $movedCategory)
+            ->setParameter(2, $removedCategory->getId())
+            ->getQuery()->getResult();
+
+        $this->getEntityManager()->remove($removedCategory);
+        $this->getEntityManager()->flush();
+    }
 }
