@@ -30,8 +30,7 @@ class News extends Generator
 
         $list = array(
             'title'           => 'Listing News',
-            'method'          => 'findBy',
-            'count_method'    => 'count',
+           'query_builder'   => null,
             'display'         => array(
                                 'id',
                                 'title',
@@ -114,8 +113,21 @@ class News extends Generator
         );
 
         $filter = array(
-            'display' => array(),
-            'actions' => array(),
+            'title'   => "Filter",
+            'fields' => array(
+                'moderation' => array(
+                    'name'    => 'moderation',
+                    'type'    => 'choice',
+                    'compare' => '=', // eq
+                    'label'   => 'Moderation',
+                    'options' => array('choices'=>array('PENDING'=>'PENDING','APROVED'=>'APROVED','REJECTED'=>'REJECTED'))
+                ),
+//                'createdAt' => array(
+//                    'type'    => 'daterange',
+//                    'compare' => 'between',
+//                    'label'   => 'Created At',
+//                ),
+            ),
         );
         $this
             ->setClass('\Gpupo\CamelSpiderBundle\Entity\News')

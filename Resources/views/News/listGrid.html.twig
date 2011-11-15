@@ -103,9 +103,10 @@
         </div>
 
 {% block filterForm %}{% endblock %}
-{#
+{% if filter_form %}
 {% include 'CoregenThemeBootstrapBundle:Coregen:_filterForm.html.twig' %}
-#}
+{% endif %}
+
         </div>
 
     </div>

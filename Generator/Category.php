@@ -19,8 +19,7 @@ class Category extends Generator
 
         $list = array(
             'title'           => 'Listing Categories',
-            'method'          => 'findForList',
-            'count_method'    => 'count',
+            'query_builder'   => 'findForList',
             'display'         => array(
                                 //'id',
                                 'nameIndented',
