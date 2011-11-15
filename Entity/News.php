@@ -53,13 +53,6 @@ class News
     private $date;
 
     /**
-     * @var text $annotation
-     *
-     * @ORM\Column(name="annotation", type="text", nullable=true)
-     */
-    private $annotation;
-
-    /**
      * @var text $content
      *
      * @ORM\Column(name="content", type="text", nullable=true)
@@ -72,6 +65,13 @@ class News
      * @ORM\Column(name="moderation", type="string", length=255)
      */
     private $moderation;
+
+    /**
+     * @var datetime $moderationDate
+     *
+     * @ORM\Column(name="moderation_date", type="datetime", nullable=true)
+     */
+    private $moderationDate;
 
     /**
      * @ORM\ManyToOne(targetEntity="Subscription")
@@ -521,5 +521,25 @@ class News
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set moderationDate
+     *
+     * @param datetime $moderationDate
+     */
+    public function setModerationDate($moderationDate)
+    {
+        $this->moderationDate = $moderationDate;
+    }
+
+    /**
+     * Get moderationDate
+     *
+     * @return datetime 
+     */
+    public function getModerationDate()
+    {
+        return $this->moderationDate;
     }
 }
