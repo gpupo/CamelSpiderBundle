@@ -37,11 +37,11 @@ class NewsVote
      */
     private $news;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
-//     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-//     */
-//    private $user;
+    /**
+     * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
 
     /**
      * Get id
@@ -63,7 +63,7 @@ class NewsVote
        $value = intval($value);
 
         if ($value < 1 || $value > 5 ) {
-            throw new InvalidArgumentException('A vote must be between 1 and 5');
+            throw new \InvalidArgumentException('A vote must be between 1 and 5');
         }
 
         $this->value = $value;
@@ -97,5 +97,25 @@ class NewsVote
     public function getNews()
     {
         return $this->news;
+    }
+
+    /**
+     * Set user
+     *
+     * @param Funpar\AdminBundle\Entity\User $user
+     */
+    public function setUser(\Funpar\AdminBundle\Entity\User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Get user
+     *
+     * @return Funpar\AdminBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
