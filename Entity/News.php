@@ -271,28 +271,6 @@ class News
     }
 
     /**
-     * Set annotation
-     *
-     * @param text $annotation Annotation
-     *
-     * @return void
-     */
-    public function setAnnotation($annotation)
-    {
-        $this->annotation = $annotation;
-    }
-
-    /**
-     * Get annotation
-     *
-     * @return text
-     */
-    public function getAnnotation()
-    {
-        return $this->annotation;
-    }
-
-    /**
      * Set content
      *
      * @param text $content Content
@@ -490,6 +468,10 @@ class News
     public function setModeration($moderation)
     {
         $this->moderation = $moderation;
+
+        if (in_array($moderation, array('APROVED'=>'APROVED','REJECTED'=>'REJECTED'))) {
+            $this->setModerationDate(new \DateTime());
+        }
     }
 
     /**
@@ -536,7 +518,7 @@ class News
     /**
      * Get moderationDate
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getModerationDate()
     {
