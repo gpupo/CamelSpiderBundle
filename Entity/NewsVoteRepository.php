@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class NewsVoteRepository extends EntityRepository
 {
 
-    public function getAverageById($news_id)
+    public function getAverageByNewsId($news_id)
     {
         $qb = $this->createQueryBuilder('a');
         $qb->add('select', $qb->expr()->avg('a.value'))

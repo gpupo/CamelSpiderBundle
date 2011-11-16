@@ -40,7 +40,7 @@ class StarsController extends Controller
                 return new Response(json_encode($return),400);
             }
 
-            $query = $manager->getRepository('GpupoCamelSpiderBundle:NewsVote')->getAverageById($news_id);
+            $query = $manager->getRepository('GpupoCamelSpiderBundle:NewsVote')->getAverageByNewsId($news_id);
             $average = round(floatval(current($query->getSingleResult())));
             $return = array("responseCode"=>$responseCode, 'news_id'=> $form['news_id'],  "average"=> $average);
             return new Response(json_encode($return),200);
