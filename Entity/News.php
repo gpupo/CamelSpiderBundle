@@ -5,6 +5,7 @@ namespace Gpupo\CamelSpiderBundle\Entity;
 use Doctrine\ORM\Mapping as ORM,
     Symfony\Component\Validator\Constraints as Assert,
     CamelSpider\Spider\SpiderDom;
+use Funpar\AdminBundle\Entity\User as User;
 
 /**
  * Gpupo\CamelSpiderBundle\Entity\News
@@ -86,9 +87,10 @@ class News
     private $rawnews;
 
     /**
-     * @var datetime $createdBy
-     *
-     * @ORM\Column(name="created_by", type="integer", nullable=true)
+     * @var integer $createdBy
+     * 
+     * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
      */
     private $createdBy;
 

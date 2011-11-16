@@ -105,9 +105,10 @@ class Subscription implements InterfaceSubscription
     private $encoding;
 
     /**
-     * @var datetime $createdBy
-     *
-     * @ORM\Column(name="created_by", type="integer", nullable=true)
+     * @var integer $createdBy
+     * 
+     * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
      */
     private $createdBy;
 
@@ -866,7 +867,7 @@ class Subscription implements InterfaceSubscription
     /**
      * Get schedules
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getSchedules()
     {
@@ -886,7 +887,7 @@ class Subscription implements InterfaceSubscription
     /**
      * Get logs
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getLogs()
     {
