@@ -3,6 +3,7 @@
 namespace Gpupo\CamelSpiderBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PSS\Bundle\DoctrineExtensionsBundle\Annotation as PSS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gpupo\CamelSpiderBundle\Entity\SubscriptionSchedule;
 use CamelSpider\Entity\InterfaceSubscription;
@@ -15,6 +16,8 @@ use Funpar\AdminBundle\Entity\Log;
  * @ORM\Table(name="subscription")
  * @ORM\Entity(repositoryClass="Gpupo\CamelSpiderBundle\Entity\SubscriptionRepository")
  * @ORM\HasLifecycleCallbacks
+ *
+ * @PSS\Blameable(creator="createdBy", updater="updatedBy")
  */
 class Subscription implements InterfaceSubscription
 {
@@ -24,6 +27,7 @@ class Subscription implements InterfaceSubscription
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
      */
     private $id;
 
@@ -104,27 +108,28 @@ class Subscription implements InterfaceSubscription
      */
     private $encoding;
 
-    /**
-     * @var integer $createdBy
-     * 
-     * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
-     * @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
-     */
-    private $createdBy;
+        /**
+         * @var integer $createdBy
+         *
+         * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
+         * @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
+         */
+        private $createdBy;
 
-    /**
-     * @var datetime $createdAt
-     *
-     * @ORM\Column(name="created_at", type="datetime")
-     */
-    private $createdAt;
+        /**
+         * @var datetime $createdAt
+         *
+         * @ORM\Column(name="created_at", type="datetime")
+         */
+        private $createdAt;
 
-    /**
-     * @var integer $updatedBy
-     *
-     * @ORM\Column(name="updated_by", type="integer", nullable=true)
-     */
-    private $updatedBy;
+        /**
+         * @var integer $updatedBy
+         *
+         * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
+         * @ORM\JoinColumn(name="updated_by", referencedColumnName="id", nullable=true)
+         */
+        private $updatedBy;
 
     /**
      * @var datetime $updatedAt
@@ -205,7 +210,6 @@ class Subscription implements InterfaceSubscription
         foreach ($schedules as $schedule) {
             $schedule->setSubscription($this);
         }
-
     }
 
     /**
@@ -420,28 +424,6 @@ class Subscription implements InterfaceSubscription
     }
 
     /**
-     * Set createdBy
-     *
-     * @param integer $createdBy Created By
-     *
-     * @return void
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return integer
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
      * Set createdAt
      *
      * @param datetime $createdAt Created At
@@ -461,28 +443,6 @@ class Subscription implements InterfaceSubscription
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * Set updatedBy
-     *
-     * @param integer $updatedBy Updated By
-     *
-     * @return void
-     */
-    public function setUpdatedBy($updatedBy)
-    {
-        $this->updatedBy = $updatedBy;
-    }
-
-    /**
-     * Get updatedBy
-     *
-     * @return integer
-     */
-    public function getUpdatedBy()
-    {
-        return $this->updatedBy;
     }
 
     /**
@@ -892,5 +852,45 @@ class Subscription implements InterfaceSubscription
     public function getLogs()
     {
         return $this->logs;
+    }
+
+    /**
+     * Set updatedBy
+     *
+     * @param integer $updatedBy
+     */
+    public function setUpdatedBy($updatedBy)
+    {
+        $this->updatedBy = $updatedBy;
+    }
+
+    /**
+     * Get updatedBy
+     *
+     * @return integer
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param Funpar\AdminBundle\Entity\User $createdBy
+     */
+    public function setCreatedBy(\Funpar\AdminBundle\Entity\User $createdBy)
+    {
+        $this->createdBy = $createdBy;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return Funpar\AdminBundle\Entity\User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
     }
 }

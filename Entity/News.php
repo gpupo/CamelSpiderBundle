@@ -88,7 +88,7 @@ class News
 
     /**
      * @var integer $createdBy
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
      */
@@ -102,9 +102,10 @@ class News
     private $createdAt;
 
     /**
-     * @var integer $updated_by
+     * @var integer $updatedBy
      *
-     * @ORM\Column(name="updated_by", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
+     * @ORM\JoinColumn(name="updated_by", referencedColumnName="id", nullable=true)
      */
     private $updatedBy;
 
