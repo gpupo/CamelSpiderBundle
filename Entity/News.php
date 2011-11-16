@@ -469,6 +469,7 @@ class News
     {
         $this->moderation = $moderation;
 
+        // Moderation date defined automaticly
         if (in_array($moderation, array('APROVED'=>'APROVED','REJECTED'=>'REJECTED'))) {
             $this->setModerationDate(new \DateTime());
         }
