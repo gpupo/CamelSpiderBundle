@@ -27,11 +27,13 @@ class NewsController extends GeneratorController
 
         $pager = $this->getPager();
 
-        $deleteForm = $this->createDeleteForm('fake');
-
+        if ($filter_form = $this->createFilterForm()) {
+            $filter_form = $filter_form->createView();
+        }
         return $this->render('GpupoCamelSpiderBundle:News:listGrid.html.twig', array(
             'pager'      => $pager,
-            'delete_form' => $deleteForm->createView(),
+            'delete_form' => $this->createDeleteForm('fake')->createView(),
+            'filter_form' => $filter_form,
             'generator'   => $this->generator,
         ));
 

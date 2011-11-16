@@ -23,4 +23,15 @@ class NewsVoteRepository extends EntityRepository
         return $qb->getQuery();
     }
 
+    public function findVoteByNewsAndUser($news_id, $user_id)
+    {
+        $qb = $this->createQueryBuilder('a');
+        $qb->andWhere($qb->expr()->eq('a.news', '?1'))
+            ->andWhere($qb->expr()->eq('a.user', '?2'))
+            ->setParameter(1, $news_id)
+            ->setParameter(2, $user_id);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
 }

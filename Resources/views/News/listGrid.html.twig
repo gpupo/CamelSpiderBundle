@@ -57,10 +57,14 @@
                             </td>
 #}
                             {% for fieldName, field in generator.listDisplayFields %}
+                                {% set data = generator.renderField(fieldName, record) %}
                                 {% if field.date_format is defined %}
+                                    {% if data %}
                             <td>{{ generator.renderField(fieldName, record) | date(field.date_format) }}</td>
+                                    {% else %}
+                            <td>&nbsp;</td>
+                                    {% endif %}
                                 {% else %}
-                                    {% set data = generator.renderField(fieldName, record) %}
                                     {% if field.raw is defined and  field.raw %}
                                         {% set data = data | raw %}
                                     {% endif %}
@@ -103,9 +107,10 @@
         </div>
 
 {% block filterForm %}{% endblock %}
-{#
+{% if filter_form %}
 {% include 'CoregenThemeBootstrapBundle:Coregen:_filterForm.html.twig' %}
-#}
+{% endif %}
+
         </div>
 
     </div>

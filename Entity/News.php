@@ -5,6 +5,7 @@ namespace Gpupo\CamelSpiderBundle\Entity;
 use Doctrine\ORM\Mapping as ORM,
     Symfony\Component\Validator\Constraints as Assert,
     CamelSpider\Spider\SpiderDom;
+use Funpar\AdminBundle\Entity\User as User;
 
 /**
  * Gpupo\CamelSpiderBundle\Entity\News
@@ -53,13 +54,6 @@ class News
     private $date;
 
     /**
-     * @var text $annotation
-     *
-     * @ORM\Column(name="annotation", type="text", nullable=true)
-     */
-    private $annotation;
-
-    /**
      * @var text $content
      *
      * @ORM\Column(name="content", type="text", nullable=true)
@@ -74,6 +68,13 @@ class News
     private $moderation;
 
     /**
+     * @var datetime $moderationDate
+     *
+     * @ORM\Column(name="moderation_date", type="datetime", nullable=true)
+     */
+    private $moderationDate;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Subscription")
      * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id")
      */
@@ -86,9 +87,10 @@ class News
     private $rawnews;
 
     /**
-     * @var datetime $createdBy
-     *
-     * @ORM\Column(name="created_by", type="integer", nullable=true)
+     * @var integer $createdBy
+     * 
+     * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
      */
     private $createdBy;
 
@@ -268,28 +270,6 @@ class News
     public function getDate()
     {
         return $this->date;
-    }
-
-    /**
-     * Set annotation
-     *
-     * @param text $annotation Annotation
-     *
-     * @return void
-     */
-    public function setAnnotation($annotation)
-    {
-        $this->annotation = $annotation;
-    }
-
-    /**
-     * Get annotation
-     *
-     * @return text
-     */
-    public function getAnnotation()
-    {
-        return $this->annotation;
     }
 
     /**
@@ -490,6 +470,11 @@ class News
     public function setModeration($moderation)
     {
         $this->moderation = $moderation;
+
+        // Moderation date defined automaticly
+        if (in_array($moderation, array('APROVED'=>'APROVED','REJECTED'=>'REJECTED'))) {
+            $this->setModerationDate(new \DateTime());
+        }
     }
 
     /**
@@ -521,5 +506,25 @@ class News
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set moderationDate
+     *
+     * @param datetime $moderationDate
+     */
+    public function setModerationDate($moderationDate)
+    {
+        $this->moderationDate = $moderationDate;
+    }
+
+    /**
+     * Get moderationDate
+     *
+     * @return datetime
+     */
+    public function getModerationDate()
+    {
+        return $this->moderationDate;
     }
 }

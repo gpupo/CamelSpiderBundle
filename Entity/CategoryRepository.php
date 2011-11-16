@@ -23,10 +23,10 @@ class CategoryRepository extends NestedTreeRepository implements InterfaceNode
 
     public function findForList()
     {
-        $qb = $this->createQueryBuilder('c');
-        $qb->where('c.parent IS NOT NULL')
-            ->add('orderBy', 'c.lft ASC');
-        return $qb->getQuery()->getResult();
+        $qb = $this->createQueryBuilder('e');
+        $qb->where('e.parent IS NOT NULL')
+            ->add('orderBy', 'e.lft ASC');
+        return $qb;//->getQuery()->getResult();
     }
 
     public function removeAndMoveRelated(Category $removedCategory, $movedCategory)
