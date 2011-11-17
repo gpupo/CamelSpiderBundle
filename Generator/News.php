@@ -15,7 +15,8 @@ class News extends Generator
             'title'          => array('label' => 'Title', 'size' => 'xlarge', 'help' => 'News Title'),
             'category'       => array('label' => 'Category', 'size' => 'medium', 'help' => 'News Category'),
             'moderation'     => array('label' => 'Moderation', 'size' => 'medium', 'help' => 'Status of moderation', 'trans' => true),
-            'moderationDate' => array('label' => 'Moderation Date', 'date_format' => 'd/m/Y H:i:s'),
+            'moderation_date'=> array('label' => 'Moderation Date', 'date_format' => 'd/m/Y H:i:s'),
+            'moderated_by'   => array('label' => 'Created By'),
             'uri'            => array('label' => 'URI', 'size' => 'xxlarge', 'help' => 'Full path to the news source'),
             'slug'           => array('label' => 'Slug', 'help' => 'URL short name'),
             'date'           => array('label' => 'Date', 'help' => 'News Date', 'class' => 'date', 'date_format' => 'd/m/Y'),
@@ -26,6 +27,7 @@ class News extends Generator
             'created_at'     => array('label' => 'Created At', 'date_format' => 'd/m/Y H:i:s'),
             'updated_by'     => array('label' => 'Updated By'),
             'updated_at'     => array('label' => 'Updated At', 'date_format' => 'd/m/Y H:i:s'),
+            'moderationList' => array('label' => 'Moderation', 'list_partial' => 'GpupoCamelSpiderBundle:News:moderationList.html.twig'),
         );
 
         $list = array(
@@ -38,8 +40,10 @@ class News extends Generator
                 'date',
                 //'uri',
                 //'slug',
-                'moderation',
-                'moderationDate',
+                'moderationList',
+                //'moderation',
+                //'moderationDate',
+                //'moderated_by',
                 //'rawnews',
                 'created_by',
                 //'created_at',

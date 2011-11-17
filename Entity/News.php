@@ -75,6 +75,14 @@ class News
     private $moderationDate;
 
     /**
+     * @var integer $modereatedBy
+     *
+     * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
+     * @ORM\JoinColumn(name="moderated_by", referencedColumnName="id", nullable=true)
+     */
+    private $moderatedBy;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Subscription")
      * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id")
      */
@@ -584,4 +592,23 @@ class News
         return null;
     }
 
+    /**
+     * Set moderatedBy
+     *
+     * @param Funpar\AdminBundle\Entity\User $moderatedBy
+     */
+    public function setModeratedBy(\Funpar\AdminBundle\Entity\User $moderatedBy)
+    {
+        $this->moderatedBy = $moderatedBy;
+    }
+
+    /**
+     * Get moderatedBy
+     *
+     * @return Funpar\AdminBundle\Entity\User
+     */
+    public function getModeratedBy()
+    {
+        return $this->moderatedBy;
+    }
 }

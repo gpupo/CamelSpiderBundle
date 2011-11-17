@@ -1,0 +1,7 @@
+{{ generator.renderField('moderation', record) | trans }}
+{% if generator.renderField('moderation', record) in ['APROVED', 'REJECTED'] %}
+    {% if generator.renderField('moderation_date', record) %}
+        <br/>{{ generator.renderField('moderation_date', record) | date('d/m/Y') }}
+    {% endif %}
+    <br/>{{ generator.renderField('moderated_by', record)}}
+{% endif %}
