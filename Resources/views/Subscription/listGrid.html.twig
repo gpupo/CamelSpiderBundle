@@ -1,0 +1,126 @@
+{% extends generator.layoutTheme |default('ThemeBootstrapBundle')  ~ '::layout.html.twig' %}
+{% block title %}{{ generator.list.title | trans }} {% endblock %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>
+            {{ generator.list.title | trans }}
+            <small>
+{% if pager.count == 0  %}
+                    ({% trans %}no records{% endtrans %})
+{% elseif   pager.count == 1  %}
+                    ({% trans %}1 record{% endtrans %})
+{% else %}
+                    ({{ pager.count }} {% trans %}records{% endtrans %})
+{% endif %}
+                {% trans %}or{% endtrans %} <a href="{{ path(generator.route ~ '_new') }}">{% trans %}add new{% endtrans %}</a>
+            </small>
+        </h1>
+    </div>
+
+{% if pager.count == 0  %}
+    <div id="no_records" class="alert-message warning">
+        <p>
+            {% trans %}No records found. You can filter again or{% endtrans %}
+        </p>
+        <p>
+            <a href="{{ path(generator.route ~ '_new') }}"><button type="submit" class="btn primary">{% trans %}Add New{% endtrans %}</button></a>
+        </p>
+    </div>
+{% else %}
+    <div class="row">
+
+        <!-- List -->
+        <div class="span12 columns">
+            <div>
+                <table class="zebra-striped" id="sortTableExample">
+                    <thead>
+                        <tr>
+{#
+                            <th>
+                                <input type="checkbox" id="checkall" onclick="checkAllCheckboxes(this, 'selected_objects' )" />
+                            </th>
+#}
+                            {% for field in generator.listDisplayFields %}
+                            <th>{{ field.label | trans  }}</th>
+                            {% endfor %}
+                            <th>{% trans %}Actions{% endtrans %}</th>
+                        </tr>
+                   </thead>
+                    <tbody>
+                        {% for record in pager.getResults %}
+                        <tr>
+{#
+                            <td>
+                                <input type="checkbox" id="selected_objects[{{ generator.renderField('id', record) }}]" value="1"/>
+                            </td>
+#}
+                            {% for fieldName, field in generator.listDisplayFields %}
+
+                                {% if field.list_partial is defined %}
+                                    <td>{% include field.list_partial %}</td>
+
+                                {% elseif field.date_format is defined %}
+                                    {% set data = generator.renderField(fieldName, record) %}
+                                    {% if data %}
+                                        <td>{{ generator.renderField(fieldName, record) | date(field.date_format) }}</td>
+                                    {% else %}
+                                        <td>&nbsp;</td>
+                                    {% endif %}
+                                {% else %}
+                                    {% set data = generator.renderField(fieldName, record) %}
+                                    {% if field.raw is defined and  field.raw %}
+                                        {% set data = data | raw %}
+                                    {% endif %}
+                                    {% if field.trans is defined and field.trans%}
+                                        {% set data = data | trans %}
+                                    {% endif %}
+                                    <td>{{ data }}</td>
+                                {% endif %}
+                            {% endfor %}
+                            <td>
+                                <a href="{{ path(generator.route ~ '_show', { 'id': generator.renderField('id', record)}) }}">
+                                    {% trans %}View{% endtrans %}
+                                </a>
+                                <a href="{{ path(generator.route ~ '_edit', { 'id': generator.renderField('id', record)}) }}">
+                                    {% trans %}Edit{% endtrans %}
+                                </a>
+                                <a href="{{ path(generator.route ~ '_delete', { 'id': generator.renderField('id', record)}) }}"
+                                   onclick="javascript:deleteConfirm('{% trans %}Are you sure you want to delete{% endtrans %}:<br/>{{ record }} ', this, 'form[_token]', $('#form__token').val());return false;">
+                                    {% trans %}Delete{% endtrans %}
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Hidden form to submit Deletion -->
+            {{ form_widget(delete_form) }}
+
+            <div class="row">
+
+{#
+{% block batchActions %}{% endblock %}
+{% include 'CoregenThemeBootstrapBundle:Coregen:_batchActions.html.twig' %}
+#}
+
+{% block paginator %}{% endblock %}
+{% include 'CoregenThemeBootstrapBundle:Coregen:_paginator.html.twig' %}
+
+            </div>
+
+        </div>
+
+{% block filterForm %}{% endblock %}
+{% if filter_form %}
+{% include 'CoregenThemeBootstrapBundle:Coregen:_filterForm.html.twig' %}
+{% endif %}
+
+        </div>
+
+    </div>
+{% endif %}
+{% endblock %}

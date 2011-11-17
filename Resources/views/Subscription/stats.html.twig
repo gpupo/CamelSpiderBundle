@@ -1,0 +1,19 @@
+{% set sid = generator.renderField('id', record) %}
+
+Última Captura:
+<strong>
+{% if stats.lastCapture[sid] is defined %}
+    {{ stats.lastCapture[sid] | date('d/m/Y') }}
+{% else %}
+    nenhuma
+{% endif %}
+</strong>
+<br/>
+Notícias últimos 30 dias:
+<strong>
+{% if stats.countNews[sid] is defined %}
+    {{ stats.countNews[sid] }}
+{% else %}
+    0
+{% endif %}
+</strong>
