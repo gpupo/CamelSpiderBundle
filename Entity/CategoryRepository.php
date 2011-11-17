@@ -17,6 +17,7 @@ class CategoryRepository extends NestedTreeRepository implements InterfaceNode
 {
     public function findForMenu()
     {
+       //  return $this->getLeafsQueryBuilder();
         return $this->findBy(array(), array('name'=>'ASC'));
     }
 

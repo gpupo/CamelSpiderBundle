@@ -4,6 +4,7 @@ use CamelSpider\Spider\Indexer,
     CamelSpider\Spider\InterfaceCache,
     CamelSpider\Entity\FactorySubscription,
     CamelSpider\Entity\Pool,
+    CamelSpider\Entity\InterfaceLink,
     CamelSpider\Entity\Link,
     CamelSpider\Entity\Document,
     CamelSpider\Entity\InterfaceSubscription,
@@ -46,19 +47,32 @@ class Launcher
 
     protected function processUpdates(array $links, InterfaceSubscription $subscription)
     {
-        //var_dump($links);
         $this->logger('Process update Links count:' . count($links), 'info');
         foreach ($links as $l) {
+
             if ($l instanceof Link) {
-                //pegando o objeto Link que foi serializado:
+
                 $link = $this->cache->getObject($l->getId('string')); //id do link ( sha1 da url )
+
+                $count = $this->doctrineRegistry
+                    ->getRepository('GpupoCamelSpiderBundle:News')
+                    ->countByLink($link);
+
+                if($count > 0) {
+                    $this->logger('Document had been inserted', 'info');
+                    continue;
+                }
+
                 $document =  $link->getDocument();
+
+
+
                 if (is_array($document)) {
 
                     $manager = $this->doctrineRegistry->getEntityManager();
 
                     $this->logger('Process update saving Raw: ' . $document['title'], 'info');
-                    //salvar raw...
+
                     try {
                         $rawNews = new RawNews();
                         $rawNews->setTitle($document['title']);
@@ -75,15 +89,7 @@ class Launcher
                         $this->logger('Process update saving Raw: ' . $exc->getTraceAsString());
                     }
 
-                    //verificar relevancia ...
                     if ($document['relevancy'] > 2) {
-                        //echo "\n*" . $document['title'] . "\n";
-                     /* salvar noticia, com valores:
-                        $document['title'];
-                        $document['text'];
-                        $document['relevancy'];
-                        $link->getHref();
-                     */
                         $this->logger('Process update saving News: ' . $document['title'], 'info');
                         try {
                             $news = new News();
@@ -94,8 +100,9 @@ class Launcher
                             $news->setSlug($document['slug']);
                             $news->setDate(new \DateTime(date('Y-m-d'))); // Falta DATA
                             $news->setAnnotation('');
-                            //pegar preferencia da assinatura, se txt ou html
-                            $news->setContent($document['html']);
+                            $f = $subscription->getFormat();
+                            $f = empty($f) ? 'html' : $f;
+                            $news->setContent($document[$f]);
                             $news->setSubscription($subscription);
                             $news->setRawnews($rawNews);
                             $manager->persist($news);

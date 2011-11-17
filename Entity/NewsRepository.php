@@ -2,8 +2,9 @@
 
 namespace Gpupo\CamelSpiderBundle\Entity;
 
-use Doctrine\ORM\EntityRepository;
-
+use Doctrine\ORM\EntityRepository,
+    CamelSpider\Entity\InterfaceLink,
+    CamelSpider\Entity\Document;
 /**
  * NewsRepository
  *
@@ -36,5 +37,34 @@ class NewsRepository extends EntityRepository
             ->setParameter('tid', $id);
         return $q->getQuery();
     }
+
+    public function searchByLink(InterfaceLink $link)
+    {
+        $qb = $this->createQueryBuilder('a');
+        $pars = array('href'    => $link->getHref());
+        $document = $link->getDocument();
+        $where = 'a.uri = :href';
+
+        if ($document instanceof Document) {
+            $where .= ' or a.title = :title or a.slug = :slug';
+            $pars['slug']  = $document->getSlug();
+            $pars['title'] = $document->getTitle();
+        }
+
+        $qb->where($where)->setParameters($pars);
+
+        return $qb;
+    }
+
+    public function countByLink(InterfaceLink $link)
+    {
+
+        $r = $this->searchByLink($link)
+            ->getQuery()
+            ->getArrayResult();
+
+        return is_null($r) ? 0 : count($r);
+    }
+
 
 }
