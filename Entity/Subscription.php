@@ -108,28 +108,28 @@ class Subscription implements InterfaceSubscription
      */
     private $encoding;
 
-        /**
-         * @var integer $createdBy
-         *
-         * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
-         * @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
-         */
-        private $createdBy;
+    /**
+     * @var integer $createdBy
+     *
+     * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
+     */
+    private $createdBy;
 
-        /**
-         * @var datetime $createdAt
-         *
-         * @ORM\Column(name="created_at", type="datetime")
-         */
-        private $createdAt;
+    /**
+     * @var datetime $createdAt
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
 
-        /**
-         * @var integer $updatedBy
-         *
-         * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
-         * @ORM\JoinColumn(name="updated_by", referencedColumnName="id", nullable=true)
-         */
-        private $updatedBy;
+    /**
+     * @var integer $updatedBy
+     *
+     * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
+     * @ORM\JoinColumn(name="updated_by", referencedColumnName="id", nullable=true)
+     */
+    private $updatedBy;
 
     /**
      * @var datetime $updatedAt

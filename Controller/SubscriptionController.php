@@ -25,6 +25,37 @@ class SubscriptionController extends GeneratorController
     }
 
 
+    public function indexAction()
+    {
+        // Configuring the Generator Controller
+        $this->configure();
+
+        // Defining filters
+        $this->configureFilter();
+
+        // Defining actual page
+        $this->setPage($this->getRequest()->get('page', $this->getPage()));
+
+        $pager = $this->getPager();
+
+        $filterForm = $this->createFilterForm();
+        if ($filterForm) {
+            $filterForm = $filterForm->createView();
+        }
+
+        $stats = $this->getDoctrine()->getRepository('GpupoCamelSpiderBundle:Subscription')
+                ->getStats($pager->getResults());
+
+        return $this->render('GpupoCamelSpiderBundle:Subscription:listGrid.html.twig', array(
+            'generator'   => $this->generator,
+            'pager'       => $pager,
+            'delete_form' => $this->createDeleteForm('fake')->createView(),
+            'filter_form' => $filterForm,
+            'stats'       => $stats,
+        ));
+
+    }
+
     /**
      * new Action
      *

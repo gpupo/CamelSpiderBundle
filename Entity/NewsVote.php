@@ -32,7 +32,7 @@ class NewsVote
     private $value;
 
     /**
-     * @ORM\ManyToOne(targetEntity="News")
+     * @ORM\ManyToOne(targetEntity="News", inversedBy="votes", cascade={"all"})
      * @ORM\JoinColumn(name="news_id", referencedColumnName="id")
      */
     private $news;

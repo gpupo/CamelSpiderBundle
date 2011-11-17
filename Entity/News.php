@@ -128,13 +128,14 @@ class News
     private $tags;
 
     /**
-     * The class constructor
-     *
-     * @return void
+     * @ORM\OneToMany(targetEntity="NewsVote", mappedBy="news", cascade={"all"})
      */
+    private $votes;
+
     public function __construct()
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->votes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -528,4 +529,59 @@ class News
     {
         return $this->moderationDate;
     }
+
+    /**
+     * Add votes
+     *
+     * @param Gpupo\CamelSpiderBundle\Entity\NewsVote $votes
+     */
+    public function addNewsVote(\Gpupo\CamelSpiderBundle\Entity\NewsVote $votes)
+    {
+        $this->votes[] = $votes;
+    }
+
+    /**
+     * Get votes
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getVotes()
+    {
+        return $this->votes;
+    }
+
+    /**
+     * Get user vote
+     *
+     * @param Funpar\AdminBundle\Entity\User $user
+     *
+     * @return Gpupo\CamelSpiderBundle\Entity\NewsVote
+     */
+    public function getUserVote(\Funpar\AdminBundle\Entity\User $user)
+    {
+        foreach ($this->votes as $vote) {
+            if ($vote->getUser()->getId() == $user->getId()) {
+                return $vote;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get user vote by Id
+     *
+     * @param integer $userId
+     *
+     * @return Gpupo\CamelSpiderBundle\Entity\NewsVote
+     */
+    public function getUserVoteById($userId)
+    {
+        foreach ($this->votes as $vote) {
+            if ($vote->getUser()->getId() == $userId) {
+                return $vote;
+            }
+        }
+        return null;
+    }
+
 }

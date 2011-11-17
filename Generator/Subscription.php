@@ -30,6 +30,7 @@ class Subscription extends Generator
             'updated_at'          => array('label' => 'Updated At', 'date_format' => 'd/m/Y H:i:s'),
             'is_active'           => array('label' => 'Is Active', 'size' => 'small'),
             'schedules'           => array('label' => 'Schedules', 'class' => 'schedule_list', 'help' => 'Schedules to check for updates'),
+            'stats'               => array('label' => 'Stats', 'list_partial' => 'GpupoCamelSpiderBundle:Subscription:stats.html.twig'),
         );
 
         $list = array(
@@ -38,10 +39,11 @@ class Subscription extends Generator
             'display'         => array(
                                 'id',
                                 'name',
-                                'href',
+                                'created_by',
                                 'source_type',
                                 'is_active',
-                                //'is_active',
+                                'stats',
+                                //'is_active',t
                                 //'source_domain',
                                 //'uri_login',
                                 //'uri_password',

@@ -21,4 +21,63 @@ class SubscriptionRepository extends EntityRepository implements InterfaceNode
     {
         return $this->findBy(array('isActive'=> true), array('name'=>'ASC'));
     }
+
+    public function getStats(array $subscriptions)
+    {
+        $ids = array();
+        $stats = array(
+            'lastCapture' => array(),
+            'countNews'   => array()
+        );
+
+        foreach($subscriptions as $subscription) {
+            $ids[] = $subscription->getId();
+        }
+
+        $qb1 = $this->getEntityManager()
+                //->getRepository('FunparAdminBundle:Log')
+                ->getRepository('GpupoCamelSpiderBundle:News')
+                ->createQueryBuilder('n');
+
+        $date = new \DateTime('NOW');
+        $date->sub(new \DateInterval('P30D'));
+        $date = $date->format('Ymd') . '000000';
+
+        $statsResults1 =
+            $qb1->select($qb1->expr()->count('n.id'). ' as total')
+                ->addSelect('s.id as sid')
+                ->join('n.subscription', 's')
+                ->andWhere($qb1->expr()->in('s.id', $ids))
+                ->andWhere($qb1->expr()->gte('n.date', '?1'))
+                ->addGroupBy('s.id')
+                ->setParameter(1,$date)
+                ->getQuery()
+                ->getResult();
+
+        foreach ($statsResults1 as $result) {
+            $stats['countNews'][$result['sid']] = $result['total'];
+        }
+
+        $qb2 = $this->getEntityManager()
+                ->getRepository('FunparAdminBundle:Log')
+                ->createQueryBuilder('l');
+        $statsResults2 =
+            $qb2->select($qb2->expr()->max('l.createdAt'). ' as lastCapture')
+                ->addSelect('s.id as sid')
+                ->join('l.subscription', 's')
+                ->andWhere($qb2->expr()->in('s.id', $ids))
+                ->addGroupBy('s.id')
+                ->getQuery()
+                ->getResult();
+
+        foreach ($statsResults2 as $result) {
+            $stats['lastCapture'][$result['sid']] = $result['lastCapture'];
+        }
+
+//        print_r($statsResults1); echo '<hr/>';
+//        echo '<pre>';print_r($stats);exit;
+        return $stats;
 }
+
+}
+
