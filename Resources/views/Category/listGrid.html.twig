@@ -57,21 +57,26 @@
                             </td>
 #}
                             {% for fieldName, field in generator.listDisplayFields %}
-                                {% set data = generator.renderField(fieldName, record) %}
-                                {% if field.date_format is defined %}
+
+                                {% if field.list_partial is defined %}
+                                    <td>{% include field.list_partial %}</td>
+
+                                {% elseif field.date_format is defined %}
+                                    {% set data = generator.renderField(fieldName, record) %}
                                     {% if data %}
-                            <td>{{ generator.renderField(fieldName, record) | date(field.date_format) }}</td>
+                                        <td>{{ generator.renderField(fieldName, record) | date(field.date_format) }}</td>
                                     {% else %}
-                            <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
                                     {% endif %}
                                 {% else %}
+                                    {% set data = generator.renderField(fieldName, record) %}
                                     {% if field.raw is defined and  field.raw %}
                                         {% set data = data | raw %}
                                     {% endif %}
                                     {% if field.trans is defined and field.trans%}
                                         {% set data = data | trans %}
                                     {% endif %}
-                            <td>{{ data }}</td>
+                                    <td>{{ data }}</td>
                                 {% endif %}
                             {% endfor %}
                             <td>
