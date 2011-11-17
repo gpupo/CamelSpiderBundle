@@ -480,11 +480,6 @@ class News
     public function setModeration($moderation)
     {
         $this->moderation = $moderation;
-
-        // Moderation date defined automaticly
-        if (in_array($moderation, array('APROVED'=>'APROVED','REJECTED'=>'REJECTED'))) {
-            $this->setModerationDate(new \DateTime());
-        }
     }
 
     /**
@@ -568,11 +563,11 @@ class News
     public function getUserVote(\Funpar\AdminBundle\Entity\User $user)
     {
         foreach ($this->votes as $vote) {
-            if ($vote->getUser()->getId() == $user->getId()) {
-                return $vote;
+            if ($vote->getUser() && $vote->getUser()->getId() == $user->getId()) {
+                return $vote->getValue();
             }
         }
-        return null;
+        return 0;
     }
 
     /**
@@ -585,11 +580,11 @@ class News
     public function getUserVoteById($userId)
     {
         foreach ($this->votes as $vote) {
-            if ($vote->getUser()->getId() == $userId) {
-                return $vote;
+            if ($vote->getUser() && $vote->getUser()->getId() == $userId) {
+                return $vote->getValue();
             }
         }
-        return null;
+        return 0;
     }
 
     /**

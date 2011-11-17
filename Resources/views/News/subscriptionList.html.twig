@@ -1,0 +1,4 @@
+{{ generator.renderField('subscription', record) | trans }}
+{% if record.subscription.createdBy %}
+<br/><span class="label">{{ record.subscription.createdBy}}</span>
+{% endif %}

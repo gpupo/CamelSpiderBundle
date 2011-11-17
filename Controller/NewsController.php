@@ -59,6 +59,13 @@ class NewsController extends GeneratorController
 
         if ($form->isValid()) {
             $manager = $this->getDoctrine()->getEntityManager();
+
+            // Moderation date defined automaticly
+            if (in_array($entity->getModeration(), array('APROVED'=>'APROVED','REJECTED'=>'REJECTED'))) {
+                $entity->setModerationDate(new \DateTime());
+                $entity->setModeratedBy($this->get('security.context')->getToken()->getUser());
+            }
+
             $manager->persist($entity);
             $manager->flush();
 
@@ -84,6 +91,66 @@ class NewsController extends GeneratorController
             'record' => $entity,
             'form'   => $form->createView()
         ));
+    }
+
+
+    public function updateAction($id)
+    {
+        // Configuring the Generator Controller
+        $this->configure();
+
+        $manager = $this->getDoctrine()->getEntityManager();
+
+        $entity = $manager->getRepository($this->generator->model)->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find entity.');
+        }
+
+        $oldModeration = $entity->getModeration();
+
+        $formType = $this->generator->form->type;
+
+        $editForm = $this->createForm(new $formType(), $entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        foreach ($this->generator->getHiddenFields('edit') as $fieldName) {
+            $editForm->remove($fieldName);
+        }
+        $request = $this->getRequest();
+
+        $editForm->bindRequest($request);
+
+        if ($editForm->isValid()) {
+            $manager->persist($entity);
+
+            // Moderation date defined automaticly
+            if (
+                    $oldModeration != $entity->getModeration()
+                    && in_array($entity->getModeration(), array('APROVED'=>'APROVED','REJECTED'=>'REJECTED'))
+               ) {
+                $entity->setModerationDate(new \DateTime());
+                $entity->setModeratedBy($this->get('security.context')->getToken()->getUser());
+            }
+
+
+
+
+            $manager->flush();
+
+            $this->get('session')->setFlash('success', 'The item was updated successfully.');
+            return $this->redirect($this->generateUrl($this->generator->route));
+            //return $this->redirect($this->generateUrl($this->generator->route . '_show', array('id' => $id)));
+        } else {
+            $this->get('session')->setFlash('error', 'An error ocurred while saving the item. Check the informed data.');
+            return $this->renderView('edit', array(
+                'record'      => $entity,
+                'form'   => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            ));
+
+        }
+
     }
 
 }

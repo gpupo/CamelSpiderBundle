@@ -17,17 +17,18 @@ class News extends Generator
             'moderation'     => array('label' => 'Moderation', 'size' => 'medium', 'help' => 'Status of moderation', 'trans' => true),
             'moderation_date'=> array('label' => 'Moderation Date', 'date_format' => 'd/m/Y H:i:s'),
             'moderated_by'   => array('label' => 'Created By'),
+            'moderationList' => array('label' => 'Moderação/ Data/ Usuário', 'list_partial' => 'GpupoCamelSpiderBundle:News:moderationList.html.twig'),
             'uri'            => array('label' => 'URI', 'size' => 'xxlarge', 'help' => 'Full path to the news source'),
             'slug'           => array('label' => 'Slug', 'help' => 'URL short name'),
             'date'           => array('label' => 'Date', 'help' => 'News Date', 'class' => 'date', 'date_format' => 'd/m/Y'),
             'content'        => array('label' => 'Content', 'help' => 'The content of the news', 'class' => 'richtext', 'raw' => true),
             'subscription'   => array('label' => 'Subscription', 'help' => ''),
+            'subscriptionList'   => array('label' => 'Fonte/ Criador', 'help' => '', 'list_partial' => 'GpupoCamelSpiderBundle:News:subscriptionList.html.twig'),
             'rawnews'        => array('label' => 'Raw News', 'help' => ''),
             'created_by'     => array('label' => 'Created By'),
             'created_at'     => array('label' => 'Created At', 'date_format' => 'd/m/Y H:i:s'),
             'updated_by'     => array('label' => 'Updated By'),
             'updated_at'     => array('label' => 'Updated At', 'date_format' => 'd/m/Y H:i:s'),
-            'moderationList' => array('label' => 'Moderation', 'list_partial' => 'GpupoCamelSpiderBundle:News:moderationList.html.twig'),
         );
 
         $list = array(
@@ -35,7 +36,8 @@ class News extends Generator
             'query_builder'   => null,
             'display'         => array(
                 'id',
-                'subscription',
+                //'subscription',
+                'subscriptionList',
                 'title',
                 'date',
                 //'uri',
@@ -45,7 +47,7 @@ class News extends Generator
                 //'moderationDate',
                 //'moderated_by',
                 //'rawnews',
-                'created_by',
+                //'created_by',
                 //'created_at',
                 //'updated_by',
                 //'updated_at',

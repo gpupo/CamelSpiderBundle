@@ -3,5 +3,7 @@
     {% if generator.renderField('moderation_date', record) %}
         <br/>{{ generator.renderField('moderation_date', record) | date('d/m/Y') }}
     {% endif %}
-    <br/>{{ generator.renderField('moderated_by', record)}}
+    {% if generator.renderField('moderated_by', record) %}
+        <br/><span class="label">{{ generator.renderField('moderated_by', record)}}</span>
+    {% endif %}
 {% endif %}
