@@ -558,7 +558,7 @@ class News
      *
      * @param Funpar\AdminBundle\Entity\User $user
      *
-     * @return Gpupo\CamelSpiderBundle\Entity\NewsVote
+     * @return integer
      */
     public function getUserVote(\Funpar\AdminBundle\Entity\User $user)
     {
@@ -575,7 +575,7 @@ class News
      *
      * @param integer $userId
      *
-     * @return Gpupo\CamelSpiderBundle\Entity\NewsVote
+     * @return integer
      */
     public function getUserVoteById($userId)
     {
@@ -588,8 +588,28 @@ class News
     }
 
     /**
-     * Set moderatedBy
+     * Get user vote by Id
      *
+     * @return Gpupo\CamelSpiderBundle\Entity\NewsVote
+     */
+    public function getVoteAverage()
+    {
+        $total = 0;
+        $count = 0;
+        foreach ($this->votes as $vote) {
+            $count++;
+            $total += $vote->getValue();
+        }
+        if ($count > 0) {
+            return round($total/$count);
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Set moderatedBy
+     *e
      * @param Funpar\AdminBundle\Entity\User $moderatedBy
      */
     public function setModeratedBy(\Funpar\AdminBundle\Entity\User $moderatedBy)
