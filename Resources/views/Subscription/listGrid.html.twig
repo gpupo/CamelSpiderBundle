@@ -89,6 +89,10 @@
                                 <a href="{{ path(generator.route ~ '_delete', { 'id': generator.renderField('id', record)}) }}"
                                    onclick="javascript:deleteConfirm('{% trans %}Are you sure you want to delete{% endtrans %}:<br/>{{ record }} ', this, 'form[_token]', $('#form__token').val());return false;">
                                     {% trans %}Delete{% endtrans %}
+                                </a><br/>
+                                <a href="{{ path(generator.route, { 'id': generator.renderField('id', record)}) }}"
+                                   onclick="javascript:alert('{% trans %}Are you sure you want to capture now?{% endtrans %}');return false;">
+                                    {% trans %}Capture Now{% endtrans %}
                                 </a>
                             </td>
                         </tr>

@@ -66,6 +66,7 @@ class SubscriptionRepository extends EntityRepository implements InterfaceNode
                 ->addSelect('s.id as sid')
                 ->join('l.subscription', 's')
                 ->andWhere($qb2->expr()->in('s.id', $ids))
+                ->andWhere($qb2->expr()->eq('l.type', "'CAPTURE'"))
                 ->addGroupBy('s.id')
                 ->getQuery()
                 ->getResult();
