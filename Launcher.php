@@ -99,7 +99,6 @@ class Launcher
                             $news->setUri($link->getHref());
                             $news->setSlug($document['slug']);
                             $news->setDate(new \DateTime(date('Y-m-d'))); // Falta DATA
-                            $news->setAnnotation('');
                             $f = $subscription->getFormat();
                             $f = empty($f) ? 'html' : $f;
                             $news->setContent($document[$f]);
