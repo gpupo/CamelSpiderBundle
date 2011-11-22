@@ -10,7 +10,8 @@ use CamelSpider\Spider\Indexer,
     CamelSpider\Entity\InterfaceSubscription,
     Symfony\Bundle\DoctrineBundle\Registry,
     Gpupo\CamelSpiderBundle\Entity\RawNews,
-    Gpupo\CamelSpiderBundle\Entity\News
+    Gpupo\CamelSpiderBundle\Entity\News,
+    Funpar\AdminBundle\Logger\Logger as FunparLogger
     ;
 
 class Launcher
@@ -23,12 +24,18 @@ class Launcher
 
     protected $doctrineRegistry;
 
-    public function __construct(Indexer $indexer, InterfaceCache $cache, $logger, Registry $doctrineRegistry = null)
+    /**
+     * @var Funpar\AdminBundle\Logger\Logger
+     */
+    protected $funparLogger;
+
+    public function __construct(Indexer $indexer, InterfaceCache $cache, $logger, Registry $doctrineRegistry = null, FunparLogger $funparLogger)
     {
         $this->indexer = $indexer;
         $this->cache = $cache;
         $this->logger = $logger;
         $this->doctrineRegistry = $doctrineRegistry;
+        $this->funparLogger = $funparLogger;
     }
 
     protected function logger($string, $type = 'info')
@@ -140,7 +147,8 @@ class Launcher
 
             $this->logger('Checking updates for the subscription [' . $subscription->getHref() . ']');
             try{
-                $this->processUpdates($this->indexer->run($subscription), $subscription);
+                $process = $this->processUpdates($this->indexer->run($subscription), $subscription);
+                $this->funparLogger->doLog('CAPTURE', $process['log'], null, $subscription);
             }
             catch (\Exception $e)
             {

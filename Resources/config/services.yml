@@ -20,4 +20,4 @@ services:
         arguments: [@camel_spider.goutte, @camel_spider.cache, @camel_spider.feed_reader, @logger]
     camel_spider.launcher:
         class: %camel_spider.laucher.class%
-        arguments: [@camel_spider.indexer, @camel_spider.cache, @logger, @doctrine]
+        arguments: [@camel_spider.indexer, @camel_spider.cache, @logger, @doctrine, @funpar.logger]
