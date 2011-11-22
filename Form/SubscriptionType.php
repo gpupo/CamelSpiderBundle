@@ -24,7 +24,10 @@ class SubscriptionType extends AbstractType
             ->add('encoding', 'choice', array('choices'=>array('utf8'=>'UTF8','iso'=>'ISO')))
             ->add('format', 'choice', array('choices'=>array('html'=>'HTML','txt'=>'TXT')))
             ->add('source_domain')
-            ->add('auth_info', 'text', array('required'=>false))
+            ->add('auth_info', 'textarea', array(
+                'required'=>false,
+                'attr' => array('style' => 'height:80px;')
+                ))
             ->add('uri_target', 'text', array('required'=>false))
             ->add('max_depth','choice', array('choices'=>array(1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9,10=>10)))
             ->add('filters_contain', 'textarea', array(
