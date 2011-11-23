@@ -12,15 +12,15 @@ class News extends Generator
 
         $fields  = array(
             'id'             => array('label' => 'ID'),
-            'title'          => array('label' => 'Title', 'size' => 'xlarge', 'help' => 'News Title'),
+            'title'          => array('label' => 'Title', 'size' => 'span12', 'help' => 'News Title'),
             'category'       => array('label' => 'Category', 'size' => 'medium', 'help' => 'News Category'),
             'moderation'     => array('label' => 'Moderation', 'size' => 'medium', 'help' => 'Status of moderation', 'trans' => true),
             'moderation_date'=> array('label' => 'Moderation Date', 'date_format' => 'd/m/Y H:i:s'),
             'moderated_by'   => array('label' => 'Created By'),
             'moderationList' => array('label' => 'Moderação/ Data/ Usuário', 'list_partial' => 'GpupoCamelSpiderBundle:News:moderationList.html.twig'),
-            'uri'            => array('label' => 'URI', 'size' => 'xxlarge', 'help' => 'Full path to the news source'),
+            'uri'            => array('label' => 'URI', 'size' => 'span12', 'help' => 'Full path to the news source'),
             'slug'           => array('label' => 'Slug', 'help' => 'URL short name'),
-            'date'           => array('label' => 'Date', 'help' => 'News Date', 'class' => 'date', 'date_format' => 'd/m/Y'),
+            'date'           => array('label' => 'Date', 'help' => 'News Date', 'class' => 'date span2', 'date_format' => 'd/m/Y'),
             'content'        => array('label' => 'Content', 'help' => 'The content of the news', 'class' => 'richtext', 'raw' => true),
             'subscription'   => array('label' => 'Subscription', 'help' => ''),
             'subscriptionList'   => array('label' => 'Fonte/ Criador', 'help' => '', 'list_partial' => 'GpupoCamelSpiderBundle:News:subscriptionList.html.twig'),
@@ -33,7 +33,7 @@ class News extends Generator
 
         $list = array(
             'title'           => 'Listing News',
-            'query_builder'   => null,
+            'query_builder'   => 'optimizedListQueryBuilder',
             'display'         => array(
                 'id',
                 //'subscription',
@@ -57,7 +57,7 @@ class News extends Generator
             'stackedTemplate' => '<h3>{{ record.name  }}</h3>' .
                                  '<p class="details_fixed">URI: <strong>{{ record.uri }}</strong></p>',
             'sort'            => array('createdAt' =>  'DESC', 'id' => 'DESC'),
-            'max_per_page'    => 20,
+            'max_per_page'    => 30,
             'object_actions'  => array(),
             'batch_actions'   => array(),
         );
