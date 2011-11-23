@@ -229,12 +229,19 @@ class SubscriptionController extends GeneratorController
             throw $this->createNotFoundException('Unable to find Entity.');
         }
 
+        $captures = $manager->getRepository('FunparAdminBundle:Log')
+                            ->findBy(
+                                    array('type' => 'CAPTURE'),
+                                    array('createdAt' => 'DESC'),
+                                    3);
+
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('GpupoCamelSpiderBundle:Subscription:show.html.twig', array(
             'generator'   => $this->generator,
             'record'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'captures'    => $captures,
         ));
     }
 

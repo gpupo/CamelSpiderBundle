@@ -62,7 +62,24 @@
             {% endif %}
             </div>
         </div><!-- /clearfix -->
+
         {% endfor %}
+
+{% if captures %}
+        <div class="clearfix">
+            <label>Últimas Capturas</label>
+            <div class="input">
+                <textarea class="span12" style="height: 200px;">
+{% for capture in captures %}
+{{ capture.createdAt | date('d/m/Y H:i:s') }}
+------------------------------------------------------------------
+{{ capture.message }}
+
+{% endfor %}
+                </textarea>
+            </div>
+        </div><!-- /clearfix -->
+{% endif %}
         </form>
 
         <div class="actions">
