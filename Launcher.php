@@ -83,7 +83,7 @@ class Launcher
                     try {
                         $rawNews = new RawNews();
                         $rawNews->setTitle($document['title']);
-                        $rawNews->setUri($link->getHref());
+                        $rawNews->setUri($document['uri']);
                         $rawNews->setRelevancy($document['relevancy']);
                         $rawNews->setDate(new \DateTime(date("now"))); // Falta DATA
                         $rawNews->setRawdata($document['raw']);
@@ -147,8 +147,9 @@ class Launcher
 
             $this->logger('Checking updates for the subscription [' . $subscription->getHref() . ']');
             try{
-                $process = $this->processUpdates($this->indexer->run($subscription), $subscription);
-                $this->funparLogger->doLog('CAPTURE', $process['log'], null, $subscription);
+                $updates =  $this->indexer->run($subscription);
+                $this->processUpdates($updates['pool'], $subscription);
+                $this->funparLogger->doLog('CAPTURE', $updates['log'], null, $subscription);
             }
             catch (\Exception $e)
             {
