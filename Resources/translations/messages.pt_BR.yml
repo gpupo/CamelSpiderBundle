@@ -50,6 +50,11 @@ Are you sure you want to capture now?: Tem certeza que deseja capturar agora?
 Capture: Capturar
 Capture Now: Capturar Agora
 
+# Log
+CAPTURE: CAPTURA
+NEWS_CAPTURE: CAPTURA
+NEWS_CREATE: NOTÍCIA_CRIAÇÃO
+
 Category: Categoria
 Categories: Categorias
 Listing Categories: Lista de Categorias
