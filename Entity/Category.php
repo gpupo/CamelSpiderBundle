@@ -273,4 +273,57 @@ class Category implements Node
     {
         return $this->children;
     }
+
+    /**
+     * Check if Category has parent category
+     *
+     * @return boolean
+     */
+    public function hasParent()
+    {
+        return null === $this->parent ? false : true;
+    }
+
+    /**
+     * Get array of objects of path
+     *
+     * @return array
+     */
+    public function getPath()
+    {
+        $node = $this;
+        $path = array();
+        do {
+            $path[] = $node;
+            $node = $node->getParent();
+        } while (null !== $node && $this->hasParent() && $node->getLvl() != 0);
+
+        return array_reverse($path);
+    }
+
+    /**
+     * Get array of path names
+     *
+     * @return array
+     */
+    public function getPathNames()
+    {
+        $pathNames = array();
+        foreach ($this->getPath() as $path)
+        {
+            $pathNames[] = $path->getName();
+        }
+        return $pathNames;
+    }
+
+    /**
+     * Return path names in string format (breadcrumb)
+     *
+     * @return string
+     */
+    public function getPathNamesString()
+    {
+        return implode(' -> ', $this->getPathNames());
+    }
+
 }
