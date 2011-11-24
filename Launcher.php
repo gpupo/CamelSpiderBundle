@@ -24,6 +24,8 @@ class Launcher
 
     protected $doctrineRegistry;
 
+    protected $captureLog;
+
     /**
      * @var Funpar\AdminBundle\Logger\Logger
      */
@@ -43,6 +45,16 @@ class Launcher
         return $this->logger->$type('#CamelSpiderBundleLancher ' . $string);
     }
 
+    protected function addCaptureLog($string)
+    {
+        $this->captureLog .= "\n" .$string;
+    }
+
+    protected function getCaptureLog()
+    {
+        return trim($this->captureLog);
+    }
+
     private function getSampleSubscriptions()
     {
         return FactorySubscription::buildCollectionFromDomain(
@@ -55,6 +67,8 @@ class Launcher
     protected function processUpdates(array $links, InterfaceSubscription $subscription)
     {
         $this->logger('Process update Links count:' . count($links), 'info');
+        $add = $descart = '';
+
         foreach ($links as $l) {
 
             if ($l instanceof Link) {
@@ -99,11 +113,12 @@ class Launcher
                     if ($document['relevancy'] > 2) {
                         $this->logger('Process update saving News: ' . $document['title'], 'info');
                         try {
+                            $add .= '-  *' . $document['title'] . '*' . "\n";
                             $news = new News();
                             $news->setTitle($document['title']);
                             $news->setCategory($subscription->getCategory());
                             $news->setModeration('PENDING');
-                            $news->setUri($link->getHref());
+                            $news->setUri($document['uri']);
                             $news->setSlug($document['slug']);
                             $news->setDate(new \DateTime(date('Y-m-d'))); // Falta DATA
                             $f = $subscription->getFormat();
@@ -116,6 +131,8 @@ class Launcher
                         } catch (\Exception $exc) {
                             $this->logger('Process update saving News: ' . $exc->getTraceAsString());
                         }
+                    } else {
+                        $descart .= ' - *' . $document['title'] . '*' . "\n";
                     }
 
                 } else {
@@ -125,6 +142,9 @@ class Launcher
                 $this->logger('Object wrong, on processUpdates. Link expected!', 'err');
             }
         }
+
+        $this->addCaptureLog('Documentos adicionados:' . "\n" . $add );
+        $this->addCaptureLog('Documentos descartados por baixa relevância:' . "\n" . $descart );
     }
 
     public function checkUpdates($collection = NULL)
@@ -148,8 +168,9 @@ class Launcher
             $this->logger('Checking updates for the subscription [' . $subscription->getHref() . ']');
             try{
                 $updates =  $this->indexer->run($subscription);
+                $this->captureLog = $updates['log'];
                 $this->processUpdates($updates['pool'], $subscription);
-                $this->funparLogger->doLog('CAPTURE', $updates['log'], null, $subscription);
+                $this->funparLogger->doLog('CAPTURE', $this->getCaptureLog(), null, $subscription);
             }
             catch (\Exception $e)
             {
