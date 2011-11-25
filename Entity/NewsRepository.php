@@ -37,6 +37,10 @@ class NewsRepository extends EntityRepository
             ->setParameter('tid', $id);
         return $q->getQuery();
     }
+    public function searchByKeyword($keyword)
+    {
+        return $this->findLatest();
+    }
 
     public function searchByLink(InterfaceLink $link)
     {

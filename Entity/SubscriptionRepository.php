@@ -75,8 +75,6 @@ class SubscriptionRepository extends EntityRepository implements InterfaceNode
             $stats['lastCapture'][$result['sid']] = $result['lastCapture'];
         }
 
-//        print_r($statsResults1); echo '<hr/>';
-//        echo '<pre>';print_r($stats);exit;
         return $stats;
 }
 
