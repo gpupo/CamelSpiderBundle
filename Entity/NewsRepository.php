@@ -37,11 +37,15 @@ class NewsRepository extends EntityRepository
             ->setParameter('tid', $id);
         return $q->getQuery();
     }
+
     public function searchByKeyword($keyword)
     {
         $q = $this->queryBuilder();
-        $q->andWhere('a.title LIKE %:keyword%')
-            ->setParameter('keyword', $keyword);
+        $q->andwhere($q->expr()->orx(
+            $q->expr()->like('a.content', $q->expr()->literal('%' . $keyword . '%')),
+            $q->expr()->like('a.title', $q->expr()->literal('%' . $keyword . '%'))
+        ));
+
         return $q->getQuery();
     }
 
