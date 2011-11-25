@@ -39,7 +39,10 @@ class NewsRepository extends EntityRepository
     }
     public function searchByKeyword($keyword)
     {
-        return $this->findLatest();
+        $q = $this->queryBuilder();
+        $q->andWhere('a.title LIKE %:keyword%')
+            ->setParameter('keyword', $keyword);
+        return $q->getQuery();
     }
 
     public function searchByLink(InterfaceLink $link)
