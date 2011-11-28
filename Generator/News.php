@@ -21,7 +21,7 @@ class News extends Generator
             'uri'            => array('label' => 'URI', 'size' => 'span12', 'help' => 'Full path to the news source'),
             'slug'           => array('label' => 'Slug', 'help' => 'URL short name'),
             'date'           => array('label' => 'Date', 'help' => 'News Date', 'class' => 'date span2', 'date_format' => 'd/m/Y'),
-            'content'        => array('label' => 'Content', 'help' => 'The content of the news', 'class' => 'richtext', 'raw' => true),
+            'content'        => array('label' => 'Content', 'help' => 'The content of the news', 'class' => 'richtext12-h1000', 'raw' => true),
             'subscription'   => array('label' => 'Subscription', 'help' => ''),
             'subscriptionList'   => array('label' => 'Fonte/ Criador', 'help' => '', 'list_partial' => 'GpupoCamelSpiderBundle:News:subscriptionList.html.twig'),
             'rawnews'        => array('label' => 'Raw News', 'help' => ''),
@@ -125,12 +125,12 @@ class News extends Generator
                     'compare' => '=', // eq
                     'label'   => 'Moderation',
                     'options' => array('choices'=>array('PENDING'=>'PENDING','APROVED'=>'APROVED','REJECTED'=>'REJECTED'))
-                ),
-//                'createdAt' => array(
-//                    'type'    => 'daterange',
-//                    'compare' => 'between',
-//                    'label'   => 'Created At',
-//                ),
+                    ),
+                'createdAt' => array(
+                    'type'    => 'daterange',
+                    'compare' => 'between',
+                    'label'   => 'Created At',
+                    ),
             ),
         );
         $this
