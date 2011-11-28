@@ -128,6 +128,7 @@ class Category implements Node
     public function getNameIndented()
     {
         $repeat = $this->getLvl() == 0 ? 0 : $this->getLvl()-1;
+
         return str_repeat('- ', $repeat) . $this->getName();
     }
 
