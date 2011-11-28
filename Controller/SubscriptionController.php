@@ -231,7 +231,7 @@ class SubscriptionController extends GeneratorController
 
         $captures = $manager->getRepository('FunparAdminBundle:Log')
                             ->findBy(
-                                    array('type' => 'CAPTURE'),
+                                    array('type' => 'CAPTURE', 'subscription' => $entity->getId()),
                                     array('createdAt' => 'DESC'),
                                     3);
 
