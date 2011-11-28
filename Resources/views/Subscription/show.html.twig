@@ -69,14 +69,12 @@
         <div class="clearfix">
             <label>Últimas Capturas</label>
             <div class="input">
-                <textarea class="span12" style="height: 200px;">
+                <div class="span13" style="height: 500px; background-color: #efefef;overflow: auto">
 {% for capture in captures %}
-{{ capture.createdAt | date('d/m/Y H:i:s') }}
-------------------------------------------------------------------
-{{ capture.message }}
-
+                        <h3>{{ capture.createdAt | date('d/m/Y H:i:s') }}</h3>
+                        {{ capture.message | markdown }}
 {% endfor %}
-                </textarea>
+                </div>
             </div>
         </div><!-- /clearfix -->
 {% endif %}
