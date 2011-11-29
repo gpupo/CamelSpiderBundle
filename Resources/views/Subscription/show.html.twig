@@ -67,15 +67,15 @@
 
 {% if captures %}
         <div class="clearfix">
-            <label>Últimas Capturas</label>
-            <div class="input">
-                <div class="span13" style="height: 500px; background-color: #efefef;overflow: auto">
+            <h2>Últimas Capturas</h3>
+                <div class="span13" style="">
 {% for capture in captures %}
-                        <h3>{{ capture.createdAt | date('d/m/Y H:i:s') }}</h3>
-                        {{ capture.message | markdown }}
+                        <h4>{{ capture.createdAt | date('d/m/Y H:i:s')
+                        }}</h4>
+                        {{ capture.message | replace({'\n':'\n\n'}) | markdown }}
+                        <hr/>
 {% endfor %}
                 </div>
-            </div>
         </div><!-- /clearfix -->
 {% endif %}
         </form>
