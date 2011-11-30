@@ -17,8 +17,7 @@ class CategoryRepository extends NestedTreeRepository implements InterfaceNode
 {
     public function findForMenu()
     {
-        //return $this->getLeafsQueryBuilder();
-        //return $this->findBy(array(), array('name'=>'ASC'));
+
         return $this->findForList()->getQuery()->getResult();
     }
 
@@ -27,7 +26,8 @@ class CategoryRepository extends NestedTreeRepository implements InterfaceNode
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.parent IS NOT NULL')
             ->add('orderBy', 'e.lft ASC');
-        return $qb;//->getQuery()->getResult();
+
+        return $qb;
     }
 
     public function removeAndMoveRelated(Category $removedCategory, $movedCategory)

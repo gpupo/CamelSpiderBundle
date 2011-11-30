@@ -67,7 +67,7 @@ class Launcher
     protected function processUpdates(array $links, InterfaceSubscription $subscription)
     {
         $this->logger('Process update Links count:' . count($links), 'info');
-        $add = $descart = '';
+        $add = $descart = $duplicated = '';
 
         foreach ($links as $l) {
 
@@ -81,6 +81,8 @@ class Launcher
 
                 if($count > 0) {
                     $this->logger('Document had been inserted', 'info');
+                    $duplicated .= ' - *' . $link['href'] . '*' . "\n";
+
                     continue;
                 }
 
@@ -144,7 +146,8 @@ class Launcher
         }
 
         $this->addCaptureLog('Documentos adicionados:' . "\n" . $add );
-        $this->addCaptureLog('Documentos descartados por baixa relevância:' . "\n" . $descart );
+        $this->addCaptureLog('Documentos descartados por já terem sido capturados e sem modificação relevante:' . "\n" . $duplicated );
+        $this->addCaptureLog('Documentos descartados por não conter palavras de relevância:' . "\n" . $descart );
     }
 
     public function checkUpdates($collection = NULL)

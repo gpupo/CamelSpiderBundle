@@ -30,11 +30,57 @@ class NewsRepository extends EntityRepository
         return $this->queryBuilder()->getQuery();
     }
 
+    /**
+     * Seleciona as notícias da categoria
+     * e também da das subcategorias.
+     * Também pode pesquisar fontes de notícias.
+     *
+     * @param string $type category|subscription
+     * @return Doctrine query
+     */
     public function findByType($type, $id)
     {
+        $method = 'findBy' . $type . 'Id';
+
+        return $this->$method($id);
+    }
+
+    /**
+     * Especializado na pesquisa por fonte de conteúdo
+     */
+    public function findBySubscriptionId($id)
+    {
         $q = $this->queryBuilder();
-        $q->andWhere('a.'.strtolower($type) . ' = :tid')
+        $q->andWhere('a.subscription = :tid')
             ->setParameter('tid', $id);
+        return $q->getQuery();
+    }
+
+    public function findByCategoryId($id)
+    {
+
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
+        $qb2->from('Gpupo\CamelSpiderBundle\Entity\Category', 'c')
+            ->select('c.id')
+            ->add('where', $qb2->expr()->eq('c.parent', $id));
+
+        $qb3 = $this->getEntityManager()->createQueryBuilder();
+        $qb3->from('Gpupo\CamelSpiderBundle\Entity\Category', 'd')
+            ->select('d.id')
+            ->add('where', $qb3->expr()->orx(
+                $qb3->expr()->in('d.id', $qb2->getDQL()),
+                $qb3->expr()->in('d.parent', $qb2->getDQL())
+            ));
+
+
+        $q = $this->queryBuilder();
+        $q->andWhere(
+            $q->expr()->orx(
+                $q->expr()->eq('a.category' , $id),
+                $q->expr()->in('a.category', $qb3->getDQL())
+            )
+        );
+        echo $q->getDQL();
         return $q->getQuery();
     }
 
