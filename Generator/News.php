@@ -126,11 +126,11 @@ class News extends Generator
                     'label'   => 'Moderation',
                     'options' => array('choices'=>array('PENDING'=>'PENDING','APROVED'=>'APROVED','REJECTED'=>'REJECTED'))
                     ),
-//                'createdAt' => array(
-//                    'type'    => 'daterange',
-//                    'compare' => 'between',
-//                    'label'   => 'Created At',
-//                    ),
+                'date' => array(
+                    'type'    => 'daterange',
+                    //'compare' => 'between', // not used in date range
+                    'label'   => 'Date',
+                    ),
             ),
         );
         $this

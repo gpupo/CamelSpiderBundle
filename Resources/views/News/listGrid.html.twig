@@ -20,13 +20,20 @@
     </div>
 
 {% if pager.count == 0  %}
-    <div id="no_records" class="alert-message warning">
-        <p>
-            {% trans %}No records found. You can filter again or{% endtrans %}
-        </p>
-        <p>
-            <a href="{{ path(generator.route ~ '_new') }}"><button type="submit" class="btn primary">{% trans %}Add New{% endtrans %}</button></a>
-        </p>
+    <div class="row">
+        <div class="span12 columns">
+            <div id="no_records" class="alert-message warning">
+                <p>
+                    {% trans %}No records found. You can filter again or{% endtrans %}
+                </p>
+                <p>
+                    <a href="{{ path(generator.route ~ '_new') }}"><button type="submit" class="btn primary">{% trans %}Add New{% endtrans %}</button></a>
+                </p>
+            </div>
+        </div>
+{% if filter_form %}
+{% include 'CoregenThemeBootstrapBundle:Coregen:_filterForm.html.twig' %}
+{% endif %}
     </div>
 {% else %}
     <div class="row">
@@ -111,12 +118,9 @@
 
         </div>
 
-{% block filterForm %}{% endblock %}
 {% if filter_form %}
 {% include 'CoregenThemeBootstrapBundle:Coregen:_filterForm.html.twig' %}
 {% endif %}
-
-        </div>
 
     </div>
 {% endif %}
