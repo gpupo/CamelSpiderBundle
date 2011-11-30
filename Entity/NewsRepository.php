@@ -56,31 +56,35 @@ class NewsRepository extends EntityRepository
         return $q->getQuery();
     }
 
+    private function subQuerySubCategories($qb, $id, $letter = null)
+    {
+        $letter = 'sb' . $letter;
+
+        return $qb->from('Gpupo\CamelSpiderBundle\Entity\Category', $letter)
+            ->select($letter . '.id')
+            ->add('where', $qb->expr()->eq($letter . '.parent', $id))
+            ->getDQL();
+    }
+
     public function findByCategoryId($id)
     {
 
-        $qb2 = $this->getEntityManager()->createQueryBuilder();
-        $qb2->from('Gpupo\CamelSpiderBundle\Entity\Category', 'c')
-            ->select('c.id')
-            ->add('where', $qb2->expr()->eq('c.parent', $id));
-
-        $qb3 = $this->getEntityManager()->createQueryBuilder();
-        $qb3->from('Gpupo\CamelSpiderBundle\Entity\Category', 'd')
+        $sq = $this->getEntityManager()->createQueryBuilder();
+        $qb = clone $sq;
+        $qb->from('Gpupo\CamelSpiderBundle\Entity\Category', 'd')
             ->select('d.id')
-            ->add('where', $qb3->expr()->orx(
-                $qb3->expr()->in('d.id', $qb2->getDQL()),
-                $qb3->expr()->in('d.parent', $qb2->getDQL())
+            ->add('where', $qb->expr()->orx(
+                $qb->expr()->in('d.id', $this->subQuerySubCategories(clone $sq, $id, 'a')),
+                $qb->expr()->in('d.parent', $this->subQuerySubCategories(clone $sq, $id, 'b'))
             ));
-
 
         $q = $this->queryBuilder();
         $q->andWhere(
             $q->expr()->orx(
                 $q->expr()->eq('a.category' , $id),
-                $q->expr()->in('a.category', $qb3->getDQL())
+                $q->expr()->in('a.category', $qb->getDQL())
             )
         );
-        echo $q->getDQL();
         return $q->getQuery();
     }
 
