@@ -67,11 +67,10 @@
 
 {% if captures %}
         <div class="clearfix">
-            <h2>Últimas Capturas</h3>
-                <div class="span13" style="">
+            <h2>Últimas Capturas</h2>
+                <div class="span13">
 {% for capture in captures %}
-                        <h4>{{ capture.createdAt | date('d/m/Y H:i:s')
-                        }}</h4>
+                        <h3>{{ capture.createdAt | date('d/m/Y H:i:s') }}</h3>
                         {{ capture.message | replace({'\n':'\n\n'}) | markdown }}
                         <hr/>
 {% endfor %}
