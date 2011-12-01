@@ -6,9 +6,11 @@ parameters:
     camel_spider.cache.lifetime_days: 1
     camel_spider.laucher.class: Gpupo\CamelSpiderBundle\Launcher
     camel_spider.indexer.class: CamelSpider\Spider\Indexer
+    camel_spider.user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:8.0.1) Gecko/20100101 Firefox/8.0.1"
 services:
     camel_spider.goutte:
         class: %camel_spider.goutte.class%
+        arguments: [[timeout: 90, maxredirects: 2, useragent: %camel_spider.user_agent% ]]
     camel_spider.cache:
         class: %camel_spider.cache.class%
         arguments: [%camel_spider.cache.dir%, %camel_spider.cache.lifetime_days%, @logger]
