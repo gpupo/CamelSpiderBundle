@@ -13,14 +13,6 @@ use Doctrine\ORM\EntityRepository,
  */
 class NewsRepository extends EntityRepository
 {
-    public function readerQueryBuilder()
-    {
-        $qb = $this->createQueryBuilder('e')
-                ->where('e.moderation = :moderation')
-                ->setParameters(array('moderation' => 'APROVED'));
-        return $qb;
-    }
-
     public function queryBuilder($limits = array('offset' => 0,'limit' => 50))
     {
         $qb = $this->createQueryBuilder('a');
@@ -37,14 +29,14 @@ class NewsRepository extends EntityRepository
         return $this->queryBuilder()->getQuery();
     }
 
-    public function findByTypeQueryBuilder($type, $id)
-    {
-        $q = $this->readerQueryBuilder();
-        $q->andWhere('e.'.strtolower($type) . ' = :tid')
-            ->setParameter('tid', $id);
-        return $q;
-    }
-
+    /**
+     * Seleciona as notícias da categoria
+     * e também da das subcategorias.
+     * Também pode pesquisar fontes de notícias.
+     *
+     * @param string $type category|subscription
+     * @return Doctrine query
+     */
     public function findByType($type, $id)
     {
         $method = 'findBy' . $type . 'Id';
@@ -63,15 +55,26 @@ class NewsRepository extends EntityRepository
         return $q->getQuery();
     }
 
-    public function searchByKeywordQueryBuilder($keyword)
+    public function findByCategoryId($id)
     {
-        $q = $this->readerQueryBuilder();
-        $q->andwhere($q->expr()->orx(
-            $q->expr()->like('e.content', $q->expr()->literal('%' . $keyword . '%')),
-            $q->expr()->like('e.title', $q->expr()->literal('%' . $keyword . '%'))
-        ));
 
-        return $q;
+        $sq = $this->getEntityManager()->createQueryBuilder();
+        $qb = clone $sq;
+        $qb->from('Gpupo\CamelSpiderBundle\Entity\Category', 'd')
+            ->select('d.id')
+            ->add('where', $qb->expr()->orx(
+                $qb->expr()->in('d.id', $this->subQuerySubCategories(clone $sq, $id, 'a')),
+                $qb->expr()->in('d.parent', $this->subQuerySubCategories(clone $sq, $id, 'b'))
+            ));
+
+        $q = $this->queryBuilder();
+        $q->andWhere(
+            $q->expr()->orx(
+                $q->expr()->eq('a.category' , $id),
+                $q->expr()->in('a.category', $qb->getDQL())
+            )
+        );
+        return $q->getQuery();
     }
 
     public function searchByKeyword($keyword)
@@ -83,6 +86,99 @@ class NewsRepository extends EntityRepository
         ));
 
         return $q->getQuery();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Atualização para Pager */
+
+
+
+    public function readerQueryBuilder()
+    {
+        $qb = $this->createQueryBuilder('e')
+                ->where('e.moderation = :moderation')
+                ->setParameters(array('moderation' => 'APROVED'));
+        return $qb;
+    }
+
+    /**
+     * Seleciona as notícias da categoria
+     * e também da das subcategorias.
+     * Também pode pesquisar fontes de notícias.
+     *
+     * @param string $type category|subscription
+     * @return Doctrine query
+     */
+    public function findByTypeQueryBuilder($type, $id)
+    {
+        $method = 'findBy' . $type . 'IdQueryBuilder';
+
+        return $this->$method($id);
+    }
+
+    /**
+     * Especializado na pesquisa por fonte de conteúdo
+     */
+    public function findBySubscriptionIdQueryBuilder($id)
+    {
+        $q = $this->readerQueryBuilder();
+        $q->andWhere('e.subscription = :tid')
+            ->setParameter('tid', $id);
+        return $q;
+    }
+
+    public function findByCategoryIdQueryBuilder($id)
+    {
+
+        $sq = $this->getEntityManager()->createQueryBuilder();
+        $qb = clone $sq;
+        $qb->from('Gpupo\CamelSpiderBundle\Entity\Category', 'd')
+            ->select('d.id')
+            ->add('where', $qb->expr()->orx(
+                $qb->expr()->in('d.id', $this->subQuerySubCategories(clone $sq, $id, 'a')),
+                $qb->expr()->in('d.parent', $this->subQuerySubCategories(clone $sq, $id, 'b'))
+            ));
+
+        $q = $this->readerQueryBuilder();
+        $q->andWhere(
+            $q->expr()->orx(
+                $q->expr()->eq('e.category' , $id),
+                $q->expr()->in('e.category', $qb->getDQL())
+            )
+        );
+        return $q;
+    }
+
+    private function subQuerySubCategories($qb, $id, $letter = null)
+    {
+        $letter = 'sb' . $letter;
+
+        return $qb->from('Gpupo\CamelSpiderBundle\Entity\Category', $letter)
+            ->select($letter . '.id')
+            ->add('where', $qb->expr()->eq($letter . '.parent', $id))
+            ->getDQL();
+    }
+
+    public function searchByKeywordQueryBuilder($keyword)
+    {
+        $q = $this->readerQueryBuilder();
+        $q->andwhere($q->expr()->orx(
+            $q->expr()->like('e.content', $q->expr()->literal('%' . $keyword . '%')),
+            $q->expr()->like('e.title', $q->expr()->literal('%' . $keyword . '%'))
+        ));
+
+        return $q;
     }
 
     public function searchByLink(InterfaceLink $link)
