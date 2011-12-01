@@ -47,8 +47,18 @@ class NewsRepository extends EntityRepository
 
     public function findByType($type, $id)
     {
+        $method = 'findBy' . $type . 'Id';
+
+        return $this->$method($id);
+    }
+
+    /**
+     * Especializado na pesquisa por fonte de conteúdo
+     */
+    public function findBySubscriptionId($id)
+    {
         $q = $this->queryBuilder();
-        $q->andWhere('a.'.strtolower($type) . ' = :tid')
+        $q->andWhere('a.subscription = :tid')
             ->setParameter('tid', $id);
         return $q->getQuery();
     }
