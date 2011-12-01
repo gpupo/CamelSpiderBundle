@@ -145,9 +145,9 @@ class Launcher
             }
         }
 
-        $this->addCaptureLog('Documentos adicionados:' . "\n" . $add );
-        $this->addCaptureLog('Documentos descartados por já terem sido capturados e sem modificação relevante:' . "\n" . $duplicated );
-        $this->addCaptureLog('Documentos descartados por não conter palavras de relevância:' . "\n" . $descart );
+        empty($add) ?: $this->addCaptureLog('Documentos adicionados:' . "\n" . $add );
+        empty($duplicated) ?: $this->addCaptureLog('Documentos descartados por já terem sido capturados e sem modificação relevante:' . "\n" . $duplicated );
+        empty($descart) ?: $this->addCaptureLog('Documentos descartados por não conter palavras de relevância:' . "\n" . $descart );
     }
 
     public function checkUpdates($collection = NULL)
