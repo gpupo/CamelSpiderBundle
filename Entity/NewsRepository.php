@@ -13,6 +13,13 @@ use Doctrine\ORM\EntityRepository,
  */
 class NewsRepository extends EntityRepository
 {
+    public function readerQueryBuilder()
+    {
+        $qb = $this->createQueryBuilder('e')
+                ->where('e.moderation = :moderation')
+                ->setParameters(array('moderation' => 'APROVED'));
+        return $qb;
+    }
 
     public function queryBuilder($limits = array('offset' => 0,'limit' => 50))
     {
@@ -30,12 +37,31 @@ class NewsRepository extends EntityRepository
         return $this->queryBuilder()->getQuery();
     }
 
+    public function findByTypeQueryBuilder($type, $id)
+    {
+        $q = $this->readerQueryBuilder();
+        $q->andWhere('e.'.strtolower($type) . ' = :tid')
+            ->setParameter('tid', $id);
+        return $q;
+    }
+
     public function findByType($type, $id)
     {
         $q = $this->queryBuilder();
         $q->andWhere('a.'.strtolower($type) . ' = :tid')
             ->setParameter('tid', $id);
         return $q->getQuery();
+    }
+
+    public function searchByKeywordQueryBuilder($keyword)
+    {
+        $q = $this->readerQueryBuilder();
+        $q->andwhere($q->expr()->orx(
+            $q->expr()->like('e.content', $q->expr()->literal('%' . $keyword . '%')),
+            $q->expr()->like('e.title', $q->expr()->literal('%' . $keyword . '%'))
+        ));
+
+        return $q;
     }
 
     public function searchByKeyword($keyword)
