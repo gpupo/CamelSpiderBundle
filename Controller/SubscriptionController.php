@@ -5,6 +5,7 @@ namespace Gpupo\CamelSpiderBundle\Controller;
 use Coregen\AdminGeneratorBundle\ORM\GeneratorController;
 use Gpupo\CamelSpiderBundle\Generator\Subscription as Generator;
 use Gpupo\CamelSpiderBundle\Entity\SubscriptionSchedule;
+use Gpupo\CamelSpiderBundle\Entity\SubscriptionRepository;
 
 /**
  * Subscription Controller
@@ -164,6 +165,48 @@ class SubscriptionController extends GeneratorController
         ));
     }
 
+    public function deleteAction($id)
+    {
+        // Configuring the Generator Controller
+        $this->configure();
+
+        $form = $this->createDeleteForm($id);
+        $request = $this->getRequest();
+
+        $form->bindRequest($request);
+
+        $formData = $request->get('form');
+
+        if (!isset($formData['subscription'])) {
+            $this->get('session')->setFlash(
+                    'error',
+                    'To delete a subscription another subscription must be selected to move related data.'
+                    );
+            return $this->redirect($this->generateUrl($this->generator->route));
+        } else if ($form->isValid()) {
+
+            $manager = $this->getDoctrine()->getEntityManager();
+            $entity = $manager->getRepository($this->generator->class)->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find entity.');
+            }
+
+            $manager->getRepository($this->generator->class)
+                    ->removeAndMoveRelated($entity, $formData['subscription']);
+
+            $this->get('session')->setFlash('success', 'The item was deleted successfully.');
+            return $this->redirect($this->generateUrl($this->generator->route));
+        } else {
+            $this->get('session')->setFlash(
+                    'error',
+                    'An error ocurred while deleting the item.'
+                    );
+            return $this->redirect($this->generateUrl($this->generator->route));
+        }
+
+    }
+
     /**
      * Edits an existing Tarefa entity.
      *
@@ -253,6 +296,23 @@ class SubscriptionController extends GeneratorController
         $repository = $manager->getRepository($this->generator->model);
 
         return $repository;
+    }
+
+    protected function createDeleteForm($id)
+    {
+        return $this->createFormBuilder(array('id' => $id))
+            ->add('id', 'hidden')
+            ->add('subscription', 'entity', array(
+                                'class' => 'Gpupo\\CamelSpiderBundle\\Entity\\Subscription',
+                                'query_builder' => function(SubscriptionRepository $er) {
+                                    return $er->createQueryBuilder('s')
+                                            ->add('orderBy', 's.name ASC');
+                                },
+                                'label' => 'Move related data to Subscription',
+                                ))
+            ->setAttribute('name', 'delete_form')
+            ->getForm()
+        ;
     }
 
 }

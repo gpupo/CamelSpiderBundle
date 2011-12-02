@@ -120,7 +120,6 @@ class News extends Generator
             'title'   => "Filter",
             'fields' => array(
                 'moderation' => array(
-                    'name'    => 'moderation',
                     'type'    => 'choice',
                     'compare' => '=', // eq
                     'label'   => 'Moderation',
@@ -131,6 +130,18 @@ class News extends Generator
                     //'compare' => 'between', // not used in date range
                     'label'   => 'Date',
                     ),
+//                'subscription' => array(
+//                    'type'    => 'entity',
+//                    'compare' => '=', // eq
+//                    'label'   => 'Subscription',
+//                    'options' => array(
+//                                'class' => 'Gpupo\\CamelSpiderBundle\\Entity\\Subscription',
+//                                'query_builder' => function(\Gpupo\CamelSpiderBundle\Entity\SubscriptionRepository $er) {
+//                                    return $er->createQueryBuilder('s')
+//                                            ->add('orderBy', 's.name ASC');
+//                                },
+//                        ),
+//                    ),
             ),
         );
         $this

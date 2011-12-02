@@ -76,7 +76,42 @@ class SubscriptionRepository extends EntityRepository implements InterfaceNode
         }
 
         return $stats;
-}
+    }
+
+    public function removeAndMoveRelated(Subscription $removedSubscription, $movedSubscription)
+    {
+
+        // Moving related News
+        $qb1 = $this->getEntityManager()->createQueryBuilder();
+        $qb1->update('Gpupo\CamelSpiderBundle\Entity\News n')
+            ->set('n.subscription', '?1')
+            ->add('where', $qb1->expr()->eq('n.subscription', '?2'))
+            ->setParameter(1, $movedSubscription)
+            ->setParameter(2, $removedSubscription->getId())
+            ->getQuery()->getResult();
+
+        // Moving related Logs
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
+        $qb2->update('Funpar\AdminBundle\Entity\Log l')
+            ->set('l.subscription', '?1')
+            ->add('where', $qb2->expr()->eq('l.subscription', '?2'))
+            ->setParameter(1, $movedSubscription)
+            ->setParameter(2, $removedSubscription->getId())
+            ->getQuery()->getResult();
+
+        // Moving related RawNews
+        $qb3 = $this->getEntityManager()->createQueryBuilder();
+        $qb3->update('Gpupo\CamelSpiderBundle\Entity\RawNews r')
+            ->set('r.subscription', '?1')
+            ->add('where', $qb3->expr()->eq('r.subscription', '?2'))
+            ->setParameter(1, $movedSubscription)
+            ->setParameter(2, $removedSubscription->getId())
+            ->getQuery()->getResult();
+
+        $this->getEntityManager()->flush();
+        $this->getEntityManager()->remove($removedSubscription);
+        $this->getEntityManager()->flush();
+    }
 
 }
 

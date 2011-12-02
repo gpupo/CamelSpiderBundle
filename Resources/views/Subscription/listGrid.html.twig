@@ -87,7 +87,7 @@
                                     {% trans %}Edit{% endtrans %}
                                 </a>
                                 <a href="{{ path(generator.route ~ '_delete', { 'id': generator.renderField('id', record)}) }}"
-                                   onclick="javascript:deleteConfirm('{% trans %}Are you sure you want to delete{% endtrans %}:<br/>{{ record }} ', this, 'form[_token]', $('#form__token').val());return false;">
+                                   onclick="javascript:deleteSubscription('{{ record }}', this, {{ record.id }});return false;">
                                     {% trans %}Delete{% endtrans %}
                                 </a><br/>
                                 <a href="{{ path(generator.route, { 'id': generator.renderField('id', record)}) }}"
@@ -102,7 +102,7 @@
             </div>
 
             <!-- Hidden form to submit Deletion -->
-            {{ form_widget(delete_form) }}
+            {% include 'GpupoCamelSpiderBundle:Subscription:_delete_form.html.twig' %}
 
             <div class="row">
 

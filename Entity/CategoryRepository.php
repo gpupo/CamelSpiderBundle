@@ -32,23 +32,35 @@ class CategoryRepository extends NestedTreeRepository implements InterfaceNode
 
     public function removeAndMoveRelated(Category $removedCategory, $movedCategory)
     {
+        // Get children
+        $childrens = $this->children($removedCategory);
+        $removedIds[] = $removedCategory->getId();
+        if (null !== $childrens && false !== $childrens) {
+            foreach ($childrens as $node) {
+                $removedIds[] = $node->getId();
+            }
+        }
+
         // Moving related Subscritions
         $qb1 = $this->getEntityManager()->createQueryBuilder();
+
         $qb1->update('Gpupo\CamelSpiderBundle\Entity\Subscription s')
             ->set('s.category', '?1')
-            ->add('where', $qb1->expr()->eq('s.category', '?2'))
+            ->add('where', $qb1->expr()->in('s.category', '?2'))
             ->setParameter(1, $movedCategory)
-            ->setParameter(2, $removedCategory->getId())
+            ->setParameter(2, $removedIds)
             ->getQuery()->getResult();
 
+        // Moving related News
         $qb2 = $this->getEntityManager()->createQueryBuilder();
         $qb2->update('Gpupo\CamelSpiderBundle\Entity\News n')
             ->set('n.category', '?1')
-            ->add('where', $qb2->expr()->eq('n.category', '?2'))
+            ->add('where', $qb2->expr()->in('n.category', '?2'))
             ->setParameter(1, $movedCategory)
-            ->setParameter(2, $removedCategory->getId())
+            ->setParameter(2, $removedIds)
             ->getQuery()->getResult();
 
+        $this->getEntityManager()->flush();
         $this->getEntityManager()->remove($removedCategory);
         $this->getEntityManager()->flush();
     }
