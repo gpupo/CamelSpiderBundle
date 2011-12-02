@@ -145,17 +145,27 @@ class Launcher
             }
         }
 
-        $this->addCaptureLog('Documentos adicionados:' . "\n" . $add );
-        $this->addCaptureLog('Documentos descartados por já terem sido capturados e sem modificação relevante:' . "\n" . $duplicated );
-        $this->addCaptureLog('Documentos descartados por não conter palavras de relevância:' . "\n" . $descart );
+        empty($add) ?: $this->addCaptureLog('Documentos adicionados:' . "\n" . $add );
+        empty($duplicated) ?: $this->addCaptureLog('Documentos descartados por já terem sido capturados e sem modificação relevante:' . "\n" . $duplicated );
+        empty($descart) ?: $this->addCaptureLog('Documentos descartados por não conter palavras de relevância:' . "\n" . $descart );
     }
 
-    public function checkUpdates($collection = NULL)
+    /**
+     * Run the spider for every subscription
+     *
+     * @param int subscription_id
+     */
+    public function checkUpdates($subscription_id = null, $collection = null)
     {
         if (!$this->doctrineRegistry) {
              //Tests only.
             $this->logger('Gets subscription data from database', 'info');
             $collection = $this->getSampleSubscriptions();
+        } elseif (!is_null($subscription_id)) {
+            $collection = $this->doctrineRegistry
+                ->getRepository('GpupoCamelSpiderBundle:Subscription')
+                ->findById($subscription_id);
+
         } else {
             $collection = $this->doctrineRegistry
                 ->getRepository('GpupoCamelSpiderBundle:Subscription')
