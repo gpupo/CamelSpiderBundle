@@ -1,4 +1,7 @@
-{{ generator.renderField('moderation', record) | trans }}
+<span class="label {% if record.moderation == 'APROVED' %}success{% elseif record.moderation == 'REJECTED' %}important{% else %}warning{% endif %}">
+{{ generator.renderField('moderation', record) | trans }}</span>
+
+
 {% if generator.renderField('moderation', record) in ['APROVED', 'REJECTED'] %}
     {% if generator.renderField('moderation_date', record) %}
         <br/>{{ generator.renderField('moderation_date', record) | date('d/m/Y') }}
