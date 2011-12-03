@@ -296,18 +296,6 @@ class SubscriptionController extends GeneratorController
      */
     public function captureAction($id)
     {
-        // Configuring the Generator Controller
-        $this->configure();
-
-        $manager = $this->getDoctrine()->getEntityManager();
-
-        $entity = $manager->getRepository($this->generator->model)->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Entity.');
-        }
-
-
         $response = new Response();
         $response->headers->set('Content-Encoding', 'chunked');
         $response->headers->set('Transfer-Encoding', 'chunked');
@@ -316,13 +304,13 @@ class SubscriptionController extends GeneratorController
         $response->sendHeaders();
         flush();
         ob_flush();
-        echo "<html><head><title>Capture</title><body><pre>";
+        echo "<html><head><title<body><pre>";
         $launcher = $this->get('camel_spider.launcher');
         $r = $launcher->checkUpdates($id);
         echo "\n\n\n\n<b>Done</b>.";
         echo "</pre></body></html>";
 
-        return new Response();
+        return true;
     }
 
     protected function getRepository()
