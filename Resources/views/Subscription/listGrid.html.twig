@@ -91,7 +91,7 @@
                                     {% trans %}Delete{% endtrans %}
                                 </a><br/>
                                 <a href="{{ path(generator.route, { 'id': generator.renderField('id', record)}) }}"
-                                   onclick="javascript:alert('{% trans %}Are you sure you want to capture now?{% endtrans %}');return false;">
+                                   onclick="javascript:subscriptions.capture('{{ record.id }}');return false;">
                                     {% trans %}Capture Now{% endtrans %}
                                 </a>
                             </td>

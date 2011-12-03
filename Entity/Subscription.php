@@ -702,6 +702,10 @@ class Subscription implements InterfaceSubscription
      */
     protected function inDomain($str)
     {
+        if (current($this->getDomain()) == '*') {
+            return true;//wildcard
+        }
+
         foreach ($this->getDomain() as $domain) {
             if (stripos($str, $domain)) {
                 return true;

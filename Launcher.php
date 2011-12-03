@@ -47,7 +47,9 @@ class Launcher
 
     protected function addCaptureLog($string)
     {
-        $this->captureLog .= "\n" .$string;
+        $log = "\n\n" .$string;
+        echo $log;
+        $this->captureLog  .= $log;
     }
 
     protected function getCaptureLog()
@@ -64,6 +66,14 @@ class Launcher
         );
     }
 
+    private function documentInfoLi($document)
+    {
+
+        return ' - [' . $document['title']
+            . '](' . $document['uri'] . ") (Relevancy:"
+            . $document['relevancy'] . ")\n\n";
+    }
+
     protected function processUpdates(array $links, InterfaceSubscription $subscription)
     {
         $this->logger('Process update Links count:' . count($links), 'info');
@@ -75,13 +85,19 @@ class Launcher
 
                 $link = $this->cache->getObject($l->getId('string')); //id do link ( sha1 da url )
 
+
+                if (!$link instanceof InterfaceLink) {
+                    $this->logger('Invalid Link', 'err');
+                    continue;
+                }
+
                 $count = $this->doctrineRegistry
                     ->getRepository('GpupoCamelSpiderBundle:News')
                     ->countByLink($link);
 
                 if($count > 0) {
                     $this->logger('Document had been inserted', 'info');
-                    $duplicated .= ' - *' . $link['href'] . '*' . "\n";
+                    $duplicated .= ' - *' . $link['href'] . '*' . "\n\n";
 
                     continue;
                 }
@@ -134,7 +150,7 @@ class Launcher
                             $this->logger('Process update saving News: ' . $exc->getTraceAsString());
                         }
                     } else {
-                        $descart .= ' - *' . $document['title'] . '*' . "\n";
+                        $descart .= $this->documentInfoLi($document);
                     }
 
                 } else {
@@ -145,9 +161,9 @@ class Launcher
             }
         }
 
-        empty($add) ?: $this->addCaptureLog('Documentos adicionados:' . "\n" . $add );
-        empty($duplicated) ?: $this->addCaptureLog('Documentos descartados por já terem sido capturados e sem modificação relevante:' . "\n" . $duplicated );
-        empty($descart) ?: $this->addCaptureLog('Documentos descartados por não conter palavras de relevância:' . "\n" . $descart );
+        empty($add) ?: $this->addCaptureLog('Documentos adicionados:' . "\n\n" . $add );
+        empty($duplicated) ?: $this->addCaptureLog('Documentos descartados por já terem sido capturados e sem modificação relevante:' . "\n\n" . $duplicated );
+        empty($descart) ?: $this->addCaptureLog('Documentos descartados por não conter palavras de relevância:' . "\n\n" . $descart );
     }
 
     /**
