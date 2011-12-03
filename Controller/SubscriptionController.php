@@ -305,8 +305,7 @@ class SubscriptionController extends GeneratorController
         flush();
         ob_flush();
         echo "<html><head><title>Capture</title></head><body><pre>";
-        $launcher = $this->get('camel_spider.launcher');
-        $r = $launcher->checkUpdates($id);
+        $this->get('camel_spider.launcher')->checkUpdates($id);
         echo "\n\n\n\n<b>Done</b>.";
         echo "</pre></body></html>";
 
