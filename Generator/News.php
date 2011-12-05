@@ -57,7 +57,7 @@ class News extends Generator
             'stackedTemplate' => '<h3>{{ record.name  }}</h3>' .
                                  '<p class="details_fixed">URI: <strong>{{ record.uri }}</strong></p>',
             'sort'            => array('createdAt' =>  'DESC', 'id' => 'DESC'),
-            'max_per_page'    => 30,
+            'max_per_page'    => 3,
             'object_actions'  => array(),
             'batch_actions'   => array(),
         );
@@ -130,18 +130,18 @@ class News extends Generator
                     //'compare' => 'between', // not used in date range
                     'label'   => 'Date',
                     ),
-//                'subscription' => array(
-//                    'type'    => 'entity',
-//                    'compare' => '=', // eq
-//                    'label'   => 'Subscription',
-//                    'options' => array(
-//                                'class' => 'Gpupo\\CamelSpiderBundle\\Entity\\Subscription',
-//                                'query_builder' => function(\Gpupo\CamelSpiderBundle\Entity\SubscriptionRepository $er) {
-//                                    return $er->createQueryBuilder('s')
-//                                            ->add('orderBy', 's.name ASC');
-//                                },
-//                        ),
-//                    ),
+                'subscription' => array(
+                    'type'    => 'entity',
+                    'compare' => '=', // eq
+                    'label'   => 'Subscription',
+                    'options' => array(
+                                'class' => 'Gpupo\\CamelSpiderBundle\\Entity\\Subscription',
+                                'query_builder' => function(\Gpupo\CamelSpiderBundle\Entity\SubscriptionRepository $er) {
+                                    return $er->createQueryBuilder('s')
+                                            ->add('orderBy', 's.name ASC');
+                                },
+                        ),
+                    ),
             ),
         );
         $this

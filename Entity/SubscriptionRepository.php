@@ -17,6 +17,18 @@ class SubscriptionRepository extends EntityRepository implements InterfaceNode
         return $this->findBy(array('isActive'=> true));
     }
 
+    public function findByScheduledSubscriptions()
+    {
+        $now = new \DateTime();
+        $past = $now->sub(new \DateInterval('PT59MT59S'));
+        $qb = $this->createQueryBuilder('s')
+                ->join('s.schedules', 'h')
+                ->where($qb->expr()->between('h.', $past->format('H:i'), $now->format('H:i')));
+
+
+        return $this->findBy(array('isActive'=> true));
+    }
+
     public function findForMenu()
     {
         return $this->findBy(array('isActive'=> true), array('name'=>'ASC'));
