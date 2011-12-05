@@ -28,3 +28,9 @@ subscription_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "GpupoCamelSpiderBundle:Subscription:delete" }
     requirements: { _method: post }
+
+subscription_capture:
+    pattern:  /{id}/capture
+    defaults: { _controller: "GpupoCamelSpiderBundle:Subscription:capture" }
+
+

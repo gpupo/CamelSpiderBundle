@@ -1,4 +1,5 @@
 {% extends generator.layoutTheme |default('ThemeBootstrapBundle')  ~ '::layout.html.twig' %}
+{% import 'GpupoGlessBundle::macros.html.twig' as Gless %}
 {% block title %}{{ generator.list.title | trans }} {% endblock %}
 
 {% block content %}
@@ -90,11 +91,10 @@
                                    onclick="javascript:deleteSubscription('{{ record }}', this, {{ record.id }});return false;">
                                     {% trans %}Delete{% endtrans %}
                                 </a><br/>
-                                <a href="{{ path(generator.route, { 'id': generator.renderField('id', record)}) }}"
-                                   onclick="javascript:alert('{% trans %}Are you sure you want to capture now?{% endtrans %}');return false;">
-                                    {% trans %}Capture Now{% endtrans %}
-                                </a>
-                            </td>
+
+                                {{ Gless.ButtonA('Capture', 
+                                    path(generator.route ~ '_capture', { 'id': generator.renderField('id', record)})
+                                    ,{'icon': 'transferthick-e-w', 'with_text': 'yes', 'target': '_blank'}) }}
                         </tr>
                         {% endfor %}
                     </tbody>

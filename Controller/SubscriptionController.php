@@ -7,6 +7,7 @@ use Gpupo\CamelSpiderBundle\Generator\Subscription as Generator;
 use Gpupo\CamelSpiderBundle\Entity\SubscriptionSchedule;
 use Gpupo\CamelSpiderBundle\Entity\SubscriptionRepository;
 
+use Symfony\Component\HttpFoundation\Response;
 /**
  * Subscription Controller
  */
@@ -288,6 +289,28 @@ class SubscriptionController extends GeneratorController
         ));
     }
 
+
+    /**
+     * Capture in real time
+     *
+     */
+    public function captureAction($id)
+    {
+        $response = new Response();
+        $response->headers->set('Content-Encoding', 'chunked');
+        $response->headers->set('Transfer-Encoding', 'chunked');
+        $response->headers->set('Content-Type', 'text/html');
+        $response->headers->set('Connection', 'keep-alive');
+        $response->sendHeaders();
+        flush();
+        ob_flush();
+        echo "<html><head><title>Capture</title></head><body><pre>";
+        $this->get('camel_spider.launcher')->checkUpdates($id);
+        echo "\n\n\n\n<b>Done</b>.";
+        echo "</pre></body></html>";
+
+        return true;
+    }
 
     protected function getRepository()
     {
