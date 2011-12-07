@@ -626,4 +626,9 @@ class News
     {
         return $this->moderatedBy;
     }
+
+    public function getSlashedTitle()
+    {
+        return addslashes($this->getTitle());
+    }
 }

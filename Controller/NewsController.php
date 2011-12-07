@@ -93,6 +93,35 @@ class NewsController extends GeneratorController
         ));
     }
 
+    public function editAction($id)
+    {
+        // Configuring the Generator Controller
+        $this->configure();
+
+        $manager = $this->getDoctrine()->getEntityManager();
+
+        $entity = $manager->getRepository($this->generator->model)->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Entity.');
+        }
+
+        $formType = $this->generator->form->type;
+
+        $editForm = $this->createForm(new $formType(), $entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        foreach ($this->generator->getHiddenFields('edit') as $fieldName) {
+            $editForm->remove($fieldName);
+        }
+
+        return $this->render('GpupoCamelSpiderBundle:News:edit.html.twig', array(
+            'record'      => $entity,
+            'form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+            'generator'   => $this->generator,
+        ));
+    }
 
     public function updateAction($id)
     {
