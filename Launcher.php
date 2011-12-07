@@ -185,7 +185,7 @@ class Launcher
         } else {
             $collection = $this->doctrineRegistry
                 ->getRepository('GpupoCamelSpiderBundle:Subscription')
-                ->findByActiveSubscriptions();
+                ->findByScheduledSubscriptions();
         }
 
         foreach($collection as $subscription)

@@ -48,6 +48,10 @@ class SubscriptionController extends GeneratorController
         $stats = $this->getDoctrine()->getRepository('GpupoCamelSpiderBundle:Subscription')
                 ->getStats($pager->getResults());
 
+
+        $test = $this->getDoctrine()->getRepository('GpupoCamelSpiderBundle:Subscription')
+                ->findByScheduledSubscriptions();
+
         return $this->render('GpupoCamelSpiderBundle:Subscription:listGrid.html.twig', array(
             'generator'   => $this->generator,
             'pager'       => $pager,

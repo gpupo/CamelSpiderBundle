@@ -17,17 +17,47 @@ class SubscriptionRepository extends EntityRepository implements InterfaceNode
         return $this->findBy(array('isActive'=> true));
     }
 
+    /**
+     * Find Schuduled Subscriptions to be used in cron tasks
+     *
+     * Filter
+     * - day of the week
+     * - since past hour plus one minute till now
+     *   example: from 10:01 (past hour) till 11:23 (now)
+     *
+     * @return array
+     */
     public function findByScheduledSubscriptions()
     {
-        $now = new \DateTime();
-        $past = $now->sub(new \DateInterval('PT59MT59S'));
-        $qb = $this->createQueryBuilder('s')
-                ->join('s.schedules', 'h')
-                ->where($qb->expr()->between('h.', $past->format('H:i'), $now->format('H:i')));
+        $now  = new \DateTime();
+        $past = new \DateTime();
+        $past->sub(new \DateInterval('PT1H'));
+        $qb = $this->createQueryBuilder('s');
+        $qb->join('s.schedules', 'h')
+                ->where($qb->expr()->between('h.timeSchedule', ':past', ':now'))
+                ->andWhere($qb->expr()->eq('s.isActive', true) )
+                ->andWhere($qb->expr()->eq('h.' . $this->getDayField(date('w')), true) )
+                ->setParameter('past', $past->format('H:01'))
+                ->setParameter('now', $now->format('H:i'));
 
-
-        return $this->findBy(array('isActive'=> true));
+        return $qb->getQuery()->getResult();
     }
+
+    protected function getDayField($dayInt)
+    {
+        $dayArray = array(
+            0 => 'sun',
+            1 => 'mon',
+            2 => 'tue',
+            3 => 'wed',
+            4 => 'thu',
+            5 => 'fri',
+            6 => 'sat',
+        );
+
+        return isset($dayArray[$dayInt]) ? $dayArray[$dayInt] : false;
+    }
+
 
     public function findForMenu()
     {
