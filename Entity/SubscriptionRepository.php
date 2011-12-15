@@ -155,5 +155,49 @@ class SubscriptionRepository extends EntityRepository implements InterfaceNode
         $this->getEntityManager()->flush();
     }
 
+    public function removeAndClearRelated(Subscription $removedSubscription)
+    {
+
+        // Clearing related News
+        $qbNews = $this->getEntityManager()
+                ->getRepository('Gpupo\CamelSpiderBundle\Entity\News')
+                ->createQueryBuilder('n');
+        $qbNews->select('n.id')
+                ->add('where', $qbNews->expr()->eq('n.subscription', '?1'));
+
+        // Clearing related NewsVotes
+        $qb1 = $this->getEntityManager()->createQueryBuilder();
+        $qb1->delete('Gpupo\CamelSpiderBundle\Entity\NewsVote v')
+            ->add('where', $qb1->expr()->in('v.news', $qbNews->getDQL()))
+            ->setParameter(1, $removedSubscription->getId());
+        echo $qb1->getQuery()->getSQL();
+        $qb1->getQuery()->getResult();
+
+        // Clearing related News
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
+        $qb2->delete('Gpupo\CamelSpiderBundle\Entity\News n')
+            ->add('where', $qb2->expr()->eq('n.subscription', '?1'))
+            ->setParameter(1, $removedSubscription->getId())
+            ->getQuery()->getResult();
+
+        // Clearing related Logs
+        $qb3 = $this->getEntityManager()->createQueryBuilder();
+        $qb3->delete('Funpar\AdminBundle\Entity\Log l')
+            ->add('where', $qb3->expr()->eq('l.subscription', '?1'))
+            ->setParameter(1, $removedSubscription->getId())
+            ->getQuery()->getResult();
+
+        // Clearing related RawNews
+        $qb4 = $this->getEntityManager()->createQueryBuilder();
+        $qb4->delete('Gpupo\CamelSpiderBundle\Entity\RawNews r')
+            ->add('where', $qb4->expr()->eq('r.subscription', '?1'))
+            ->setParameter(1, $removedSubscription->getId())
+            ->getQuery()->getResult();
+
+        $this->getEntityManager()->flush();
+        $this->getEntityManager()->remove($removedSubscription);
+        $this->getEntityManager()->flush();
+    }
+
 }
 
