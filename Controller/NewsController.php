@@ -40,7 +40,7 @@ class NewsController extends GeneratorController
     }
 
     /**
-     * Creates a new Tarefa entity.
+     * Creates a new News entity.
      *
      */
     public function createAction()
