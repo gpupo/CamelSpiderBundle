@@ -182,12 +182,29 @@ class SubscriptionController extends GeneratorController
 
         $formData = $request->get('form');
 
-        if (!isset($formData['subscription'])) {
+        if ($formData['cascade'] && $formData['cascade'] == '1') {
+
+            $manager = $this->getDoctrine()->getEntityManager();
+            $entity = $manager->getRepository($this->generator->class)->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find entity.');
+            }
+
+            $manager->getRepository($this->generator->class)
+                    ->removeAndClearRelated($entity);
+
+            $this->get('session')->setFlash('success', 'The item was deleted successfully.');
+            return $this->redirect($this->generateUrl($this->generator->route));
+
+        } else if (!isset($formData['subscription'])) {
+
             $this->get('session')->setFlash(
                     'error',
                     'To delete a subscription another subscription must be selected to move related data.'
                     );
             return $this->redirect($this->generateUrl($this->generator->route));
+
         } else if ($form->isValid()) {
 
             $manager = $this->getDoctrine()->getEntityManager();
@@ -202,12 +219,15 @@ class SubscriptionController extends GeneratorController
 
             $this->get('session')->setFlash('success', 'The item was deleted successfully.');
             return $this->redirect($this->generateUrl($this->generator->route));
+
         } else {
+
             $this->get('session')->setFlash(
                     'error',
                     'An error ocurred while deleting the item.'
                     );
             return $this->redirect($this->generateUrl($this->generator->route));
+
         }
 
     }
@@ -329,6 +349,13 @@ class SubscriptionController extends GeneratorController
     {
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
+            ->add('cascade', 'choice', array(
+                'choices'=> array(0=>'No', 1=>'Yes'),
+                'attr'   => array(
+                    'onchange' => "javascript: if ( $('#form_cascade option:selected').val() == '1') { $('#form_subscription').hide(); $('label[for=\"form_subscription\"]').hide(); } else { $('#form_subscription').show(); $('label[for=\"form_subscription\"]').show(); }"
+                    ),
+                'label' => 'Excluir dados relacionados'
+                ))
             ->add('subscription', 'entity', array(
                                 'class' => 'Gpupo\\CamelSpiderBundle\\Entity\\Subscription',
                                 'query_builder' => function(SubscriptionRepository $er) {
