@@ -49,8 +49,12 @@
                                 <input type="checkbox" id="checkall" onclick="checkAllCheckboxes(this, 'selected_objects' )" />
                             </th>
 #}
-                            {% for field in generator.listDisplayFields %}
+                            {% for fieldName, field in generator.listDisplayFields %}
+                                {% if fieldName in generator.list.sort_fields %}
+                                <th><a href="{{ path(generator.route, { 'sort': fieldName } ) }}">{{ field.label | trans  }}</a></th>
+                                {% else %}
                             <th>{{ field.label | trans  }}</th>
+                                {% endif %}
                             {% endfor %}
                             <th>{% trans %}Actions{% endtrans %}</th>
                         </tr>

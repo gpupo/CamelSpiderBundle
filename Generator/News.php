@@ -57,6 +57,7 @@ class News extends Generator
             'stackedTemplate' => '<h3>{{ record.name  }}</h3>' .
                                  '<p class="details_fixed">URI: <strong>{{ record.uri }}</strong></p>',
             'sort'            => array('createdAt' =>  'DESC', 'id' => 'DESC'),
+            'sort_fields'     => array('id', 'title', 'date'),
             'max_per_page'    => 30,
             'object_actions'  => array(),
             'batch_actions'   => array(),
