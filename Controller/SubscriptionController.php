@@ -333,7 +333,7 @@ class SubscriptionController extends GeneratorController
         echo "\n\n\n\n<b>Done</b>.";
         echo "</pre></body></html>";
 
-        return true;
+        return $response;
     }
 
     protected function getRepository()
