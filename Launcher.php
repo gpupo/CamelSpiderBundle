@@ -91,6 +91,14 @@ class Launcher
             . $document['relevancy'] . ")\n\n";
     }
 
+    /**
+     * Process Capture after spider works
+     *
+     * @param array                 $links        Many records os Link Object
+     * @param InterfaceSubscription $subscription Information about the subscription
+     *
+     * @return bool true;
+     */
     protected function processUpdates(array $links,
         InterfaceSubscription $subscription
     ) {
