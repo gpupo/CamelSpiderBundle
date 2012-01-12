@@ -1,5 +1,16 @@
 <?php
+
+/**
+ * This file is part of CamelSpider Bundle.
+ *
+ * (c) Gilmar Pupo <gpupo@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Gpupo\CamelSpiderBundle;
+
 use CamelSpider\Spider\Indexer,
     CamelSpider\Spider\InterfaceCache,
     CamelSpider\Entity\FactorySubscription,
@@ -11,9 +22,13 @@ use CamelSpider\Spider\Indexer,
     Symfony\Bundle\DoctrineBundle\Registry,
     Gpupo\CamelSpiderBundle\Entity\RawNews,
     Gpupo\CamelSpiderBundle\Entity\News,
-    Funpar\AdminBundle\Logger\Logger as FunparLogger
-    ;
+    Funpar\AdminBundle\Logger\Logger as FunparLogger;
 
+/**
+ * Start a capture and save in DB.
+ *
+ * @author Gilmar Pupo <gpupo@g1mr.com>
+ */
 class Launcher
 {
     protected $indexer;
@@ -31,8 +46,9 @@ class Launcher
      */
     protected $funparLogger;
 
-    public function __construct(Indexer $indexer, InterfaceCache $cache, $logger, Registry $doctrineRegistry = null, FunparLogger $funparLogger)
-    {
+    public function __construct(Indexer $indexer, InterfaceCache $cache,
+        $logger, Registry $doctrineRegistry = null, FunparLogger $funparLogger = null
+    ) {
         $this->indexer = $indexer;
         $this->cache = $cache;
         $this->logger = $logger;
@@ -57,7 +73,7 @@ class Launcher
         return trim($this->captureLog);
     }
 
-    private function getSampleSubscriptions()
+    protected function getSampleSubscriptions()
     {
         return FactorySubscription::buildCollectionFromDomain(
             array(
@@ -66,7 +82,7 @@ class Launcher
         );
     }
 
-    private function documentInfoLi($document)
+    protected function documentInfoLi($document)
     {
 
         return ' - [' . $document['title']
@@ -74,8 +90,9 @@ class Launcher
             . $document['relevancy'] . ")\n\n";
     }
 
-    protected function processUpdates(array $links, InterfaceSubscription $subscription)
-    {
+    protected function processUpdates(array $links,
+        InterfaceSubscription $subscription
+    ) {
         $this->logger('Process update Links count:' . count($links), 'info');
         $add = $descart = $duplicated = '';
 
@@ -83,7 +100,8 @@ class Launcher
 
             if ($l instanceof Link) {
 
-                $link = $this->cache->getObject($l->getId('string')); //id do link ( sha1 da url )
+                //id do link ( sha1 da url )
+                $link = $this->cache->getObject($l->getId('string'));
 
 
                 if (!$link instanceof InterfaceLink) {
@@ -95,7 +113,7 @@ class Launcher
                     ->getRepository('GpupoCamelSpiderBundle:News')
                     ->countByLink($link);
 
-                if($count > 0) {
+                if ($count > 0) {
                     $this->logger('Document had been inserted', 'info');
                     $duplicated .= ' - *' . $link['href'] . '*' . "\n\n";
 
@@ -103,8 +121,6 @@ class Launcher
                 }
 
                 $document =  $link->getDocument();
-
-
 
                 if (is_array($document)) {
 
@@ -162,8 +178,17 @@ class Launcher
         }
 
         empty($add) ?: $this->addCaptureLog('Documentos adicionados:' . "\n\n" . $add );
-        empty($duplicated) ?: $this->addCaptureLog('Documentos descartados por já terem sido capturados e sem modificação relevante:' . "\n\n" . $duplicated );
-        empty($descart) ?: $this->addCaptureLog('Documentos descartados por não conter palavras de relevância:' . "\n\n" . $descart );
+        empty($duplicated) ?: $this->addCaptureLog(
+            'Documentos descartados por já terem sido capturados e sem modificação relevante:'
+            . "\n\n"
+            . $duplicated
+        );
+
+        empty($descart) ?: $this->addCaptureLog(
+            'Documentos descartados por não conter palavras de relevância:'
+            . "\n\n"
+            . $descart
+        );
     }
 
     /**
