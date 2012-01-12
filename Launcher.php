@@ -47,7 +47,8 @@ class Launcher
     protected $funparLogger;
 
     public function __construct(Indexer $indexer, InterfaceCache $cache,
-        $logger, Registry $doctrineRegistry = null, FunparLogger $funparLogger = null
+        $logger, Registry $doctrineRegistry = null,
+        FunparLogger $funparLogger = null
     ) {
         $this->indexer = $indexer;
         $this->cache = $cache;
@@ -126,7 +127,10 @@ class Launcher
 
                     $manager = $this->doctrineRegistry->getEntityManager();
 
-                    $this->logger('Process update saving Raw: ' . $document['title'], 'info');
+                    $this->logger(
+                        'Process update saving Raw: '
+                        . $document['title'], 'info'
+                    );
 
                     try {
                         $rawNews = new RawNews();
@@ -141,11 +145,17 @@ class Launcher
                         $manager->persist($rawNews);
                         $manager->flush();
                     } catch (Exception $exc) {
-                        $this->logger('Process update saving Raw: ' . $exc->getTraceAsString());
+                        $this->logger(
+                            'Process update saving Raw: '
+                            . $exc->getTraceAsString()
+                        );
                     }
 
                     if ($document['relevancy'] > 2) {
-                        $this->logger('Process update saving News: ' . $document['title'], 'info');
+                        $this->logger(
+                            'Process update saving News: '
+                            . $document['title'], 'info'
+                        );
                         try {
                             $add .= '-  *' . $document['title'] . '*' . "\n";
                             $news = new News();
@@ -154,7 +164,8 @@ class Launcher
                             $news->setModeration('PENDING');
                             $news->setUri($document['uri']);
                             $news->setSlug($document['slug']);
-                            $news->setDate(new \DateTime(date('Y-m-d'))); // Falta DATA
+                            // Falta DATA
+                            $news->setDate(new \DateTime(date('Y-m-d')));
                             $f = $subscription->getFormat();
                             $f = empty($f) ? 'html' : $f;
                             $news->setContent($document[$f]);
@@ -163,23 +174,36 @@ class Launcher
                             $manager->persist($news);
                             $manager->flush();
                         } catch (\Exception $exc) {
-                            $this->logger('Process update saving News: ' . $exc->getTraceAsString());
+                            $this->logger(
+                                'Process update saving News: '
+                                . $exc->getTraceAsString()
+                            );
                         }
                     } else {
                         $descart .= $this->documentInfoLi($document);
                     }
 
                 } else {
-                    $this->logger('Object wrong, on processUpdates. Array Expected!', 'err');
+                    $this->logger(
+                        'Object wrong, on processUpdates. Array Expected!',
+                        'err'
+                    );
                 }
             } else {
-                $this->logger('Object wrong, on processUpdates. Link expected!', 'err');
+                $this->logger(
+                    'Object wrong, on processUpdates. Link expected!',
+                    'err'
+                );
             }
         }
 
-        empty($add) ?: $this->addCaptureLog('Documentos adicionados:' . "\n\n" . $add );
+        empty($add) ?: $this->addCaptureLog(
+            'Documentos adicionados:'
+            . "\n\n" . $add
+        );
         empty($duplicated) ?: $this->addCaptureLog(
-            'Documentos descartados por já terem sido capturados e sem modificação relevante:'
+            'Documentos descartados por já terem sido '
+            .'capturados e sem modificação relevante:'
             . "\n\n"
             . $duplicated
         );
@@ -194,7 +218,10 @@ class Launcher
     /**
      * Run the spider for every subscription
      *
-     * @param int subscription_id
+     * @param int                 $subscription_id ID of subscription
+     * @param \DoctrineCollection $collection      List of subscriptions
+     *
+     * @return bool true
      */
     public function checkUpdates($subscription_id = null, $collection = null)
     {
@@ -213,18 +240,26 @@ class Launcher
                 ->findByScheduledSubscriptions();
         }
 
-        foreach($collection as $subscription)
-        {
+        foreach ($collection as $subscription) {
             if (!$subscription instanceof InterfaceSubscription) {
-                throw new \Exception ("Subscription need implement InterfaceSubscription");
+                throw new \Exception(
+                    "Subscription need implement InterfaceSubscription"
+                );
             }
 
-            $this->logger('Checking updates for the subscription [' . $subscription->getHref() . ']');
+            $this->logger(
+                'Checking updates for the subscription ['
+                . $subscription->getHref()
+                . ']'
+            );
             try{
                 $updates =  $this->indexer->run($subscription);
                 $this->captureLog = $updates['log'];
                 $this->processUpdates($updates['pool'], $subscription);
-                $this->funparLogger->doLog('CAPTURE', $this->getCaptureLog(), null, $subscription);
+                $this->funparLogger->doLog(
+                    'CAPTURE',
+                    $this->getCaptureLog(), null, $subscription
+                );
             }
             catch (\Exception $e)
             {
