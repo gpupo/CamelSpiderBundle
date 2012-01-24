@@ -36,9 +36,15 @@ class SubscriptionRepository extends EntityRepository implements InterfaceNode
         $qb->join('s.schedules', 'h')
                 ->where($qb->expr()->between('h.timeSchedule', ':past', ':now'))
                 ->andWhere($qb->expr()->eq('s.isActive', true) )
-                ->andWhere($qb->expr()->eq('h.' . $this->getDayField(date('w')), true) )
+                ->andWhere(
+                    $qb
+                        ->expr()
+                        ->eq('h.' . $this->getDayField(date('w')), true)
+                )
                 ->setParameter('past', $past->format('H:01'))
                 ->setParameter('now', $now->format('H:i'));
+
+        error_log($qb->getQuery());
 
         return $qb->getQuery()->getResult();
     }

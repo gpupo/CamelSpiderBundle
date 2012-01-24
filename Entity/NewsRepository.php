@@ -63,8 +63,10 @@ class NewsRepository extends EntityRepository
         $qb->from('Gpupo\CamelSpiderBundle\Entity\Category', 'd')
             ->select('d.id')
             ->add('where', $qb->expr()->orx(
-                $qb->expr()->in('d.id', $this->subQuerySubCategories(clone $sq, $id, 'a')),
-                $qb->expr()->in('d.parent', $this->subQuerySubCategories(clone $sq, $id, 'b'))
+                $qb->expr()
+                    ->in('d.id', $this->subQuerySubCategories(clone $sq, $id, 'a')),
+                $qb->expr()
+                    ->in('d.parent', $this->subQuerySubCategories(clone $sq, $id, 'b'))
             ));
 
         $q = $this->queryBuilder();
@@ -89,20 +91,7 @@ class NewsRepository extends EntityRepository
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
 /* Atualização para Pager */
-
-
 
     public function readerQueryBuilder()
     {

@@ -99,7 +99,8 @@ class Launcher
      *
      * @return bool true;
      */
-    protected function processUpdates(array $links,
+    protected function processUpdates(
+        array $links,
         InterfaceSubscription $subscription
     ) {
         $this->logger('Process update Links count:' . count($links), 'info');
@@ -234,15 +235,19 @@ class Launcher
     public function checkUpdates($subscription_id = null, $collection = null)
     {
         if (!$this->doctrineRegistry) {
-             //Tests only.
+
+            //Tests only.
             $this->logger('Gets subscription data from database', 'info');
             $collection = $this->getSampleSubscriptions();
+
         } elseif (!is_null($subscription_id)) {
+
             $collection = $this->doctrineRegistry
                 ->getRepository('GpupoCamelSpiderBundle:Subscription')
                 ->findById($subscription_id);
 
         } else {
+
             $collection = $this->doctrineRegistry
                 ->getRepository('GpupoCamelSpiderBundle:Subscription')
                 ->findByScheduledSubscriptions();
