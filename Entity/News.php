@@ -301,7 +301,7 @@ class News
      */
     public function getContent()
     {
-        return $this->content;
+        return SpiderDom::removeDirtyAttrs($this->content);
     }
 
     public function getContentIntro()

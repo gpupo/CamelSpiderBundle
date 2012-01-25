@@ -15,7 +15,11 @@ class CronCommand extends ContainerAwareCommand
         $this
             ->setName('camelSpider:cron')
             ->setDescription('Run updates for subscriptions')
-            ->addOption('subscription', null, InputOption::VALUE_REQUIRED, 'Capture only epecific Subscription', null);
+            ->addOption(
+                'subscription', null,
+                InputOption::VALUE_REQUIRED,
+                'Capture only epecific Subscription', null
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
