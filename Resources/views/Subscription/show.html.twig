@@ -47,10 +47,16 @@
               {% endfor %}
                 </table>
             {% else %}
-                {% if field.date_format is defined %}
+                {% set data = generator.renderField(fieldName, record) %}
+                {% if field.collection is defined and  field.collection %}
+                    <ul>
+                    {% for item in data %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                    </ul>
+                {% elseif field.date_format is defined %}
                     <p>{{ generator.renderField(fieldName, record) | date(field.date_format) }}</p>
                 {% else %}
-                    {% set data = generator.renderField(fieldName, record) %}
                     {% if field.raw is defined and  field.raw %}
                         {% set data = data | raw %}
                     {% endif %}

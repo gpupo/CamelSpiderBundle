@@ -20,7 +20,13 @@
             <label for="xlInput">{{ field.label | trans  }}</label>
             <div class="input">
             {% set data = generator.renderField(fieldName, record) %}
-            {% if field.date_format is defined %}
+            {% if field.collection is defined and  field.collection %}
+                <ul>
+                {% for item in data %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+                </ul>
+            {% elseif field.date_format is defined %}
                 <p>{{ data | date(field.date_format) }}</p>
             {% else %}
                 {% if field.raw is defined and  field.raw %}

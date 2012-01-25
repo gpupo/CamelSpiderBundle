@@ -71,7 +71,15 @@
 
                                 {% if field.list_partial is defined %}
                                     <td>{% include field.list_partial %}</td>
-
+                                {% elseif field.collection is defined and  field.collection %}
+                                    {% set data = generator.renderField(fieldName, record) %}
+                                    <td>
+                                        <ul>
+                                        {% for item in data %}
+                                            <li>{{ item }}</li>
+                                        {% endfor %}
+                                        </ul>
+                                    </td>
                                 {% elseif field.date_format is defined %}
                                     {% set data = generator.renderField(fieldName, record) %}
                                     {% if data %}
