@@ -113,19 +113,20 @@ class Launcher
                 //id do link ( sha1 da url )
                 $link = $this->cache->getObject($l->getId('string'));
 
-
                 if (!$link instanceof InterfaceLink) {
                     $this->logger('Invalid Link', 'err');
                     continue;
                 }
 
+                //Test href in database
                 $count = $this->doctrineRegistry
                     ->getRepository('GpupoCamelSpiderBundle:News')
                     ->countByLink($link);
 
                 if ($count > 0) {
                     $this->logger('Document had been inserted', 'info');
-                    $duplicated .= ' - *' . $link['href'] . '*' . "\n\n";
+                    $duplicated .= ' - *' . $link['href']
+                        . '* (01)' . "\n\n";
 
                     continue;
                 }
@@ -161,12 +162,13 @@ class Launcher
                     }
 
                     if ($document['relevancy'] > 2) {
+
                         $this->logger(
                             'Process update saving News: '
                             . $document['title'], 'info'
                         );
                         try {
-                            $add .= '-  *' . $document['title'] . '*' . "\n";
+                            $add .= $this->documentInfoLi($document);
                             $news = new News();
                             $news->setTitle($document['title']);
                             $news->setCategory($subscription->getCategory());
@@ -188,6 +190,7 @@ class Launcher
                                 . $exc->getTraceAsString()
                             );
                         }
+
                     } else {
                         $descart .= $this->documentInfoLi($document);
                     }
