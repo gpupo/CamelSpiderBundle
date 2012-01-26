@@ -94,6 +94,10 @@ class SubscriptionSchedule
     private $isActive;
 
 
+    /**
+     * @var boolean $delete
+     */
+    private $delete = false;
 
     /**
      * Get id
@@ -326,4 +330,27 @@ class SubscriptionSchedule
     {
         return $this->subscription;
     }
+
+    /**
+     * Return always false to permit to delete a item
+     *
+     * @return boolean
+     */
+    public function isDelete()
+    {
+        return $this->delete;
+    }
+
+    /**
+     * Return always null to permit to delete a item
+     *
+     * @param boolean $delete Delete value
+     *
+     * @return void
+     */
+    public function setDelete($delete)
+    {
+        return $this->delete = $delete;
+    }
+
 }

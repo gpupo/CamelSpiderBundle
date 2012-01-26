@@ -10,7 +10,7 @@ class SubscriptionScheduleType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('time_schedule', 'time', array('required'=>false))
+            ->add('time_schedule', 'time', array('required'=>false, 'label'=>'Horário'))
             ->add('sun', 'checkbox', array('required'=>false))
             ->add('mon', 'checkbox', array('required'=>false))
             ->add('tue', 'checkbox', array('required'=>false))
@@ -18,7 +18,14 @@ class SubscriptionScheduleType extends AbstractType
             ->add('thu', 'checkbox', array('required'=>false))
             ->add('fri', 'checkbox', array('required'=>false))
             ->add('sat', 'checkbox', array('required'=>false))
-            ->add('is_active', 'checkbox', array('required'=>false))
+            ->add('is_active', 'checkbox', array('required'=>false, 'label'=>'Ativo'))
+            ->add('delete', 'checkbox', array(
+                'required'=>false,
+                'label'=>'EXCLUIR',
+                'attr'=> array(
+                    'class' => 'embedded_delete'
+                )
+             ))
 //            ->add('subscription')
         ;
     }

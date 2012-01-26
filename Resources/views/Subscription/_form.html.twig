@@ -10,11 +10,23 @@ function EmbededFormAdd(formName) {
     var prototype = collectionHolder.attr('data-prototype');
     form = prototype.replace(/\$\$name\$\$/g, collectionHolder.children().length);
     collectionHolder.append(form);
+    $(".embedded_delete").parent().addClass('label notice');
+    $('[id^=\"subscriptiontype_schedules\"]').parent().css('margin-bottom', '5px');
 }
 
-$('a.embeded_form_add').live('click', function(event){
+$('a.embeded_form_add').live('click', function(event) {
     event.preventDefault();
     EmbededFormAdd('subscriptiontype_schedules');
+});
+
+$('input.embedded_delete').live('click', function(event) {
+    div_id = $(this).attr('id').replace('_delete', '');
+    $('#'+div_id).parent().remove();
+});
+
+$(function() {
+    $(".embedded_delete").parent().addClass('label notice');
+    $('[id^=\"subscriptiontype_schedules\"]').parent().css('margin-bottom', '5px');
 });
 </script>
                         {% endif %}

@@ -262,6 +262,15 @@ class SubscriptionController extends GeneratorController
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
+
+            if(($schedules = $entity->getSchedules()) instanceof \Doctrine\ORM\PersistentCollection)
+            {
+              foreach($schedules->getDeleteDiff() as $toBeDelete)
+              {
+                $manager->remove($toBeDelete);
+              }
+            }
+
             $manager->persist($entity);
             $manager->flush();
 
