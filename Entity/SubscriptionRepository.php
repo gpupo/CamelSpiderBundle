@@ -44,8 +44,6 @@ class SubscriptionRepository extends EntityRepository implements InterfaceNode
                 ->setParameter('past', $past->format('H:01'))
                 ->setParameter('now', $now->format('H:i'));
 
-        error_log($qb->getQuery());
-
         return $qb->getQuery()->getResult();
     }
 

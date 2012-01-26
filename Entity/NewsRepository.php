@@ -179,8 +179,16 @@ class NewsRepository extends EntityRepository
 
         if ($document instanceof Document) {
             $where .= ' or a.title = :title or a.slug = :slug';
+
+            /*
+                . ' or a.content LIKE "%:portionA%"'
+                . ' or a.content LIKE "%:portionB%"'
+                . ' or a.content LIKE "%:portionC%"';
+            $pars['portionA'] = '';
+             */
             $pars['slug']  = $document->getSlug();
             $pars['title'] = $document->getTitle();
+
         }
 
         $qb->where($where)->setParameters($pars);
@@ -197,6 +205,5 @@ class NewsRepository extends EntityRepository
 
         return is_null($r) ? 0 : count($r);
     }
-
 
 }
