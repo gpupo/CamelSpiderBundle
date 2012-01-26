@@ -180,12 +180,24 @@ class NewsRepository extends EntityRepository
         if ($document instanceof Document) {
             $where .= ' or a.title = :title or a.slug = :slug';
 
-            /*
-                . ' or a.content LIKE "%:portionA%"'
-                . ' or a.content LIKE "%:portionB%"'
-                . ' or a.content LIKE "%:portionC%"';
-            $pars['portionA'] = '';
-             */
+            $parts = $this->getContentParts($document->getText(), 150);
+            $i = 1;
+            foreach ($parts['pieces'] as $piece) {
+                $key = 'pieceText_' . $i;
+                $where .= ' or a.content LIKE "%:' . $key . '%"';
+                $parts[$key] = $piece;
+                $i++;
+            }
+
+            $parts = $this->getContentParts($document->getHtml(), 200);
+            $i = 1;
+            foreach ($parts['pieces'] as $piece) {
+                $key = 'pieceHtml_' . $i;
+                $where .= ' or a.content LIKE "%:' . $key . '%"';
+                $parts[$key] = $piece;
+                $i++;
+            }
+
             $pars['slug']  = $document->getSlug();
             $pars['title'] = $document->getTitle();
 
@@ -194,6 +206,34 @@ class NewsRepository extends EntityRepository
         $qb->where($where)->setParameters($pars);
 
         return $qb;
+    }
+
+    public function getContentParts($text, $block = 100)
+    {
+        $text = trim($text);
+        $parts = array(
+            'len'   => mb_strlen($text),
+            'pieces' => false,
+        );
+
+        if ($parts['len'] < $block ) {
+            $parts['pieces'] = array($text);
+        } else {
+            $parts['pieces'] = array();
+            $i = 0;
+            while ((($parts['len'] / $block) - $i) > 1) {
+                $parts['pieces'][] = trim(substr(
+                    $text,
+                    ($i * $block),
+                    $block
+                ));
+                $i++;
+            }
+            $parts['pieces'][] = substr($text, ($block * -1));
+
+        }
+
+        return $parts;
     }
 
     public function countByLink(InterfaceLink $link)
@@ -205,5 +245,6 @@ class NewsRepository extends EntityRepository
 
         return is_null($r) ? 0 : count($r);
     }
+
 
 }
