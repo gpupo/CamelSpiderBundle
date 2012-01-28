@@ -172,6 +172,8 @@ class NewsRepository extends EntityRepository
 
     public function searchByLink(InterfaceLink $link)
     {
+
+        var_dump($link);
         $qb = $this->createQueryBuilder('a');
         $pars = array('href'    => $link->getHref());
         $document = $link->getDocument();
@@ -201,7 +203,26 @@ class NewsRepository extends EntityRepository
             $pars['slug']  = $document->getSlug();
             $pars['title'] = $document->getTitle();
 
+        } elseif (is_array($document)) {
+
+            if (
+                isset($document['text'])
+                && mb_strlen($document['text'] > 100)
+            ) {
+                $parts = $this->getContentParts($document['text'], 150);
+                $i = 1;
+                foreach ($parts['pieces'] as $piece) {
+                    $key = 'pieceText_' . $i;
+                    $where .= ' or a.content LIKE "%:' . $key . '%"';
+                    $parts[$key] = $piece;
+                $i++;
+                }
+            }
+
         }
+
+        var_dump($where);
+        //var_dump($pars);
 
         $qb->where($where)->setParameters($pars);
 
