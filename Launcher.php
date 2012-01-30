@@ -119,9 +119,15 @@ class Launcher
                 }
 
                 //Test href in database
-                $count = $this->doctrineRegistry
-                    ->getRepository('GpupoCamelSpiderBundle:News')
-                    ->countByLink($link);
+                try {
+                    $count = $this->doctrineRegistry
+                        ->getRepository('GpupoCamelSpiderBundle:News')
+                        ->countByLink($link);
+                } catch (\Exception $e) {
+                    $this->logger($e->getMessage(), 'err', 1);
+                    $count = 0;
+                }
+
 
                 if ($count > 0) {
                     $this->logger('Document had been inserted', 'info');
