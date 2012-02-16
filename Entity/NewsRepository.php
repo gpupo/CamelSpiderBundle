@@ -176,66 +176,45 @@ class NewsRepository extends EntityRepository
         $document = $link->getDocument();
 
         $qb = $this->createQueryBuilder('a');
-        
         $qb->where($qb->expr()->eq('a.uri', ':href'))
-            //->setFirstResult(0)
             ->setMaxResults(1);
 
         $qb->setParameter('href', $link->getHref());
 
         if ($document instanceof Document) {
-           /* 
-            $where .= ' or a.title = :title or a.slug = :slug';
+            $x = array(
+                'text' => $document->getText(),
+                'html' => $document->getHtml(),
+            );
+            $document = $x;
+            unset($x);
+        }
 
-            $parts = $this->getContentParts($document->getText(), 150);
-            $i = 1;
-            foreach ($parts['pieces'] as $piece) {
-                $key = 'pieceText_' . $i;
-                $where .= ' or a.content LIKE "%:' . $key . '%"';
-                $pars[$key] = $piece;
-                $i++;
-            }
+        $i = 1;
+        foreach (array('text', 'html') as $col) {
+            if (
+                isset($document[$col])
+                && mb_strlen($document[$col]) > 100
+            ) {
+                $parts = $this->getContentParts($document[$col], 200);
+                $n = 0;
+                foreach ($parts['pieces'] as $piece) {
 
-            $parts = $this->getContentParts($document->getHtml(), 200);
-            $i = 1;
-            foreach ($parts['pieces'] as $piece) {
-                $key = 'pieceHtml_' . $i;
-                $where .= ' or a.content LIKE "%:' . $key . '%"';
-                $pars[$key] = $piece;
-                $i++;
-            }
-
-            $pars['slug']  = $document->getSlug();
-            $pars['title'] = $document->getTitle();
-             */
-
-        } elseif (is_array($document)) {
-            $i = 1;
-            foreach (array('text', 'html') as $col) {
-                if (
-                    isset($document[$col])
-                    && mb_strlen($document[$col]) > 100
-                ) {
-                    $parts = $this->getContentParts($document[$col], 200);
-                    $n = 0;
-                    foreach ($parts['pieces'] as $piece) {
-
-                        if ($n == 6) {
-                            continue;
-                        }
-
-                        $key = 'piece' . $col . '' . $i;
-                        $qb->orWhere(
-                            $qb->expr()->like(
-                                'a.content',
-                                $qb->expr()->literal(
-                                    '%' . $piece . '%'
-                                )
-                            )
-                        );
-                        $n++;
-                        $i++;
+                    if ($n == 6) {
+                        continue;
                     }
+
+                    $key = 'piece' . $col . '' . $i;
+                    $qb->orWhere(
+                        $qb->expr()->like(
+                            'a.content',
+                            $qb->expr()->literal(
+                                '%' . $piece . '%'
+                            )
+                        )
+                    );
+                    $n++;
+                    $i++;
                 }
             }
         }
