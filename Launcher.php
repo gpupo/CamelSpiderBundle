@@ -160,12 +160,17 @@ class Launcher
                         $rawNews->setSubscription($subscription);
                         $manager->persist($rawNews);
                         $manager->flush();
-                    } catch (Exception $exc) {
+                    } catch (\Exception $exc) {
                         $this->logger(
                             'Process update saving Raw: '
                             . $exc->getTraceAsString()
                         );
                     }
+
+                    $this->logger(
+                        'Check relevancy of document',
+                        'info'
+                    );
 
                     if ($document['relevancy'] > 2) {
 
