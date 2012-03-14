@@ -28,3 +28,8 @@ news_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "GpupoCamelSpiderBundle:News:delete" }
     requirements: { _method: post }
+
+news_batch_actions:
+    pattern:  /batchActions
+    defaults: { _controller: "GpupoCamelSpiderBundle:News:batchActions" }
+    requirements: { _method: post }

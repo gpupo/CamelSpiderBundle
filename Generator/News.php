@@ -60,7 +60,20 @@ class News extends Generator
             'sort_fields'     => array('id', 'title', 'date'),
             'max_per_page'    => 30,
             'object_actions'  => array(),
-            'batch_actions'   => array(),
+            'batch_actions'   => array(
+                'aprove' => array(
+                    'label'  => 'Aprovar',
+                    'success_message' => '%s item(ns) foram alterados para APROVADO.'
+                ),
+                'reject' => array(
+                    'label'  => 'Rejeitar',
+                    'success_message' => '%s item(ns) foram alterados para REJEITADO.'
+                ),
+                'delete' => array(
+                    'label'  => 'Excluir',
+                    'success_message' => '%s item(ns) foram excluídos com sucesso.'
+                ),
+            ),
         );
 
         $form = array(

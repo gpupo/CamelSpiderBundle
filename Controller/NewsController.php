@@ -182,4 +182,100 @@ class NewsController extends GeneratorController
 
     }
 
+
+
+    /**
+     * Batch Aprove
+     *
+     * @param array $ids An array of ids to batch process
+     * @return View
+     */
+    protected function batchAprove($ids)
+    {
+        // Configuring the Generator Controller
+        $this->configure();
+
+        if (count($ids)) {
+
+            try {
+                $manager = $this->getDoctrine()->getEntityManager();
+                $qb = $manager->createQueryBuilder($this->generator->class, 'e');
+                $qb->update($this->generator->class, 'e')
+                    ->andWhere($qb->expr()->in('e.id', $ids))
+                    ->set('e.moderation', "'APROVED'")
+                    ->getQuery()->execute();
+            } catch (Exception $exc) {
+
+                //echo $exc->getTraceAsString();
+                $this->get('session')->setFlash(
+                        'error',
+                        'An error ocurred while executing the batch action.'
+                        . '<br/>' . $exc->getTraceAsString()
+                        );
+                return $this->redirect($this->generateUrl($this->generator->route));
+            }
+
+            $batch_actions = $this->generator->list->batch_actions;
+            $action = $batch_actions['aprove'];
+
+            $message = $this->get('translator')->trans($action['success_message']);
+            $message = sprintf($message, count($ids));
+
+            $this->get('session')->setFlash('success', $message);
+            return $this->redirect($this->generateUrl($this->generator->route));
+
+        } else {
+            $this->get('session')->setFlash('error','No itens selected to execute the batch action.');
+            return $this->redirect($this->generateUrl($this->generator->route));
+        }
+
+    }
+
+    /**
+     * Batch Reject
+     *
+     * @param array $ids An array of ids to batch process
+     * @return View
+     */
+    protected function batchReject($ids)
+    {
+        // Configuring the Generator Controller
+        $this->configure();
+
+        if (count($ids)) {
+
+            try {
+                $manager = $this->getDoctrine()->getEntityManager();
+                $qb = $manager->createQueryBuilder($this->generator->class, 'e');
+                $qb->update($this->generator->class, 'e')
+                    ->andWhere($qb->expr()->in('e.id', $ids))
+                    ->set('e.moderation', "'REJECTED'")
+                    ->getQuery()->execute();
+            } catch (Exception $exc) {
+
+                //echo $exc->getTraceAsString();
+                $this->get('session')->setFlash(
+                        'error',
+                        'An error ocurred while executing the batch action.'
+                        . '<br/>' . $exc->getTraceAsString()
+                        );
+                return $this->redirect($this->generateUrl($this->generator->route));
+            }
+
+            $batch_actions = $this->generator->list->batch_actions;
+            $action = $batch_actions['reject'];
+
+            $message = $this->get('translator')->trans($action['success_message']);
+            $message = sprintf($message, count($ids));
+
+            $this->get('session')->setFlash('success', $message);
+            return $this->redirect($this->generateUrl($this->generator->route));
+
+        } else {
+            $this->get('session')->setFlash('error','No itens selected to execute the batch action.');
+            return $this->redirect($this->generateUrl($this->generator->route));
+        }
+
+    }
+
 }
