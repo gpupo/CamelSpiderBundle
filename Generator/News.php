@@ -12,7 +12,9 @@ class News extends Generator
 
         $fields  = array(
             'id'             => array('label' => 'ID'),
-            'title'          => array('label' => 'Title', 'size' => 'span12', 'help' => 'News Title'),
+            'title'          => array(
+                'label' => 'Title', 'size' => 'span12', 'help' => 'News Title'
+            ),
             'category'       => array('label' => 'Category', 'size' => 'medium', 'help' => 'News Category'),
             'moderation'     => array('label' => 'Moderation', 'size' => 'medium', 'help' => 'Status of moderation', 'trans' => true),
             'moderation_date'=> array('label' => 'Moderation Date', 'date_format' => 'd/m/Y H:i:s'),
@@ -21,7 +23,12 @@ class News extends Generator
             'uri'            => array('label' => 'URI', 'size' => 'span12', 'help' => 'Full path to the news source'),
             'slug'           => array('label' => 'Slug', 'help' => 'URL short name'),
             'date'           => array('label' => 'Date', 'help' => 'News Date', 'class' => 'date span2', 'date_format' => 'd/m/Y'),
-            'content'        => array('label' => 'Content', 'help' => 'The content of the news', 'class' => 'richtext12-h1000', 'raw' => true),
+            'content'        => array(
+                'label' => 'Content',
+                'help' => 'The content of the news',
+                'class' => 'richtext12-h1000',
+                'raw' => true
+            ),
             'subscription'   => array('label' => 'Subscription', 'help' => ''),
             'subscriptionList'  => array('label' => 'Fonte/ Criador', 'help' => '', 'list_partial' => 'GpupoCamelSpiderBundle:News:subscriptionList.html.twig'),
             'rawnews'        => array('label' => 'Raw News', 'help' => ''),
