@@ -4,15 +4,6 @@ namespace Gpupo\CamelSpiderBundle\Entity;
 
 class SubscriptionTest extends \PHPUnit_Framework_TestCase {
 
-
-    public function testTextParts()
-    {
-
-
-
-    }
-
-
     /**
      * @dataProvider providerKeywords
      */

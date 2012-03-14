@@ -172,28 +172,82 @@ class NewsRepository extends EntityRepository
 
     public function searchByLink(InterfaceLink $link)
     {
-        $qb = $this->createQueryBuilder('a');
-        $pars = array('href'    => $link->getHref());
+
         $document = $link->getDocument();
-        $where = 'a.uri = :href';
+
+        $qb = $this->createQueryBuilder('a');
+        $qb->where($qb->expr()->eq('a.uri', ':href'))
+            ->setMaxResults(1);
+
+        $qb->setParameter('href', $link->getHref());
 
         if ($document instanceof Document) {
-            $where .= ' or a.title = :title or a.slug = :slug';
+            $x = array(
+                'text' => $document->getText(),
+                'html' => $document->getHtml(),
+            );
+            $document = $x;
+            unset($x);
+        }
 
-            /*
-                . ' or a.content LIKE "%:portionA%"'
-                . ' or a.content LIKE "%:portionB%"'
-                . ' or a.content LIKE "%:portionC%"';
-            $pars['portionA'] = '';
-             */
-            $pars['slug']  = $document->getSlug();
-            $pars['title'] = $document->getTitle();
+        $i = 1;
+        foreach (array('text', 'html') as $col) {
+            if (
+                isset($document[$col])
+                && mb_strlen($document[$col]) > 100
+            ) {
+                $parts = $this->getContentParts($document[$col], 200);
+                $n = 0;
+                foreach ($parts['pieces'] as $piece) {
+
+                    if ($n == 6) {
+                        continue;
+                    }
+
+                    $key = 'piece' . $col . '' . $i;
+                    $qb->orWhere(
+                        $qb->expr()->like(
+                            'a.content',
+                            $qb->expr()->literal(
+                                '%' . $piece . '%'
+                            )
+                        )
+                    );
+                    $n++;
+                    $i++;
+                }
+            }
+        }
+
+        return $qb;
+    }
+
+    public function getContentParts($text, $block = 100)
+    {
+        $text = trim($text);
+        $parts = array(
+            'len'   => mb_strlen($text),
+            'pieces' => false,
+        );
+
+        if ($parts['len'] < $block ) {
+            $parts['pieces'] = array($text);
+        } else {
+            $parts['pieces'] = array();
+            $i = 0;
+            while ((($parts['len'] / $block) - $i) > 1) {
+                $parts['pieces'][] = trim(substr(
+                    $text,
+                    ($i * $block),
+                    $block
+                ));
+                $i++;
+            }
+            $parts['pieces'][] = substr($text, ($block * -1));
 
         }
 
-        $qb->where($where)->setParameters($pars);
-
-        return $qb;
+        return $parts;
     }
 
     public function countByLink(InterfaceLink $link)
@@ -205,5 +259,6 @@ class NewsRepository extends EntityRepository
 
         return is_null($r) ? 0 : count($r);
     }
+
 
 }

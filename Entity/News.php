@@ -450,6 +450,40 @@ class News
         return $this->rawnews;
     }
 
+    protected function highlights($string)
+    {
+        return '<span class="subscription word">'
+            . $string
+            . '</span>';
+    }
+
+    /**
+     * Get content with highlights words, subscription based
+     */
+    public function getContentHighlights()
+    {
+        $words = $this->getSubscription()->getFilter('contain');
+
+        if (is_null($words)) {
+            
+            return $this->getContent();
+        }
+
+        return 
+            str_replace(
+                $words,
+                array_map(
+                    function($string){
+                        return '<span class="subscription word">'
+                            . $string
+                            . '</span>';
+                    },
+                    $words
+                ),
+                $this->getContent()
+            );
+    }
+
     /**
      * Add tags
      *

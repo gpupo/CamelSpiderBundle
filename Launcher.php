@@ -119,9 +119,15 @@ class Launcher
                 }
 
                 //Test href in database
-                $count = $this->doctrineRegistry
-                    ->getRepository('GpupoCamelSpiderBundle:News')
-                    ->countByLink($link);
+                try {
+                    $count = $this->doctrineRegistry
+                        ->getRepository('GpupoCamelSpiderBundle:News')
+                        ->countByLink($link);
+                } catch (\Exception $e) {
+                    $this->logger($e->getMessage(), 'err', 1);
+                    $count = 0;
+                }
+
 
                 if ($count > 0) {
                     $this->logger('Document had been inserted', 'info');
@@ -154,12 +160,17 @@ class Launcher
                         $rawNews->setSubscription($subscription);
                         $manager->persist($rawNews);
                         $manager->flush();
-                    } catch (Exception $exc) {
+                    } catch (\Exception $exc) {
                         $this->logger(
                             'Process update saving Raw: '
                             . $exc->getTraceAsString()
                         );
                     }
+
+                    $this->logger(
+                        'Check relevancy of document',
+                        'info'
+                    );
 
                     if ($document['relevancy'] > 2) {
 
