@@ -4,11 +4,20 @@
 {% block content %}
 
     <div class="page-header">
+        <a href="{{ path('GpupoCamelSpiderReaderBundle_news',
+            {'news_id':record.id, '_format': 'html'}) }}?highlights=true" 
+            target="_blank" style="float:right">
+            visualização grifada
+        </a>
         <h1>{{ generator.edit.title | trans }}
             <small>
-                {% trans %}or{% endtrans %} <a href="{{ path(generator.route) }}">{% trans %}go back to list{% endtrans %}</a>
+                {% trans %}or{% endtrans %}
+                <a href="{{ path(generator.route) }}">
+                    {% trans %}go back to list{% endtrans %}
+                </a>
             </small>
         </h1>
+
     </div>
 
     <form action="{{ path(generator.route ~ '_update', { 'id': record.id }) }}" method="post" {{ form_enctype(form) }}>
