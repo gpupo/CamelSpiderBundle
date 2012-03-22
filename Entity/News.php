@@ -465,7 +465,6 @@ class News
         $words = $this->getSubscription()->getFilter('contain');
 
         if (is_null($words)) {
-            
             return $this->getContent();
         }
 
