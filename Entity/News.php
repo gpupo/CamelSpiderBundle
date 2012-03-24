@@ -97,7 +97,10 @@ class News
     /**
      * @var integer $createdBy
      *
-     * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
+     * @ORM\ManyToOne(
+     *     targetEntity="\Funpar\AdminBundle\Entity\User",
+     *     cascade={"persist"}
+     * )
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
      */
     private $createdBy;
