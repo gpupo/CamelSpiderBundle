@@ -3,7 +3,7 @@
 /**
  * This file is part of CamelSpider Bundle.
  *
- * (c) Gilmar Pupo <gpupo@gmail.com>
+ * (c) Gilmar Pupo <gpupo@g1mr.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -192,7 +192,7 @@ class Launcher
                             $f = empty($f) ? 'html' : $f;
                             $news->setContent($document[$f]);
                             $news->setSubscription($subscription);
-                            $news->setRawnews($rawNews);
+                            //$news->setRawnews($rawNews);
                             $manager->persist($news);
                             $manager->flush();
                         } catch (\Exception $exc) {
