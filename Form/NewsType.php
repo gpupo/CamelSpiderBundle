@@ -27,7 +27,14 @@ class NewsType extends AbstractType
             ->add('created_at')
             ->add('updated_by')
             ->add('updated_at')
-            ->add('subscription')
+            ->add('subscription', 'entity', array(
+                             'class' => 'Gpupo\\CamelSpiderBundle\\Entity\\Subscription',
+                             'query_builder' => function(
+                                    \Doctrine\ORM\EntityRepository $er
+                                ) {
+                                return $er->createQueryBuilder('a')
+                                    ->add('orderBy', 'a.name ASC');
+                             }))
             ->add('rawnews')
             ->add('tags')
             ->add('moderation', 'choice', array('choices'=>array('PENDING'=>'PENDING','APROVED'=>'APROVED','REJECTED'=>'REJECTED')))

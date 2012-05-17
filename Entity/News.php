@@ -84,6 +84,7 @@ class News
 
     /**
      * @ORM\ManyToOne(targetEntity="Subscription")
+     * @ORM\OrderBy({"name" = "ASC"})
      * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id")
      */
     private $subscription;

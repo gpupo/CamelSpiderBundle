@@ -330,18 +330,17 @@ class SubscriptionController extends GeneratorController
     public function captureAction($id)
     {
         $response = new Response();
-        $response->headers->set('Content-Encoding', 'chunked');
-        $response->headers->set('Transfer-Encoding', 'chunked');
+        //$response->headers->set('Content-Encoding', 'chunked');
+        //$response->headers->set('Transfer-Encoding', 'chunked');
         $response->headers->set('Content-Type', 'text/html');
         $response->headers->set('Connection', 'keep-alive');
         $response->sendHeaders();
+        echo "<html><head><title>Capture</title></head><body><pre>";
         flush();
         ob_flush();
-        echo "<html><head><title>Capture</title></head><body><pre>";
         $this->get('camel_spider.launcher')->checkUpdates($id);
         echo "\n\n\n\n<b>Done</b>.";
         echo "</pre></body></html>";
-
         return $response;
     }
 
