@@ -108,6 +108,7 @@ class Launcher
 
         foreach ($links as $l) {
 
+            $_proc = array();
             if ($l instanceof Link) {
 
                 //id do link ( sha1 da url )
@@ -118,23 +119,18 @@ class Launcher
                     continue;
                 }
 
-                //Test href in database
+                //Verifying that the Url has been previously captured
                 try {
                     $count = $this->doctrineRegistry
                         ->getRepository('GpupoCamelSpiderBundle:News')
                         ->countByLink($link);
+                    if ($count > 0) {
+                        $_proc['existing'] = $count;
+                        goto discard;
+                    }
                 } catch (\Exception $e) {
-                    $this->logger($e->getMessage(), 'err', 1);
+                    $this->logger('Url Check with error: ' . $e->getMessage(), 'err', 1);
                     $count = 0;
-                }
-
-
-                if ($count > 0) {
-                    $this->logger('Document had been inserted', 'info');
-                    $duplicated .= ' - *' . $link['href']
-                        . '* (01)' . "\n\n";
-
-                    continue;
                 }
 
                 $document =  $link->getDocument();
@@ -153,7 +149,7 @@ class Launcher
                         $rawNews->setTitle($document['title']);
                         $rawNews->setUri($document['uri']);
                         $rawNews->setRelevancy($document['relevancy']);
-                        $rawNews->setDate(new \DateTime(date("now"))); // Falta DATA
+                        $rawNews->setDate(new \DateTime('now'));
                         $rawNews->setRawdata($document['raw']);
                         $rawNews->setHtml($document['html'] . '');
                         $rawNews->setTxt($document['text'] . '');
@@ -186,8 +182,7 @@ class Launcher
                             $news->setModeration('PENDING');
                             $news->setUri($document['uri']);
                             $news->setSlug($document['slug']);
-                            // Falta DATA
-                            $news->setDate(new \DateTime(date('Y-m-d')));
+                            $news->setDate(new \DateTime('now'));
                             $f = $subscription->getFormat();
                             $f = empty($f) ? 'html' : $f;
                             $news->setContent($document[$f]);
@@ -218,6 +213,15 @@ class Launcher
                     'err'
                 );
             }
+
+            discard:
+            if (isset($_proc['existing'])) {
+                $this->logger('Document had been inserted', 'info');
+                $duplicated .= ' - *' . $link['href'] . '* (' . $_proc['existing'] . ')' . "\n\n";
+            }
+
+
+
         }
 
         empty($add) ?: $this->addCaptureLog(

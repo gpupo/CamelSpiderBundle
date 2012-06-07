@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityRepository,
  */
 class NewsRepository extends EntityRepository
 {
+
     public function queryBuilder($limits = array('offset' => 0,'limit' => 50))
     {
         $qb = $this->createQueryBuilder('a');
@@ -170,18 +171,33 @@ class NewsRepository extends EntityRepository
         return $q;
     }
 
+    /**
+     * @return Doctrine\QueryBuilder
+     */
+    public function searchByHref($href)
+    {
+
+        $qb = $this->createQueryBuilder('a');
+        $qb->where(
+            $qb->expr()->like(
+               'a.uri',
+               $qb->expr()->literal('%' . $href . '%')
+           )
+        )
+            ->setMaxResults(1);
+
+        return $qb;
+    }
+
+    /**
+     * @return Doctrine\QueryBuilder
+     */
     public function searchByLink(InterfaceLink $link)
     {
 
         $document = $link->getDocument();
 
-        $qb = $this->createQueryBuilder('a');
-        $qb->where($qb->expr()->eq('a.uri', ':href'))
-            ->setMaxResults(1);
-
-        $qb->setParameter('href', $link->getHref());
-
-        if ($document instanceof Document) {
+             if ($document instanceof Document) {
             $x = array(
                 'text' => $document->getText(),
                 'html' => $document->getHtml(),
@@ -189,6 +205,8 @@ class NewsRepository extends EntityRepository
             $document = $x;
             unset($x);
         }
+
+        $qb = $this->searchByHref($link->getHref());
 
         $i = 1;
         foreach (array('text', 'html') as $col) {
@@ -252,6 +270,14 @@ class NewsRepository extends EntityRepository
 
     public function countByLink(InterfaceLink $link)
     {
+
+        $h = $this->searchByHref($link->getHref())
+            ->getQuery()
+            ->getArrayResult();
+
+        if (!is_null($h)) {
+            return count($h);
+        }
 
         $r = $this->searchByLink($link)
             ->getQuery()
