@@ -27,7 +27,6 @@ use CamelSpider\Spider\Indexer,
 /**
  * Start a capture and save in DB.
  *
- * @author Gilmar Pupo <gpupo@g1mr.com>
  */
 class Launcher
 {
@@ -46,8 +45,11 @@ class Launcher
      */
     protected $funparLogger;
 
-    public function __construct(Indexer $indexer, InterfaceCache $cache,
-        $logger, Registry $doctrineRegistry = null,
+    public function __construct(
+        Indexer $indexer,
+        InterfaceCache $cache,
+        $logger,
+        Registry $doctrineRegistry = null,
         FunparLogger $funparLogger = null
     ) {
         $this->indexer = $indexer;
