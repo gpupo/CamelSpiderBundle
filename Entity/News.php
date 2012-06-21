@@ -77,7 +77,10 @@ class News
     /**
      * @var integer $modereatedBy
      *
-     * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
+     * @ORM\ManyToOne(
+     *     targetEntity="\Funpar\AdminBundle\Entity\User",
+     *     cascade={"detach"}
+     * )
      * @ORM\JoinColumn(name="moderated_by", referencedColumnName="id", nullable=true)
      */
     private $moderatedBy;
@@ -116,8 +119,15 @@ class News
     /**
      * @var integer $updatedBy
      *
-     * @ORM\ManyToOne(targetEntity="\Funpar\AdminBundle\Entity\User")
-     * @ORM\JoinColumn(name="updated_by", referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(
+     *     targetEntity="\Funpar\AdminBundle\Entity\User",
+     *     cascade={"detach"}
+     * )
+     * @ORM\JoinColumn(
+     *     name="updated_by",
+     *     referencedColumnName="id",
+     *     nullable=true
+     * )
      */
     private $updatedBy;
 
